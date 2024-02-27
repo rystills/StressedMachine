@@ -35,7 +35,8 @@ public class MetaballManager : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 1; ++i < particleCount; ++i)
+        // odds move to random points
+        for (int i = 1; i < particleCount; i+= 2)
         {
             velocities[i] = Vector3.ClampMagnitude(velocities[i] + (targetPositions[i] - particles[i].position).normalized 
                                                                  * (accel * Time.deltaTime
@@ -46,6 +47,13 @@ public class MetaballManager : MonoBehaviour
             {
                 targetPositions[i] = RandomVectorOnSphere(2f);
             }
+        }
+
+        // evens orbit from a fixed distance
+        for (int i = 2; i < particleCount; i += 2)
+        {
+            float angle = (1 + targetPositions[i].x) * 100 * Time.deltaTime;
+            particles[i].position = Quaternion.AngleAxis(angle, Vector3.up) * particles[i].position;
         }
         mbPs.SetParticles(particles);
     }
