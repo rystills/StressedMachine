@@ -29,8 +29,12 @@ public class MetaballManager : MonoBehaviour
         }
         mbPs.Emit(particleCount);
         mbPs.GetParticles(particles);
-        for (int i = 1; i < particleCount; ++i) particles[i].position = RandomVectorOnSphere(2f);
-        particles[0].startSize *= 3;
+        for (int i = 1; i < particleCount; ++i)
+        {
+            particles[i].position = RandomVectorOnSphere(2f);
+            particles[i].startSize *= .3f;
+        }
+        particles[0].startSize *= .9f;
     }
 
     private void Update()
