@@ -14,6 +14,7 @@ public class MetaballManager : MonoBehaviour
                                                                          Random.Range(-halfExtents, halfExtents),
                                                                          Random.Range(-halfExtents, halfExtents));
     private Vector3 RandomVectorInSphere(float magnitude) => Random.insideUnitSphere * magnitude;
+    private Vector3 RandomVectorOnSphere(float magnitude) => Random.insideUnitSphere.normalized * magnitude;
 
     private void Awake()
     {
@@ -23,25 +24,27 @@ public class MetaballManager : MonoBehaviour
         velocities = new List<Vector3>(particleCount);
         for (int i = 0; i < particleCount; ++i)
         {
-            targetPositions.Add(RandomVectorInSphere(2f));
-            velocities.Add(RandomVectorInSphere(2f));
+            targetPositions.Add(RandomVectorOnSphere(2f));
+            velocities.Add(RandomVectorOnSphere(2f));
         }
         mbPs.Emit(particleCount);
         mbPs.GetParticles(particles);
-        for (int i = 0; ++i < particleCount; ++i) particles[i].position = RandomVectorInSphere(2f);
+        for (int i = 1; i < particleCount; ++i) particles[i].position = RandomVectorOnSphere(2f);
+        particles[0].startSize *= 3;
     }
 
     private void Update()
     {
-        float distToTarget;
-        for (int i = 0; ++i < particleCount; ++i)
+        for (int i = 1; ++i < particleCount; ++i)
         {
-            velocities[i] = Vector3.ClampMagnitude(velocities[i] + (targetPositions[i] - particles[i].position).normalized * (accel * Time.deltaTime * (targetPositions[i] - particles[i].position).magnitude), maxVel);
-            particles[i].position += velocities[i] * Time.deltaTime;
+            velocities[i] = Vector3.ClampMagnitude(velocities[i] + (targetPositions[i] - particles[i].position).normalized 
+                                                                 * (accel * Time.deltaTime
+                                                                 * (targetPositions[i] - particles[i].position).magnitude * 3f), maxVel);
+            particles[i].position += (velocities[i] + Vector3.Lerp(particles[i].position, Vector3.zero, Mathf.Sqrt(particles[i].position.magnitude * .1f))) * Time.deltaTime;
 
-            if ((targetPositions[i] - particles[i].position).magnitude < velocities[i].magnitude)
+            if ((targetPositions[i] - particles[i].position).magnitude < 20)
             {
-                targetPositions[i] = RandomVectorInSphere(2f);
+                targetPositions[i] = RandomVectorOnSphere(2f);
             }
         }
         mbPs.SetParticles(particles);
