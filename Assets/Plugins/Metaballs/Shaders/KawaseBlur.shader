@@ -51,13 +51,15 @@
             {
                 float2 res = _MainTex_TexelSize.xy;
                 float i = _offset;
+
+                float camDist = distance(input.vertex, _WorldSpaceCameraPos);
     
                 fixed4 col;                
                 col = tex2D( _MainTex, input.uv );
-                col += tex2D( _MainTex, input.uv + float2( i, i ) * res );
-                col += tex2D( _MainTex, input.uv + float2( i, -i ) * res );
-                col += tex2D( _MainTex, input.uv + float2( -i, i ) * res );
-                col += tex2D( _MainTex, input.uv + float2( -i, -i ) * res );
+                col += tex2D( _MainTex, input.uv + float2( i, i )   * res / (camDist/200));
+                col += tex2D( _MainTex, input.uv + float2( i, -i )  * res / (camDist/200));
+                col += tex2D( _MainTex, input.uv + float2( -i, i )  * res / (camDist/200));
+                col += tex2D( _MainTex, input.uv + float2( -i, -i ) * res / (camDist/200));
                 col /= 5.0f;
                 
                 return col;
