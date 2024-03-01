@@ -488,6 +488,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: machine
       objectReference: {fileID: 0}
+    - target: {fileID: 8319022044803615633, guid: 5040be1bc760ad2409f1d6f7603b2144, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 160
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5040be1bc760ad2409f1d6f7603b2144, type: 3}
 --- !u!1001 &553272981
@@ -721,9 +725,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e9064a5800d3b54ebda7cc3f1d80fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eyeAccel: 40
+  eyeMaxSpeed: 400
+  eyeJitterChance: 90
+  eyeJitterProportion: 0.4
   eyeStalkMoveHDur: 0.1
   eyeStalkMoveDist: 0.3
   eyeStalkMoveOdds: 100
+  faceplateRotAccel: 5
+  faceplateMaxRotSpeed: 10
 --- !u!1 &1161806209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7888767128413580366, guid: 6d93a3dc9309a064ebec796d35116680, type: 3}
