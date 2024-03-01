@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class MachineFaceController : MonoBehaviour
 {
-    Transform eyeLeft,  eyeStalkLeft,
-              eyeRight, eyeStalkRight,
-              faceplate;
+    Transform faceplate, eyeLeft, eyeStalkLeft, eyeRight, eyeStalkRight, mouth, mouthStalk;
 
     // eye data
     private float eyeLeft_rotSpeed;
@@ -17,6 +15,7 @@ public class MachineFaceController : MonoBehaviour
     // eye stalk data
     private float esl_lastTriggerTime = -999;
     private float esr_lastTriggerTime = -999;
+    private float ms_lastTriggerTime = -999;
     [SerializeField] private float eyeStalkMoveHDur;
     [SerializeField] private float eyeStalkMoveDist;
     [SerializeField] private float eyeStalkMoveOdds;
@@ -38,6 +37,8 @@ public class MachineFaceController : MonoBehaviour
         eyeRight      = faceplate.Find("eyeRight");
         eyeStalkLeft  = eyeLeft.Find("eyeStalkLeft");
         eyeStalkRight = eyeRight.Find("eyeStalkRight");
+        mouth = faceplate.Find("mouth");
+        mouthStalk = mouth.Find("mouthStalk");
 
         fp_initialRot = faceplate.localEulerAngles.x;
         fp_targetAng = GetRandomFacePlateTarget();
@@ -56,20 +57,27 @@ public class MachineFaceController : MonoBehaviour
         eyeLeft.Rotate(Vector3.forward, eyeLeft_rotSpeed * Time.deltaTime);
         eyeRight.Rotate(Vector3.forward, -eyeRight_rotSpeed * Time.deltaTime);
 
-        // pop out eye stalks
+        // pop out eye/mouth stalks
         if ((Time.time - esl_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
             esl_lastTriggerTime = Time.time;
-
-        if ((Time.time - esr_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
-            esr_lastTriggerTime = Time.time;
         eyeStalkLeft.localPosition  = Vector3.forward *
             (eyeStalkMoveDist * (Time.time - esl_lastTriggerTime < eyeStalkMoveHDur ? Mathf.Lerp(0, 1, (Time.time - esl_lastTriggerTime) / eyeStalkMoveHDur)
                                                                                     : Mathf.Lerp(1, 0, (Time.time - esl_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
+        if ((Time.time - esr_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
+            esr_lastTriggerTime = Time.time;
         eyeStalkRight.localPosition = Vector3.forward *
             (eyeStalkMoveDist * (Time.time - esr_lastTriggerTime < eyeStalkMoveHDur ? Mathf.Lerp(0, 1, (Time.time - esr_lastTriggerTime) / eyeStalkMoveHDur)
                                                                                     : Mathf.Lerp(1, 0, (Time.time - esr_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
-        
-        // rotate face plate
+        if ((Time.time - ms_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
+            ms_lastTriggerTime = Time.time;
+        mouthStalk.localPosition = Vector3.forward *
+            (eyeStalkMoveDist * (Time.time - ms_lastTriggerTime < eyeStalkMoveHDur ? Mathf.Lerp(0, 1, (Time.time - ms_lastTriggerTime) / eyeStalkMoveHDur)
+                                                                                   : Mathf.Lerp(1, 0, (Time.time - ms_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
+
+        // rotate mouth back/forth
+        mouth.localEulerAngles = new Vector3(mouth.localEulerAngles.x, mouth.localEulerAngles.y, Mathf.Sin(Time.time) * 10);
+
+        // rotate face plate up/down
         fp_rotSpeed = Mathf.MoveTowards(fp_rotSpeed, faceplateMaxRotSpeed * (fp_isAscending ? 1 : -1),
             (faceplateRotAccel + Mathf.Abs(fp_targetAng - faceplate.localEulerAngles.x)) * Time.deltaTime);
         for (float moveDistRem = fp_rotSpeed * Time.deltaTime;;)
