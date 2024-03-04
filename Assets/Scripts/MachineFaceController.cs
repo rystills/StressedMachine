@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MachineFaceController : MonoBehaviour
 {
-    Transform faceplate, eyeLeft, eyeStalkLeft, eyeRight, eyeStalkRight, mouth, mouthStalk;
+    Transform faceplate, eyeSocketLeft, eyeLeft, eyeStalkLeft, eyeSocketRight, eyeRight, eyeStalkRight, mouth, mouthStalk;
 
     // eye data
     private float eyeLeft_rotSpeed;
@@ -12,6 +12,10 @@ public class MachineFaceController : MonoBehaviour
     [SerializeField] private float eyeJitterChance;
     [SerializeField] private float eyeJitterProportion;
     
+    // eye socket data
+    private Vector3 eyeSocketLeft_initialForward;
+    private Vector3 eyeSocketRight_initialForward;
+
     // eye stalk data
     private float esl_lastTriggerTime = -999;
     private float esr_lastTriggerTime = -999;
@@ -32,13 +36,18 @@ public class MachineFaceController : MonoBehaviour
     private void Awake()
     {
         // establish transform references
-        faceplate     = transform.Find("facePlate");
-        eyeLeft       = faceplate.Find("eyeLeft");
-        eyeRight      = faceplate.Find("eyeRight");
-        eyeStalkLeft  = eyeLeft.Find("eyeStalkLeft");
-        eyeStalkRight = eyeRight.Find("eyeStalkRight");
-        mouth = faceplate.Find("mouth");
-        mouthStalk = mouth.Find("mouthStalk");
+        faceplate      = transform.Find("facePlate");
+        eyeSocketLeft  = faceplate.Find("eyeSocketLeft");
+        eyeSocketRight = faceplate.Find("eyeSocketRight");
+        eyeLeft        = eyeSocketLeft.Find("eyeLeft");
+        eyeRight       = eyeSocketRight.Find("eyeRight");
+        eyeStalkLeft   = eyeLeft.Find("eyeStalkLeft");
+        eyeStalkRight  = eyeRight.Find("eyeStalkRight");
+        mouth          = faceplate.Find("mouth");
+        mouthStalk     = mouth.Find("mouthStalk");
+
+        eyeSocketLeft_initialForward = eyeSocketLeft.forward;
+        eyeSocketRight_initialForward = eyeSocketRight.forward;
 
         fp_initialRot = faceplate.localEulerAngles.x;
         fp_targetAng = GetRandomFacePlateTarget();
@@ -56,6 +65,10 @@ public class MachineFaceController : MonoBehaviour
 
         eyeLeft.Rotate(Vector3.forward, eyeLeft_rotSpeed * Time.deltaTime);
         eyeRight.Rotate(Vector3.forward, -eyeRight_rotSpeed * Time.deltaTime);
+
+        // tilt eye sockets towards player
+        eyeSocketLeft.forward  = Vector3.Lerp(eyeSocketLeft_initialForward,  (Player.transform.position - eyeSocketLeft.position).normalized,  .15f);
+        eyeSocketRight.forward = Vector3.Lerp(eyeSocketRight_initialForward, (Player.transform.position - eyeSocketRight.position).normalized, .15f);
 
         // pop out eye/mouth stalks
         if ((Time.time - esl_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
