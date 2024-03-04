@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: CorrugatedSteel3
   m_Shader: {fileID: -6465566751694194690, guid: 61e785d0993e7ce47a91c4e55841cf70, type: 3}
-  m_ShaderKeywords: _METALLICSPECGLOSSMAP _NORMALMAP _OCCLUSIONMAP
+  m_ShaderKeywords: BOOLEAN_BC3C77C25CA541AD9E3E77152C5844BF_ON _METALLICSPECGLOSSMAP
+    _NORMALMAP _OCCLUSIONMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_1b816a9372a14578b3523dba5ba9c75a:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: aad556348533c4848818e86fa9971347, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_212f591450e046cf820bfaeda91abee2:
@@ -36,15 +37,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_6f91a9a258064380902f395bd1127284:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d3c7effa72016f445bf93c3a7e3f0e79, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_ba8f5145ff0447dfab31c54253334324:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 5989b9138fceb4b4abd36894e95677b2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_c17bca30b3004661b989b0bd6d25ccf5:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 8eb04fd0da17fb54cadd1598798719a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_e3098f2125ac4ba88695411a04e5a069:
@@ -108,7 +109,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - BOOLEAN_BC3C77C25CA541AD9E3E77152C5844BF: 0
+    - BOOLEAN_BC3C77C25CA541AD9E3E77152C5844BF: 1
     - Vector1_1df3cb495a794fefa37274d9907d3087: 0.15
     - Vector1_34ebe7c2283d412e8c549f4b5cff89ea: 1
     - Vector1_5e70d7392fec4c74b3ddbe7aa949ee15: 1
