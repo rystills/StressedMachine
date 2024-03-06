@@ -32,9 +32,9 @@ public class HingeDoor : MonoBehaviour
             rotSpeed.x += Input.GetAxis("Mouse X") * rotSensitivity;
 
         // rotate
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,
-                                                 transform.localEulerAngles.y - rotSpeed.x * Time.deltaTime,
-                                                 transform.localEulerAngles.z);
+        transform.localEulerAngles = new(transform.localEulerAngles.x,
+                                         transform.localEulerAngles.y - rotSpeed.x * Time.deltaTime,
+                                         transform.localEulerAngles.z);
 
         // decelerate
         rotSpeed.x = Mathf.MoveTowards(rotSpeed.x, 0, rotDecel * Time.deltaTime);
@@ -42,9 +42,9 @@ public class HingeDoor : MonoBehaviour
         // stop or bounce if moving quickly enough
         if (transform.localEulerAngles.y > 0 && transform.localEulerAngles.y < 235)
         {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 
-                                                     transform.localEulerAngles.y > 112.5f ? 235: 0,
-                                                     transform.localEulerAngles.z);
+            transform.localEulerAngles = new(transform.localEulerAngles.x, 
+                                             transform.localEulerAngles.y > 112.5f ? 235: 0,
+                                             transform.localEulerAngles.z);
             rotSpeed.x = Mathf.MoveTowards(-.2f * rotSpeed.x, 0, 30);
         }
 

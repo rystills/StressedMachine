@@ -88,7 +88,7 @@ public class MachineFaceController : MonoBehaviour
                                                                                    : Mathf.Lerp(1, 0, (Time.time - ms_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
 
         // rotate mouth back/forth
-        mouth.localEulerAngles = new Vector3(mouth.localEulerAngles.x, mouth.localEulerAngles.y, Mathf.Sin(Time.time) * 10);
+        mouth.localEulerAngles = new(mouth.localEulerAngles.x, mouth.localEulerAngles.y, Mathf.Sin(Time.time) * 10);
 
         // rotate face plate up/down
         fp_rotSpeed = Mathf.MoveTowards(fp_rotSpeed, faceplateMaxRotSpeed * (fp_isAscending ? 1 : -1),
@@ -98,10 +98,10 @@ public class MachineFaceController : MonoBehaviour
             float totalDist = Mathf.Abs(fp_targetAng - faceplate.localEulerAngles.x);
             if (totalDist > Mathf.Abs(moveDistRem))
             {
-                faceplate.localEulerAngles = new Vector3(faceplate.localEulerAngles.x + moveDistRem, faceplate.localEulerAngles.y, faceplate.localEulerAngles.z);
+                faceplate.localEulerAngles = new(faceplate.localEulerAngles.x + moveDistRem, faceplate.localEulerAngles.y, faceplate.localEulerAngles.z);
                 break;
             }
-            faceplate.localEulerAngles = new Vector3(fp_targetAng, faceplate.localEulerAngles.y, faceplate.localEulerAngles.z);
+            faceplate.localEulerAngles = new(fp_targetAng, faceplate.localEulerAngles.y, faceplate.localEulerAngles.z);
             fp_targetAng = fp_isAscending ? fp_initialRot : GetRandomFacePlateTarget();
             moveDistRem = Mathf.MoveTowards(moveDistRem, 0, totalDist);
         }
