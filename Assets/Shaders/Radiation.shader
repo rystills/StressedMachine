@@ -2,11 +2,13 @@ Shader "Custom/Radiation"
 {
     Properties
     {
+        strength("strength",float) = 0
     }
     SubShader
     {
         // No culling or depth
         Cull Off ZWrite Off ZTest Always
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -15,6 +17,8 @@ Shader "Custom/Radiation"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+
+            float strength;
 
             struct appdata
             {
@@ -36,56 +40,24 @@ Shader "Custom/Radiation"
                 return o;
             }
 
-            // unity noise copied from https://docs.unity3d.com/Packages/com.unity.shadergraph@13.1/manual/Simple-Noise-Node.html
-            inline float unity_noise_randomValue (float2 uv)
+            float3 hash32(float2 p)
             {
-                return frac(sin(dot(uv, float2(12.9898, 78.233)))*43758.5453);
+	            float3 p3 = frac(float3(p.xyx) * float3(.1031, .1030, .0973));
+                p3 += dot(p3, p3.yxz + 33.33);
+                return frac((p3.xxy + p3.yzz) * p3.zyx);
             }
 
-            inline float unity_noise_interpolate (float a, float b, float t)
-            {
-                return (1.0-t)*a + (t*b);
-            }
-
-            inline float unity_valueNoise (float2 uv)
-            {
-                float2 i = floor(uv);
-                float2 f = frac(uv);
-                f = f * f * (3.0 - 2.0 * f);
-
-                uv = abs(frac(uv) - 0.5);
-                float2 c0 = i + float2(0.0, 0.0);
-                float2 c1 = i + float2(1.0, 0.0);
-                float2 c2 = i + float2(0.0, 1.0);
-                float2 c3 = i + float2(1.0, 1.0);
-                float r0 = unity_noise_randomValue(c0);
-                float r1 = unity_noise_randomValue(c1);
-                float r2 = unity_noise_randomValue(c2);
-                float r3 = unity_noise_randomValue(c3);
-
-                float bottomOfGrid = unity_noise_interpolate(r0, r1, f.x);
-                float topOfGrid = unity_noise_interpolate(r2, r3, f.x);
-                float t = unity_noise_interpolate(bottomOfGrid, topOfGrid, f.y);
-                return t;
-            }
-
-            void Unity_SimpleNoise_float(float2 UV, float Scale, out float Out)
-            {
-                Out = 0.0;
-                for(int i = 0; i < 10; ++i)
-                {
-                    float freq = pow(2.0, float(i));
-                    float amp = pow(0.5, float(10 - i));
-                    Out += unity_valueNoise(float2((UV.x + _Time[3]) % 1 * Scale / freq, (UV.y + _Time[3]) % 1 * Scale / freq)) * amp;
-                }
+            float3 GenNoise(float2 uv) {
+                float2 pos = (uv * .152 + _Time[1] % 1 * 80 + 900);
+                return hash32(pos.xy);
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float h = 0;
-                Unity_SimpleNoise_float(i.uv, 100000, h);
-                fixed4 col = fixed4(h,h,h,1);
-                return col;
+                float3 noise = GenNoise(i.uv);
+                float facStr = max(strength - .8, 0) * 2.5f;
+                float3 col = lerp(noise, float3(facStr, 0, facStr/2), facStr * facStr);
+                return fixed4(col.xyz, strength * strength);
             }
             ENDCG
         }
