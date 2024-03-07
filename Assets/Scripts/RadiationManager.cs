@@ -11,7 +11,7 @@ public class RadiationManager : MonoBehaviour
     private void Update()
     {
         radiationLevel = Mathf.Clamp01(radiationLevel + (door.openPercentage * radiationIncr
-                       - (int)(1 - door.openPercentage) * radiationDecr) * Time.deltaTime);
+                                                      - (int)(1 - door.openPercentage + .01f) * radiationDecr) * Time.deltaTime);
         mat.SetFloat("strength", radiationLevel);
         
         if (radiationLevel == 1) Player.Die();

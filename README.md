@@ -1,6 +1,4 @@
-# UnityScreenSpaceMetaballs
-ScreenSpace Metaballs in Unity using Scriptable Renderer Passes and standard meshes. You can read the accompanying blog posts [here](https://bronsonzgeb.com/?p=240) and [here](https://bronsonzgeb.com/?p=291).
+# Stressed Machine
+Inspired by Mike Klubnika's [System Upkeep](https://mikeklubnika.itch.io/system-upkeep).
 
-Credit to the [UniversalRenderingExamples](https://github.com/Unity-Technologies/UniversalRenderingExamples) for the Kawase blur shader and scriptable render pass.
-
-![Example](https://github.com/bzgeb/UnityScreenSpaceMetaballs/blob/main/Example.jpg)
+Built in Unity 2022, with the help of Oscar Gracián's [Easy Character Movement 2](https://assetstore.unity.com/packages/tools/physics/easy-character-movement-2-193614), Bronson Zgeb's [Screen Space Metaballs](https://github.com/bzgeb/UnityScreenSpaceMetaballs), and Dave Hoskins' [Hash without Sine](https://www.shadertoy.com/view/4djSRW).
