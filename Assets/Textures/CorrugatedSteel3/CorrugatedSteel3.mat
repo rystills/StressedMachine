@@ -118,11 +118,13 @@ Material:
     m_Ints: []
     m_Floats:
     - BOOLEAN_BC3C77C25CA541AD9E3E77152C5844BF: 1
-    - Vector1_1df3cb495a794fefa37274d9907d3087: 0.15
+    - Vector1_1df3cb495a794fefa37274d9907d3087: 0.5
     - Vector1_34ebe7c2283d412e8c549f4b5cff89ea: 1
     - Vector1_5e70d7392fec4c74b3ddbe7aa949ee15: 1
     - Vector1_9da454db71294ad5b2157c85dfd105fa: 1
     - _AlphaClip: 0
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -155,6 +157,19 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &4855059844046179452
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 0
 --- !u!114 &7514973734186022206
 MonoBehaviour:
   m_ObjectHideFlags: 11

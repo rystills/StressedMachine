@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9192728580823549561
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 0
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -118,11 +131,13 @@ Material:
     m_Floats:
     - BOOLEAN_BC3C77C25CA541AD9E3E77152C5844BF: 0
     - Boolean_659d9fa3f69442ff9fab8f4cab33934a: 0
-    - Vector1_1df3cb495a794fefa37274d9907d3087: 0.15
+    - Vector1_1df3cb495a794fefa37274d9907d3087: 0.5
     - Vector1_34ebe7c2283d412e8c549f4b5cff89ea: 1
     - Vector1_5e70d7392fec4c74b3ddbe7aa949ee15: 1
-    - Vector1_9da454db71294ad5b2157c85dfd105fa: 1
+    - Vector1_9da454db71294ad5b2157c85dfd105fa: 0.5
     - _AlphaClip: 0
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
