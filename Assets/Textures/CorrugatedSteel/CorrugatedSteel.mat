@@ -131,10 +131,10 @@ Material:
     m_Floats:
     - BOOLEAN_BC3C77C25CA541AD9E3E77152C5844BF: 0
     - Boolean_659d9fa3f69442ff9fab8f4cab33934a: 0
-    - Vector1_1df3cb495a794fefa37274d9907d3087: 0.5
+    - Vector1_1df3cb495a794fefa37274d9907d3087: 0.75
     - Vector1_34ebe7c2283d412e8c549f4b5cff89ea: 1
     - Vector1_5e70d7392fec4c74b3ddbe7aa949ee15: 1
-    - Vector1_9da454db71294ad5b2157c85dfd105fa: 0.5
+    - Vector1_9da454db71294ad5b2157c85dfd105fa: 0.35
     - _AlphaClip: 0
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
