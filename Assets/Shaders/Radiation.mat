@@ -29,6 +29,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - strength: 0.4469736
+    - strength: 0
     m_Colors: []
   m_BuildTextureStacks: []
