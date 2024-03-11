@@ -3,7 +3,6 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
     private Transform leftDoor, rightDoor;
-    [SerializeField] private float activationRange;
     [SerializeField] private float openSpeed;
     [SerializeField] private float openDistance;
     private bool wantsActive;
@@ -17,19 +16,40 @@ public class DoorController : MonoBehaviour
         rightDoorInitialPos = rightDoor.localPosition;
         leftDoorTargetPos = leftDoorInitialPos + leftDoor.right * openDistance;
         rightDoorTargetPos = rightDoorInitialPos - leftDoor.right * openDistance;
+        enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            wantsActive = true;
+            enabled = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            wantsActive = false;
+            enabled = true;
+        }
     }
 
     private void Update()
     {
-        if (wantsActive = Vector3.Distance(transform.position, Player.transform.position) < activationRange)
+        if (wantsActive)
         {
             leftDoor.localPosition = Vector3.MoveTowards(leftDoor.localPosition, leftDoorTargetPos, openSpeed * Time.deltaTime);
             rightDoor.localPosition = Vector3.MoveTowards(rightDoor.localPosition, rightDoorTargetPos, openSpeed * Time.deltaTime);
+            enabled = leftDoor.localPosition != leftDoorTargetPos;
         }
         else
         {
             leftDoor.localPosition = Vector3.MoveTowards(leftDoor.localPosition, leftDoorInitialPos, openSpeed * Time.deltaTime);
             rightDoor.localPosition = Vector3.MoveTowards(rightDoor.localPosition, rightDoorInitialPos, openSpeed * Time.deltaTime);
+            enabled = leftDoor.localPosition != leftDoorInitialPos;
         }
     }
 }
