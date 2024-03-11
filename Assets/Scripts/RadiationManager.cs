@@ -22,7 +22,6 @@ public class RadiationManager : MonoBehaviour
 
     public static void FlushEffects()
     {
-        // apply effects
         instance.mat.SetFloat("strength", radiationLevel);
         instance.metaballLight.intensity = Mathf.Lerp(instance.coolStrength, instance.hotStrength, heatLevel);
         instance.metaballLight.color = Color.Lerp(instance.coolColor, instance.hotColor, heatLevel);

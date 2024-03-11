@@ -47,9 +47,9 @@ Shader "Custom/Death"
 
                 // fade to/from white
                 if (timeFrac <= .5f) {
-                    return fixed4(1, 1, 1, timeFrac * 2);
+                    return fixed4(0, 0, 0, timeFrac * 2);
                 }
-                return fixed4(1, 1, 1, 1 - (timeFrac - .5f) * 2);
+                return fixed4(0, 0, 0, 1 - (timeFrac - .5f) * 2);
             }
             ENDCG
         }

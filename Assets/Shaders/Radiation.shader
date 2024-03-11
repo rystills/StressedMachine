@@ -39,6 +39,7 @@ Shader "Custom/Radiation"
                 return o;
             }
 
+            // https://www.shadertoy.com/view/4djSRW
             float3 hash32(float2 p)
             {
 	            float3 p3 = frac(float3(p.xyx) * float3(.1031, .1030, .0973));
