@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class RadiationManager : MonoBehaviour
 {
+    public static RadiationManager instance;
+
     [SerializeField] private Material mat;
     [SerializeField] private HingeDoor door;
     [SerializeField] private float radiationIncr;
@@ -16,6 +18,16 @@ public class RadiationManager : MonoBehaviour
     public static float radiationLevel;
     public static float heatLevel;
 
+    private void Awake() => instance = this;
+
+    public static void FlushEffects()
+    {
+        // apply effects
+        instance.mat.SetFloat("strength", radiationLevel);
+        instance.metaballLight.intensity = Mathf.Lerp(instance.coolStrength, instance.hotStrength, heatLevel);
+        instance.metaballLight.color = Color.Lerp(instance.coolColor, instance.hotColor, heatLevel);
+    }
+
     private void Update()
     {
         // increase radiation while door is open
@@ -27,11 +39,7 @@ public class RadiationManager : MonoBehaviour
         float heatDelta = (door.openPercentage * -heatDecr + (int)(1 - door.openPercentage + .01f) * heatIncr) * Time.deltaTime;
         heatLevel = Mathf.Clamp01(heatLevel + heatDelta);
         if (heatLevel == 1) Player.Die(DeathBy.RadiationOverheat);
-        
-        // apply effects
-        mat.SetFloat("strength", radiationLevel);
-        
-        metaballLight.intensity = Mathf.Lerp(coolStrength, hotStrength, heatLevel);
-        metaballLight.color = Color.Lerp(coolColor, hotColor, heatLevel);
+
+        FlushEffects();
     }
 }

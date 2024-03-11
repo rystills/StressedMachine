@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MachineFaceController : MonoBehaviour
 {
-    Transform faceplate, eyeSocketLeft, eyeLeft, eyeStalkLeft, eyeSocketRight, eyeRight, eyeStalkRight, mouth, mouthStalk;
+    private Transform faceplate, eyeSocketLeft, eyeLeft, eyeStalkLeft, eyeSocketRight, eyeRight, eyeStalkRight, mouth, mouthStalk;
 
     // eye data
     private float eyeLeft_rotSpeed;
