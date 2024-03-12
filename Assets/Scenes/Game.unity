@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.2, g: 0, b: 0, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.02
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.4481132, g: 0.41458407, b: 0.38329178, a: 1}
@@ -734,6 +734,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 136a7c03c7ff0e34fb57b3ad61564bdf, type: 2}
+    - target: {fileID: -3245971489502254947, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: -2105248281606848520, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -758,6 +762,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7334886808389901803, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 136a7c03c7ff0e34fb57b3ad61564bdf, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -774,6 +782,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -6741682947674881770, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 397102824}
+    - targetCorrespondingSourceObject: {fileID: -6741682947674881770, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 397102828}
   m_SourcePrefab: {fileID: 100100000, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
 --- !u!1 &397102822 stripped
 GameObject:
@@ -816,6 +827,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotSensitivity: 4
   rotDecel: 100
+--- !u!65 &397102828
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397102822}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.16, y: 0.34, z: 0.1}
+  m_Center: {x: 1.26, y: 0, z: 0.32}
 --- !u!4 &428226662 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3078928194604660393, guid: 6d93a3dc9309a064ebec796d35116680, type: 3}
@@ -829,6 +861,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1268071405}
     m_Modifications:
+    - target: {fileID: 628615551232884610, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 127
+      objectReference: {fileID: 0}
     - target: {fileID: 1593917864229954354, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
