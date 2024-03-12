@@ -827,6 +827,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotSensitivity: 4
   rotDecel: 100
+--- !u!4 &397102827 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6021313330838547907, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
+  m_PrefabInstance: {fileID: 397102821}
+  m_PrefabAsset: {fileID: 0}
 --- !u!65 &397102828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1624,6 +1629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3ab8befab4c3f4d9c0eca219b38e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  furnaceDoor: {fileID: 397102827}
 --- !u!4 &1277165623
 Transform:
   m_ObjectHideFlags: 0
@@ -1835,7 +1841,7 @@ GameObject:
   - component: {fileID: 1772489081}
   - component: {fileID: 1772489080}
   m_Layer: 5
-  m_Name: RadiationOverlay (1)
+  m_Name: RadiationOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
