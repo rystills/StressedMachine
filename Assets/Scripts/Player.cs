@@ -14,6 +14,7 @@ public class Player : FirstPersonCharacter
     [SerializeField] private DoorController doorController;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
+
     public static void Die(DeathBy method) => DeathAnimation.Play();
 
     protected override void Awake()
@@ -22,7 +23,6 @@ public class Player : FirstPersonCharacter
         instance = this;
         transform = GetComponent<Transform>();
     }
-
 
     protected override void Update()
     {

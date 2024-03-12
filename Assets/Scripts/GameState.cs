@@ -14,7 +14,7 @@ public class GameState : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        GameState.Save();
+        Save();
     }
 
     public static void Save()

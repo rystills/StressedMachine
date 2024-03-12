@@ -55,6 +55,11 @@ public class DoorController : MonoBehaviour
             lightMat.color = new(1, .5f, .5f);
             lightMat.SetColor("_EmissionColor", new Color(.5f, 0, 0) * 4);
             light.color = Color.red;
+            if (wantsActive)
+            {
+                wantsActive = false;
+                enabled = true;
+            }
         }
     }
 

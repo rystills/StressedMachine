@@ -287,13 +287,13 @@ MonoBehaviour:
   _defaultMovementMode: 1
   _maxWalkSpeed: 6
   _minAnalogWalkSpeed: 0
-  _maxAcceleration: 20
-  _brakingDecelerationWalking: 20
-  _groundFriction: 8
+  _maxAcceleration: 30
+  _brakingDecelerationWalking: 30
+  _groundFriction: 16
   _maxFallSpeed: 40
-  _brakingDecelerationFalling: 0
-  _fallingLateralFriction: 0.3
-  _airControl: 0.3
+  _brakingDecelerationFalling: 10
+  _fallingLateralFriction: 1
+  _airControl: 1
   _maxFlySpeed: 10
   _brakingDecelerationFlying: 0
   _flyingFriction: 0.5
@@ -310,20 +310,20 @@ MonoBehaviour:
   _canEverCrouch: 1
   _unCrouchedHeight: 2
   _crouchedHeight: 1
-  _crouchingSpeedModifier: 0.5
+  _crouchingSpeedModifier: 0.25
   _canEverJump: 1
   _jumpWhileCrouching: 0
   _jumpMaxCount: 1
-  _jumpImpulse: 6
-  _jumpMaxHoldTime: 0.35
-  _jumpPreGroundedTime: 0.15
-  _jumpPostGroundedTime: 0.15
-  _gravity: {x: 0, y: -9.81, z: 0}
+  _jumpImpulse: 7
+  _jumpMaxHoldTime: 0.5
+  _jumpPreGroundedTime: 0.1
+  _jumpPostGroundedTime: 0.1
+  _gravity: {x: 0, y: -50, z: 0}
   _gravityScale: 1
   _useRootMotion: 0
-  _impartPlatformMovement: 0
-  _impartPlatformRotation: 0
-  _impartPlatformVelocity: 0
+  _impartPlatformMovement: 1
+  _impartPlatformRotation: 1
+  _impartPlatformVelocity: 1
   _enablePhysicsInteraction: 0
   _applyPushForceToCharacters: 0
   _applyStandingDownwardForce: 0
@@ -336,8 +336,8 @@ MonoBehaviour:
   _eyeHeight: 1.6
   _eyeHeightCrouched: 1
   _forwardSpeedMultiplier: 1
-  _backwardSpeedMultiplier: 0.5
-  _strafeSpeedMultiplier: 0.75
+  _backwardSpeedMultiplier: 1
+  _strafeSpeedMultiplier: 1
   doorController: {fileID: 1203129240}
 --- !u!1 &82454759
 GameObject:
@@ -458,7 +458,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 75
   orthographic: 0
