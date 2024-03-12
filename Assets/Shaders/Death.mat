@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - animOutDir: 1
-    - startTime: 15.54825
-    - strength: 0.99994457
+    - startTime: 0
+    - strength: 1
     m_Colors: []
   m_BuildTextureStacks: []

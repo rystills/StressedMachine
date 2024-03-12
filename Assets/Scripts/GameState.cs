@@ -11,15 +11,19 @@ public class GameState : MonoBehaviour
     private static float sd_heatLevel;
     private static float sd_furnaceDoorEulerY;
 
-    private void Awake() => instance = this;
+    private void Awake()
+    {
+        instance = this;
+        GameState.Save();
+    }
 
     public static void Save()
     {
         // TODO: save/load cam orientation as well
-        sd_playerPos = Player.characterMovement.GetPosition();
         sd_radiationLevel = RadiationManager.radiationLevel;
         sd_heatLevel = RadiationManager.heatLevel;
         sd_furnaceDoorEulerY = instance.furnaceDoor.localEulerAngles.y;
+        sd_playerPos = Player.CharacterMovement.GetPosition();
     }
 
     public static void Load()
@@ -30,6 +34,6 @@ public class GameState : MonoBehaviour
         instance.furnaceDoor.localEulerAngles = new(instance.furnaceDoor.localEulerAngles.x,
                                                     sd_furnaceDoorEulerY,
                                                     instance.furnaceDoor.localEulerAngles.z);
-        Player.characterMovement.SetPosition(sd_playerPos, true);
+        Player.CharacterMovement.SetPosition(sd_playerPos, true);
     }
 }

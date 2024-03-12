@@ -7,20 +7,28 @@ public enum DeathBy
     RadiationOverheat,
 }
 
-public class Player : MonoBehaviour
+public class Player : FirstPersonCharacter
 {
     public static new Transform transform;
     public static Player instance;
-    // TODO: extend FirstPersonCharacter and replace MyCharacter
-    public static CharacterMovement characterMovement;
+    [SerializeField] private DoorController doorController;
 
+    public static CharacterMovement CharacterMovement => instance.characterMovement;
     public static void Die(DeathBy method) => DeathAnimation.Play();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         instance = this;
         transform = GetComponent<Transform>();
-        characterMovement = GetComponent<CharacterMovement>();
-        GameState.Save();
+    }
+
+
+    protected override void Update()
+    {
+        base.Update();
+        
+        // temporary door control for testing
+        if (Input.GetKeyDown(KeyCode.R)) doorController.ToggleLock();
     }
 }
