@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class MetaballManager : MonoBehaviour
 {
-    [SerializeField] int particleCount;
-    [SerializeField] float accel;
-    [SerializeField] float maxVel;
+    [SerializeField] private int particleCount;
+    [SerializeField] private float accel;
+    [SerializeField] private float maxVel;
     private ParticleSystem mbPs;
-    List<Vector3> targetPositions;
-    List<Vector3> velocities;
-    ParticleSystem.Particle[] particles;
+    private List<Vector3> targetPositions;
+    private List<Vector3> velocities;
+    private ParticleSystem.Particle[] particles;
     private Vector3 RandomVectorInCube(float halfExtents) => new (Random.Range(-halfExtents, halfExtents),
                                                                   Random.Range(-halfExtents, halfExtents),
                                                                   Random.Range(-halfExtents, halfExtents));
@@ -29,6 +29,7 @@ public class MetaballManager : MonoBehaviour
         }
         mbPs.Emit(particleCount);
         mbPs.GetParticles(particles);
+        // skip particle 0 as it remains stationary in the center
         for (int i = 1; i < particleCount; ++i)
         {
             particles[i].position = RandomVectorOnSphere(2f);
