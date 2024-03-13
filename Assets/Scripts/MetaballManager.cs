@@ -38,7 +38,7 @@ public class MetaballManager : MonoBehaviour
         particles[0].startSize *= .9f;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         // odds move to random points
         for (int i = 1; i < particleCount; i+= 2)

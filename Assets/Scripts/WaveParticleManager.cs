@@ -13,11 +13,9 @@ public class WaveParticleManager : MonoBehaviour
     private ParticleSystem.Particle[] waveParticles;
     private ParticleSystem outlinePs;
     private ParticleSystem.Particle[] outlineParticles;
-    private Vector3[] offsets;
 
     private void Awake()
     {
-        offsets = new Vector3[4] { transform.up * outlineOffset, -transform.up * outlineOffset, -transform.right * outlineOffset, transform.right * outlineOffset };
         wavePs = GetComponent<ParticleSystem>();
         outlinePs = transform.GetChild(0).GetComponent<ParticleSystem>();
         waveParticles = new ParticleSystem.Particle[particleCount];
@@ -30,14 +28,23 @@ public class WaveParticleManager : MonoBehaviour
             waveParticles[i].position = transform.forward * (i / (float)particleCount * length - length / 2);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
+        // wave particles follow a sin curve
         for (int i = 0; i < particleCount; ++i)
-            waveParticles[i].position = new(waveParticles[i].position.x, Mathf.Sin(Time.time + i * spacing * cycleSpeed) * halfHeight, waveParticles[i].position.z);
-        for (int i = 0; i < outlineParticleCount; ++i)
-            outlineParticles[i].position = waveParticles[i / 4].position + offsets[i % 4];
-
+            waveParticles[i].position = new(waveParticles[i].position.x, Mathf.Sin((Time.time + i * spacing) * cycleSpeed) * halfHeight, waveParticles[i].position.z);
         wavePs.SetParticles(waveParticles);
+
+        // outline particles rotate around the wave particles
+        float angle;
+        Vector3 basePos;
+        for (int i = 0; i < outlineParticleCount; ++i)
+        {
+            angle = Time.time + i * .3f;
+            basePos = transform.forward * (i / (float)outlineParticleCount * length - length / 2);
+            outlineParticles[i].position = new Vector3(basePos.x, Mathf.Sin((Time.time + (i/4f) * spacing) * cycleSpeed) * halfHeight, basePos.z)
+                                         + new Vector3(outlineOffset * Mathf.Cos(angle), 0, outlineOffset * Mathf.Sin(angle));
+        }
         outlinePs.SetParticles(outlineParticles);
     }
 }
