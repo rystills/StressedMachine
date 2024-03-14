@@ -4,7 +4,8 @@ public class RadiationManager : MonoBehaviour
 {
     public static RadiationManager instance;
 
-    [SerializeField] private Material mat;
+    [SerializeField] private Material radiationMat;
+    [SerializeField] private Material heatMat;
     [SerializeField] private HingeDoor door;
     [SerializeField] private float radiationIncr;
     [SerializeField] private float radiationDecr;
@@ -22,7 +23,8 @@ public class RadiationManager : MonoBehaviour
 
     public static void FlushEffects()
     {
-        instance.mat.SetFloat("strength", radiationLevel);
+        instance.radiationMat.SetFloat("strength", radiationLevel);
+        instance.heatMat.SetFloat("strength", heatLevel);
         instance.metaballLight.intensity = Mathf.Lerp(instance.coolStrength, instance.hotStrength, heatLevel);
         instance.metaballLight.color = Color.Lerp(instance.coolColor, instance.hotColor, heatLevel);
     }
