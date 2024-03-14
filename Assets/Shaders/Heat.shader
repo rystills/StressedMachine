@@ -41,6 +41,7 @@ Shader "Custom/Heat"
             
             fixed4 frag (v2f i) : SV_Target
             {
+                // slowly fade in gradient, then transition to solid color
                 float facStr = max(strength - .8, 0) * 5;
                 float3 col = float3(facStr + i.uv.y, i.uv.y, i.uv.y);
                 return fixed4(col.xyz, strength * strength);

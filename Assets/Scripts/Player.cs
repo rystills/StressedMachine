@@ -12,6 +12,7 @@ public class Player : FirstPersonCharacter
     public static new Transform transform;
     public static Player instance;
     [SerializeField] private DoorController doorController;
+    [SerializeField] private WaveParticleManager waveController;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
@@ -28,7 +29,10 @@ public class Player : FirstPersonCharacter
     {
         base.Update();
         
-        // temporary door control for testing
+        // temporary controls for testing
         if (Input.GetKeyDown(KeyCode.R)) doorController.ToggleLock();
+        if (Input.GetKeyDown(KeyCode.F)) waveController.Randomize();
+        if (Input.GetKey(KeyCode.Q)) waveController.AdjustHeightOffset(.2f * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E)) waveController.AdjustHeightOffset(-.2f * Time.deltaTime);
     }
 }

@@ -339,6 +339,7 @@ MonoBehaviour:
   _backwardSpeedMultiplier: 1
   _strafeSpeedMultiplier: 1
   doorController: {fileID: 1203129240}
+  waveController: {fileID: 1593917864503878777}
 --- !u!1 &82454759
 GameObject:
   m_ObjectHideFlags: 0
@@ -7026,7 +7027,7 @@ Transform:
   m_GameObject: {fileID: 1593917864503878776}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000008146034, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.3, y: 0.95, z: 3.26}
+  m_LocalPosition: {x: 6.3, y: 2, z: 3.26}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11932,6 +11933,10 @@ MonoBehaviour:
   halfHeight: 0.05
   spacing: 0.2
   outlineOffset: 0.025
+  outlineHeightOffsetSpeed: 1
+  heightSyncDist: 0.03
+  heightRandomMax: 0.25
+  waveMat: {fileID: 2100000, guid: c51bcc916e0a9b740b6afced401dbe60, type: 2}
 --- !u!1001 &6115948693827983751
 PrefabInstance:
   m_ObjectHideFlags: 0

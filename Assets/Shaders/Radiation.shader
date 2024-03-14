@@ -54,6 +54,7 @@ Shader "Custom/Radiation"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                // slowly fade in noise, then transition to solid color
                 float3 noise = GenNoise(i.uv);
                 float facStr = max(strength - .8, 0) * 2.5f;
                 float3 col = lerp(noise, float3(facStr, 0, facStr/2), facStr * facStr);
