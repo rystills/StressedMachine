@@ -25,6 +25,8 @@ public class WaveParticleManager : MonoBehaviour
     public static float desyncAmount;
     [SerializeField] private float desyncIncr;
     [SerializeField] private float desyncDecr;
+    [SerializeField] private float syncDuration;
+    private float syncedAtTime;
 
     private bool heightsSynced => Mathf.Abs(outlineHeightOffset - heightOffset) <= heightSyncDist;
     private bool targetHeightsSynced => Mathf.Abs(outlineHeightOffsetTarget - heightOffset) <= heightSyncDist;
@@ -45,13 +47,20 @@ public class WaveParticleManager : MonoBehaviour
 
     public void Randomize()
     {
-        while (targetHeightsSynced) outlineHeightOffsetTarget = Random.Range(-heightRandomMax, heightRandomMax);
+        do outlineHeightOffsetTarget = Random.Range(-heightRandomMax, heightRandomMax); while (targetHeightsSynced);
     }
 
     public void AdjustHeightOffset(float amnt) => heightOffset += amnt;
 
     private void LateUpdate()
     {
+        // desync after syncDuration elapses
+        if (syncedAtTime >= 0 && Time.time - syncedAtTime > syncDuration)
+        {
+            Randomize();
+            syncedAtTime = -1;
+        }
+
         // shift outline height offset towards target
         outlineHeightOffset = Mathf.MoveTowards(outlineHeightOffset, outlineHeightOffsetTarget, outlineHeightOffsetSpeed * Time.deltaTime);
 
@@ -79,9 +88,13 @@ public class WaveParticleManager : MonoBehaviour
         {
             waveParticleMat.SetColor("_EmissionColor", heightsSynced ? greenCol : redCol);
             prevHeightsSync = heightsSynced;
+
+            // begin sync timer
+            if (syncedAtTime == -1 && heightsSynced)
+                syncedAtTime = Time.time;
         }
 
-        // adjust desync amount
+        // adjust desync amount (overlay strength)
         desyncAmount = Mathf.Clamp01(desyncAmount + ( heightsSynced ? -desyncDecr : desyncIncr) * Time.deltaTime);
         if (desyncAmount == 1) Player.Die(DeathBy.WaveDesync);
 

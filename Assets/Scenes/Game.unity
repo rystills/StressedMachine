@@ -12016,6 +12016,7 @@ MonoBehaviour:
   waveOverlayMat: {fileID: 2100000, guid: df8f3e03df2078344a0ad49a6cb7cc4d, type: 2}
   desyncIncr: 0.05
   desyncDecr: 0.1
+  syncDuration: 6
 --- !u!1001 &6115948693827983751
 PrefabInstance:
   m_ObjectHideFlags: 0
