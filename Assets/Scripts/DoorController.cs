@@ -44,12 +44,14 @@ public class DoorController : MonoBehaviour
 
     public void ToggleLock()
     {
+        // toggle on
         if (triggerCol.enabled = !triggerCol.enabled)
         {
             lightMat.color = new(.5f, 1, .5f);
             lightMat.SetColor("_EmissionColor", new Color(0, .5f, 0) * 4);
             light.color = Color.green;
         }
+        // toggle off
         else
         {
             lightMat.color = new(1, .5f, .5f);
@@ -65,12 +67,14 @@ public class DoorController : MonoBehaviour
 
     private void Update()
     {
+        // open
         if (wantsActive)
         {
             leftDoor.localPosition = Vector3.MoveTowards(leftDoor.localPosition, leftDoorTargetPos, openSpeed * Time.deltaTime);
             rightDoor.localPosition = Vector3.MoveTowards(rightDoor.localPosition, rightDoorTargetPos, openSpeed * Time.deltaTime);
             enabled = leftDoor.localPosition != leftDoorTargetPos;
         }
+        // close
         else
         {
             leftDoor.localPosition = Vector3.MoveTowards(leftDoor.localPosition, leftDoorInitialPos, openSpeed * Time.deltaTime);

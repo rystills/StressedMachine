@@ -5,6 +5,7 @@ public enum DeathBy
 {
     Radiation,
     RadiationOverheat,
+    WaveDesync,
 }
 
 public class Player : FirstPersonCharacter
