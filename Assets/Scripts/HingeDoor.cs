@@ -23,7 +23,9 @@ public class HingeDoor : MonoBehaviour
         enabled |= interacting;
     }
 
-    public float openPercentage => (360 - transform.localEulerAngles.y) % 360 / 125f;
+    public float openRatio => (360 - transform.localEulerAngles.y) % 360 / 125f;
+    public int isOpen => transform.localEulerAngles.y < 355 && transform.localEulerAngles.y != 0 ? 1 : 0;
+    public int isClosed => 1 - isOpen;
 
     private void Update()
     {
@@ -45,7 +47,7 @@ public class HingeDoor : MonoBehaviour
             transform.localEulerAngles = new(transform.localEulerAngles.x, 
                                              transform.localEulerAngles.y > 112.5f ? 235: 0,
                                              transform.localEulerAngles.z);
-            rotSpeed.x = Mathf.MoveTowards(-.2f * rotSpeed.x, 0, 30);
+            rotSpeed.x = Mathf.MoveTowards(-.2f * rotSpeed.x, 0, 25);
         }
 
         enabled = rotSpeed.x != 0 || interacting;
