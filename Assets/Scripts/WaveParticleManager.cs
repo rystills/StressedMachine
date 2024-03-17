@@ -50,6 +50,7 @@ public class WaveParticleManager : MonoBehaviour
     }
 
     public void AdjustHeightOffset(float amnt) => heightOffset = Mathf.Clamp(heightOffset + amnt, -heightRandomMax, heightRandomMax);
+    public void SetHeightOffsetRatio(float heightRatio) => heightOffset = Mathf.Clamp(heightRandomMax * heightRatio, -1, 1);
 
     private void LateUpdate()
     {

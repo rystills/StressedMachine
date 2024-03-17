@@ -6,7 +6,6 @@ public class HingeDoor : MonoBehaviour
     [SerializeField] private float rotDecel = 2;
     private Vector2 rotSpeed;
     private Collider col;
-    private float interactRange = 2.5f;
     private bool interacting;
 
     private void Awake()
@@ -15,11 +14,9 @@ public class HingeDoor : MonoBehaviour
         enabled = false;
     }
 
-    private bool PlayerInRange() => (Player.transform.position - col.ClosestPoint(Player.transform.position)).magnitude <= interactRange;
-
     private void OnMouseDown()
     {
-        interacting = PlayerInRange();
+        interacting = Player.InRangeOf(col);
         enabled |= interacting;
     }
 
