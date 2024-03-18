@@ -28,15 +28,10 @@ public class Lever : MonoBehaviour
         {
             // move
             transform.localPosition = new(transform.localPosition.x,
-                                          transform.localPosition.y + Input.GetAxis("Mouse Y") * moveSensitivity,
+                                          Mathf.Clamp(transform.localPosition.y + Input.GetAxis("Mouse Y") * moveSensitivity,
+                                                      initialY - moveRange, initialY + moveRange),
                                           transform.localPosition.z);
         
-            // stop
-            if (Mathf.Abs(transform.localPosition.y - initialY) > moveRange)
-                transform.localPosition = new(transform.localPosition.x,
-                                              initialY + (transform.localPosition.y > initialY ? moveRange : -moveRange),
-                                              transform.localPosition.z);
-
             // update wave
             waveController.SetHeightOffsetRatio((transform.localPosition.y - initialY) / moveRange);
         }

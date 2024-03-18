@@ -21,6 +21,7 @@ public class Player : FirstPersonCharacter
     public static void Die(DeathBy method) => DeathAnimation.Play();
 
     public static bool InRangeOf(Collider oCol) => (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRange;
+    public static bool InRangeOf(Vector3 pt) => (transform.position - pt).magnitude <= instance.interactRange;
 
     protected override void Awake()
     {
