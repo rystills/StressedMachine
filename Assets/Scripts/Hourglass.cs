@@ -9,26 +9,56 @@ public class Hourglass : MonoBehaviour
     private Vector3[] endPositions = new Vector3[particleCount];
     private ParticleSystem.Particle[] particles = new ParticleSystem.Particle[particleCount];
     private float startTime;
-    [SerializeField] private float duration = 60;
+    [SerializeField] private float duration = 25;
     [SerializeField] private float spacing = .25f;
+    [SerializeField] private float fallDuration = .002f;
+
     private void Awake()
     {
+        // setup particle system
         ps = GetComponent<ParticleSystem>();
         ps.Emit(particleCount);
         ps.GetParticles(particles);
-        int i = 0;
-        for (int level = 1; level <= numLevels; ++level)
-            for (int row = 0; row < level; ++row)
-                for (int col = 0; col < level; ++col, ++i)
+
+        // assign particle positions layer by layer
+        for (int i = 1, level = 1; level <= numLevels; i += level * level, ++level, i += level * level)
+        {
+            void SetPartStartPos(int row, int col) 
+                => particles[--i].position = startPositions[i] = new(row * spacing - (level * spacing / 2),
+                                                                     level * spacing,
+                                                                     col * spacing - (level * spacing / 2));
+
+            // spiral out from the center
+            for (int top = 0, left = top, bottom = level - 1, right = bottom;
+                top <= bottom && left <= right;)
+            {
+                for (int col = left; col <= right; ++col)
+                    SetPartStartPos(top, col);
+                ++top;
+
+                for (int row = top; row <= bottom; ++row)
+                    SetPartStartPos(row, right);
+                --right;
+
+                if (top <= bottom)
                 {
-                    startPositions[i] = new(row * spacing - (level * spacing / 2),
-                                            level * spacing,
-                                            col * spacing - (level * spacing / 2));
-                    endPositions[i]   = new(row * spacing - (level * spacing / 2),
-                                            -level * spacing,
-                                            col * spacing - (level * spacing / 2));
-                    particles[i].position = startPositions[i];
+                    for (int col = right; col >= left; --col)
+                        SetPartStartPos(bottom, col);
+                    --bottom;
                 }
+
+                if (left <= right)
+                {
+                    for (int row = bottom; row >= top; --row)
+                        SetPartStartPos(row, left);
+                    ++left;
+                }
+            }
+            
+            // assign end positions in inverted order
+            for (int j = 0; j < level * level; ++j)
+                endPositions[i + level * level - j - 1] = new(startPositions[i + j].x, -startPositions[i + j].y, startPositions[i + j].z);
+        }
     }
 
     private void LateUpdate()
@@ -38,7 +68,8 @@ public class Hourglass : MonoBehaviour
         for (int i = 0; i < particleCount; ++i)
         {
             float indRatio = i / (float)particleCount;
-            particles[i].position = indRatio >= timeRatio ? startPositions[i] : endPositions[particleCount - i - 1];
+            particles[i].position = Vector3.Lerp(startPositions[i], endPositions[particleCount - i - 1],
+                Mathf.Pow(Mathf.Clamp01(timeRatio - indRatio + fallDuration), 2) / (2 * fallDuration));
         }
         ps.SetParticles(particles);
     }
