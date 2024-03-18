@@ -2,21 +2,23 @@ using UnityEngine;
 
 public class Hourglass : MonoBehaviour
 {
-    private const int numLevels = 12;
+    private const int numLevels = 13;
     private const int particleCount = (numLevels * (numLevels + 1) * (2 * numLevels + 1)) / 6;
     private ParticleSystem ps;
     private Vector3[] startPositions = new Vector3[particleCount];
     private Vector3[] endPositions = new Vector3[particleCount];
     private ParticleSystem.Particle[] particles = new ParticleSystem.Particle[particleCount];
-    private float startTime;
+    private float totalTimeElapsed;
     [SerializeField] private float duration = 25;
     [SerializeField] private float spacing = .25f;
-    [SerializeField] private float fallDuration = .002f;
+    [SerializeField] private Color32 startColor, endColor;
+    private bool flipped;
+    private Vector3 centerPos = new(-.04f, 0, -.04f);
 
     private void Awake()
     {
         // setup particle system
-        ps = GetComponent<ParticleSystem>();
+        ps = transform.GetChild(0).GetComponent<ParticleSystem>();
         ps.Emit(particleCount);
         ps.GetParticles(particles);
 
@@ -61,16 +63,32 @@ public class Hourglass : MonoBehaviour
         }
     }
 
+    public void Flip() => flipped = !flipped;
+    
     private void LateUpdate()
     {
-        float timeRatio = (Time.time - startTime) / duration;
+        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * (flipped ? -1 : 1), 0, duration + .7f);
+        float timeRatio = totalTimeElapsed / duration;
 
+        // update particles
         for (int i = 0; i < particleCount; ++i)
         {
             float indRatio = i / (float)particleCount;
-            particles[i].position = Vector3.Lerp(startPositions[i], endPositions[particleCount - i - 1],
-                Mathf.Pow(Mathf.Clamp01(timeRatio - indRatio + fallDuration), 2) / (2 * fallDuration));
+            float lerpFac = Mathf.Pow(Mathf.Clamp01(timeRatio - indRatio), 2) * 1000;
+
+            // lerp towards end position
+            particles[i].position = Vector3.Lerp(startPositions[i], endPositions[particleCount - i - 1], lerpFac);
+            // lerp towards center
+            particles[i].position = Vector3.Lerp(particles[i].position, centerPos,
+                                                 particles[i].position.y > 0 ? 1 - particles[i].position.y / startPositions[i].y
+                                                                             : 1 - particles[i].position.y / endPositions[particleCount - i - 1].y);
+            particles[i].startColor = Color.Lerp(startColor, endColor, lerpFac);
         }
         ps.SetParticles(particles);
+
+        // rotate when flipped
+        transform.localEulerAngles = new(transform.localEulerAngles.x,
+                                         transform.localEulerAngles.y, 
+                                         Mathf.MoveTowardsAngle(transform.localEulerAngles.z, flipped ? 180 : 0, Time.deltaTime * 1000));
     }
 }
