@@ -3,7 +3,7 @@ using UnityEngine;
 public class Hourglass : MonoBehaviour
 {
     private const int numLevels = 13;
-    private const int particleCount = (numLevels * (numLevels + 1) * (2 * numLevels + 1)) / 6;
+    private const int particleCount = numLevels * (numLevels + 1) * (2 * numLevels + 1) / 6;
     private ParticleSystem ps;
     private Vector3[] startPositions = new Vector3[particleCount];
     private Vector3[] endPositions = new Vector3[particleCount];
@@ -13,6 +13,7 @@ public class Hourglass : MonoBehaviour
     [SerializeField] private float spacing = .25f;
     [SerializeField] private Color32 startColor, endColor;
     private bool flipped;
+    [SerializeField] private float flipSpeed = 1000;
     private Vector3 centerPos = new(-.04f, 0, -.04f);
 
     private void Awake()
@@ -73,15 +74,19 @@ public class Hourglass : MonoBehaviour
         // update particles
         for (int i = 0; i < particleCount; ++i)
         {
-            float indRatio = i / (float)particleCount;
+            float indRatio = (i+1) / (float)particleCount;
             float lerpFac = Mathf.Pow(Mathf.Clamp01(timeRatio - indRatio), 2) * 1000;
+
+            // lerp gradually down
+            lerpFac = Mathf.Lerp(lerpFac, (lerpFac == 0 ? (1 - (indRatio - timeRatio) / indRatio) * .35f
+                                                        : lerpFac * .65f + .35f), timeRatio * 5);
 
             // lerp towards end position
             particles[i].position = Vector3.Lerp(startPositions[i], endPositions[particleCount - i - 1], lerpFac);
             // lerp towards center
             particles[i].position = Vector3.Lerp(particles[i].position, centerPos,
-                                                 particles[i].position.y > 0 ? 1 - particles[i].position.y / startPositions[i].y
-                                                                             : 1 - particles[i].position.y / endPositions[particleCount - i - 1].y);
+                                                 particles[i].position.y > 0 ? .90f - particles[i].position.y / startPositions[i].y
+                                                                             : .90f - particles[i].position.y / endPositions[particleCount - i - 1].y);
             particles[i].startColor = Color.Lerp(startColor, endColor, lerpFac);
         }
         ps.SetParticles(particles);
@@ -89,6 +94,6 @@ public class Hourglass : MonoBehaviour
         // rotate when flipped
         transform.localEulerAngles = new(transform.localEulerAngles.x,
                                          transform.localEulerAngles.y, 
-                                         Mathf.MoveTowardsAngle(transform.localEulerAngles.z, flipped ? 180 : 0, Time.deltaTime * 1000));
+                                         Mathf.MoveTowardsAngle(transform.localEulerAngles.z, flipped ? 180 : 0, Time.deltaTime * flipSpeed));
     }
 }
