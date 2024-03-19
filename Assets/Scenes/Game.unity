@@ -12379,7 +12379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d0879456a59614684725de54c94816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 20
+  duration: 50
   spacing: 0.08
   startColor:
     serializedVersion: 2
@@ -12387,6 +12387,8 @@ MonoBehaviour:
   endColor:
     serializedVersion: 2
     rgba: 4294902015
+  flipSpeed: 1000
+  boundsClampFactor: 0.455
 --- !u!1 &2101315855 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8086607562697999410, guid: 6d93a3dc9309a064ebec796d35116680, type: 3}

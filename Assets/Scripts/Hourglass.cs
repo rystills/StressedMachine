@@ -80,7 +80,7 @@ public class Hourglass : MonoBehaviour
 
             // lerp gradually down
             lerpFac = Mathf.Lerp(lerpFac, (lerpFac == 0 ? (1 - (indRatio - timeRatio) / indRatio) * .35f
-                                                        : lerpFac * .65f + .35f), timeRatio * 5);
+                                                        : lerpFac * .65f + .35f), Mathf.Sqrt(timeRatio));
 
             // lerp towards end position
             particles[i].position = Vector3.Lerp(startPositions[i], endPositions[particleCount - i - 1], lerpFac);
