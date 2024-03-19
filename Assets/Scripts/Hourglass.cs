@@ -15,6 +15,7 @@ public class Hourglass : MonoBehaviour
     private bool flipped;
     [SerializeField] private float flipSpeed = 1000;
     private Vector3 centerPos = new(-.04f, 0, -.04f);
+    [SerializeField] private float boundsClampFactor = 0.455f;
 
     private void Awake()
     {
@@ -83,10 +84,18 @@ public class Hourglass : MonoBehaviour
 
             // lerp towards end position
             particles[i].position = Vector3.Lerp(startPositions[i], endPositions[particleCount - i - 1], lerpFac);
+
             // lerp towards center
             particles[i].position = Vector3.Lerp(particles[i].position, centerPos,
                                                  particles[i].position.y > 0 ? .90f - particles[i].position.y / startPositions[i].y
                                                                              : .90f - particles[i].position.y / endPositions[particleCount - i - 1].y);
+
+            // clamp to inner glass bounds (roughly)
+            float bounds = Mathf.Max(Mathf.Abs(particles[i].position.y) * boundsClampFactor, .03f);
+            particles[i].position = new(Mathf.Clamp(particles[i].position.x, -bounds + centerPos.x, bounds + centerPos.x),
+                                        particles[i].position.y,
+                                        Mathf.Clamp(particles[i].position.z, -bounds + centerPos.z, bounds + centerPos.z));
+
             particles[i].startColor = Color.Lerp(startColor, endColor, lerpFac);
         }
         ps.SetParticles(particles);
