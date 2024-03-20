@@ -77,16 +77,19 @@ public class Hourglass : MonoBehaviour
     private void LateUpdate()
     {
         flipped = transform.localEulerAngles.z > 90 && transform.localEulerAngles.z < 270;
-        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * (flipped ? -1 : 1), 0, duration + finishExtraDuration);
+        float deltaAngle = Mathf.DeltaAngle(transform.localEulerAngles.z, flipped ? 180 : 0);
+
+        // scale elapsed time by rotation angle
+        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * (flipped ? -1 : 1) * (1 - Mathf.Abs(deltaAngle) / 90), 0, duration + finishExtraDuration);
         float timeRatio = totalTimeElapsed / duration;
 
         // update particles
         for (int i = 0; i < particleCount; ++i)
         {
-            float indRatio = (i+1) / (float)particleCount;
-            float lerpFac = Mathf.Pow(Mathf.Clamp01(timeRatio - indRatio), 2) * 1000;
+            float indRatio = (i+1f) / particleCount;
 
             // lerp gradually down
+            float lerpFac = Mathf.Pow(Mathf.Clamp01(timeRatio - indRatio), 2) * 1000;
             lerpFac = Mathf.Lerp(lerpFac, (lerpFac == 0 ? (1 - (indRatio - timeRatio) / indRatio) * .35f
                                                         : lerpFac * .65f + .35f), Mathf.Sqrt(timeRatio));
 
@@ -110,10 +113,8 @@ public class Hourglass : MonoBehaviour
 
         // rotate towards nearest base
         if (Time.time != lastRotTime)
-        {
             transform.localEulerAngles = new(transform.localEulerAngles.x,
                                              transform.localEulerAngles.y,
-                                             transform.localEulerAngles.z + Mathf.Lerp(0, Mathf.DeltaAngle(transform.localEulerAngles.z, flipped ? 180 : 0), Time.time - lastRotTime));
-        }
+                                             transform.localEulerAngles.z + Mathf.Lerp(0, deltaAngle, Time.time - lastRotTime));
     }
 }
