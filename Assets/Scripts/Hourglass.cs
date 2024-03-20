@@ -10,12 +10,13 @@ public class Hourglass : MonoBehaviour
     private ParticleSystem.Particle[] particles = new ParticleSystem.Particle[particleCount];
     private float totalTimeElapsed;
     [SerializeField] private float duration = 25;
+    [SerializeField] private float finishExtraDuration;
     [SerializeField] private float spacing = .25f;
     [SerializeField] private Color32 startColor, endColor;
     private bool flipped;
-    [SerializeField] private float flipSpeed = 1000;
     private Vector3 centerPos = new(-.04f, 0, -.04f);
     [SerializeField] private float boundsClampFactor = 0.455f;
+    private float lastRotTime;
 
     private void Awake()
     {
@@ -65,11 +66,18 @@ public class Hourglass : MonoBehaviour
         }
     }
 
-    public void Flip() => flipped = !flipped;
-    
+    public void AddRotation(float amnt)
+    {
+        transform.localEulerAngles = new(transform.localEulerAngles.x,
+                                         transform.localEulerAngles.y,
+                                         transform.localEulerAngles.z + amnt / 2);
+        lastRotTime = Time.time;
+    }
+
     private void LateUpdate()
     {
-        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * (flipped ? -1 : 1), 0, duration + .7f);
+        flipped = transform.localEulerAngles.z > 90 && transform.localEulerAngles.z < 270;
+        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * (flipped ? -1 : 1), 0, duration + finishExtraDuration);
         float timeRatio = totalTimeElapsed / duration;
 
         // update particles
@@ -100,9 +108,12 @@ public class Hourglass : MonoBehaviour
         }
         ps.SetParticles(particles);
 
-        // rotate when flipped
-        transform.localEulerAngles = new(transform.localEulerAngles.x,
-                                         transform.localEulerAngles.y, 
-                                         Mathf.MoveTowardsAngle(transform.localEulerAngles.z, flipped ? 180 : 0, Time.deltaTime * flipSpeed));
+        // rotate towards nearest base
+        if (Time.time != lastRotTime)
+        {
+            transform.localEulerAngles = new(transform.localEulerAngles.x,
+                                             transform.localEulerAngles.y,
+                                             transform.localEulerAngles.z + Mathf.Lerp(0, Mathf.DeltaAngle(transform.localEulerAngles.z, flipped ? 180 : 0), Time.time - lastRotTime));
+        }
     }
 }
