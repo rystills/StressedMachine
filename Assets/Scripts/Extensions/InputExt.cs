@@ -11,10 +11,7 @@ public class Key
     private float firstHeldTime = -1000;
     private float latestHeldTime = -1000;
 
-    public Key(KeyCode code)
-    {
-        keyCode = code;
-    }
+    public Key(KeyCode code) => keyCode = code;
 
     public void ClearBuffers() => firstHeldTime = latestHeldTime = -1000;
 
@@ -24,17 +21,11 @@ public class Key
         pressed = _newHeld && !held;
         released = !_newHeld && held;
         held = _newHeld;
-        if (pressed)
-        {
-            firstHeldTime = Time.time;
-        }
-        if (held)
-        {
-            latestHeldTime = Time.time;
-        }
+        if (pressed) firstHeldTime = Time.unscaledTime;
+        if (held) latestHeldTime = Time.unscaledTime;
     }
 
-    public bool Pressed(float timeBuffer) => pressed || (Time.time - firstHeldTime <= timeBuffer);
+    public bool Pressed(float timeBuffer) => pressed || (Time.unscaledTime - firstHeldTime <= timeBuffer);
     public bool Pressed(bool clearBuffersOnTrue)
     {
         if (clearBuffersOnTrue && pressed) ClearBuffers();
@@ -47,8 +38,8 @@ public class Key
         return retVal;
     }
 
-    public bool Held(float timeBuffer) => held || (Time.time - latestHeldTime <= timeBuffer);
-    public bool Released(float timeBuffer) => released || (!held && Time.time - latestHeldTime <= timeBuffer);
+    public bool Held(float timeBuffer) => held || (Time.unscaledTime - latestHeldTime <= timeBuffer);
+    public bool Released(float timeBuffer) => released || (!held && Time.unscaledTime - latestHeldTime <= timeBuffer);
 }
 
 [DefaultExecutionOrder(-999)]
