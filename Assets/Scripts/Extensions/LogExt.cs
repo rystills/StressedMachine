@@ -58,7 +58,7 @@ public class LogExt : MonoBehaviour
     {
         // calculate number of visible lines
         numVisibleLines = Screen.height / 21 - 1;
-        visibleLines = new (string, float)[numVisibleLines];
+        visibleLines = new(string, float)[numVisibleLines];
 
         DontDestroyOnLoad(gameObject);
     }

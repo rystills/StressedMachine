@@ -6,10 +6,7 @@ public class DefaultDictionary<TKey, TValue> : Dictionary<TKey, TValue> where TV
     {
         get
         {
-            if (!TryGetValue(key, out TValue val))
-            {
-                Add(key, val = new TValue());
-            }
+            if (!TryGetValue(key, out TValue val)) Add(key, val = new TValue());
             return val;
         }
         set => base[key] = value;

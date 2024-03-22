@@ -8,7 +8,7 @@ public static class SoundExt
     /// <param name="src">the sound to play</param>
     /// <param name="isInverted">whether or not to play it backwards</param>
     /// <param name="respectIsPlaying">if true, an actively playing sound will continue rather than playing again</param>
-    public static void PlayBiDir(this AudioSource src, bool isInverted, bool respectIsPlaying)
+    public static void PlayBiDir(this AudioSource src, bool isInverted = false, bool respectIsPlaying = true)
     {
         src.pitch = isInverted ? -1 : 1;
         if (!respectIsPlaying || !src.isPlaying)

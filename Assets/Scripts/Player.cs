@@ -15,6 +15,7 @@ public class Player : FirstPersonCharacter
     [SerializeField] private DoorController doorController;
     [SerializeField] private RoundAbout roundAbout;
     [SerializeField] private float interactRange;
+    [SerializeField] private AudioSource crouchSnd;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
@@ -40,5 +41,25 @@ public class Player : FirstPersonCharacter
 
         // temporary controls for testing
         if (Input.GetKeyDown(KeyCode.R)) doorController.ToggleLock();
+    }
+
+    override protected void Crouching()
+    {
+        // crouch
+        if (_crouchButtonPressed && !IsCrouching() && CanCrouch())
+        {
+            characterMovement.SetHeight(crouchedHeight);
+            _isCrouching = true;
+            OnCrouched();
+            SoundExt.PlayBiDir(crouchSnd, false, true);
+        }
+        // uncrouch
+        else if (!_crouchButtonPressed && IsCrouching() && CanUnCrouch())
+        {
+            characterMovement.SetHeight(unCrouchedHeight);
+            _isCrouching = false;
+            OnUnCrouched();
+            SoundExt.PlayBiDir(crouchSnd, true, true);
+        }
     }
 }
