@@ -70,7 +70,7 @@ public class InputExt : MonoBehaviour
 
     private void Awake() => DontDestroyOnLoad(gameObject);
 
-    private void FixedUpdate() => Tick();
+    private void Update() => Tick();
 
     [RuntimeInitializeOnLoadMethod]
     static void OnRuntimeMethodLoad() => new GameObject("InputExt").AddComponent<InputExt>();

@@ -10,12 +10,27 @@ public enum DeathBy
 
 public class Player : FirstPersonCharacter
 {
+    // static references
     public static new Transform transform;
     public static Player instance;
+    
+    // local references
     [SerializeField] private DoorController doorController;
     [SerializeField] private RoundAbout roundAbout;
+    
+    // interaction
     [SerializeField] private float interactRange;
+    
+    // sounds
     [SerializeField] private AudioSource crouchSnd;
+    [SerializeField] private AudioSource zoomOutSnd;
+
+    // zoom
+    private const float minFov = 20;
+    private const float maxFov = 75;
+    private const float zoomSpeed = 200;
+    private float targetFov = maxFov;
+    private float curFov = maxFov;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
@@ -30,6 +45,7 @@ public class Player : FirstPersonCharacter
         base.Awake();
         instance = this;
         transform = GetComponent<Transform>();
+        InputExt.RegisterKey("zoom", KeyCode.Z);
     }
 
     protected override void Update()
@@ -37,7 +53,19 @@ public class Player : FirstPersonCharacter
         // disable movement while holding onto the roundabout
         if (!(handleInput = !roundAbout.interacting))
             SetMovementDirection(Vector3.zero);
+        
         base.Update();
+        
+        // toggle zoom
+        if (InputExt.keys["zoom"].pressed)
+        {
+            targetFov = targetFov == maxFov ? minFov : maxFov;
+            SoundExt.PlayBiDir(zoomOutSnd, targetFov == minFov, true);
+        }
+        
+        // update fov
+        curFov = Mathf.MoveTowards(curFov, targetFov, zoomSpeed * Time.deltaTime);
+        camera.fieldOfView = curFov;
 
         // temporary controls for testing
         if (Input.GetKeyDown(KeyCode.R)) doorController.ToggleLock();
