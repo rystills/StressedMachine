@@ -17,6 +17,9 @@ public class Hourglass : MonoBehaviour
     private Vector3 centerPos = new(-.04f, 0, -.04f);
     [SerializeField] private float boundsClampFactor = 0.455f;
     private float lastRotTime;
+    [SerializeField] private AudioSource snapSnd;
+    [SerializeField] private AudioSource activeSnd;
+    private const float maxTimestep = .1f;
 
     private void Awake()
     {
@@ -80,13 +83,14 @@ public class Hourglass : MonoBehaviour
         float deltaAngle = Mathf.DeltaAngle(transform.localEulerAngles.z, flipped ? 180 : 0);
 
         // scale elapsed time by rotation angle
-        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * (flipped ? -1 : 1) * (1 - Mathf.Abs(deltaAngle) / 90), 0, duration + finishExtraDuration);
+        float rotSpeed = (flipped ? -1 : 1) * (1 - Mathf.Abs(deltaAngle) / 90);
+        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * rotSpeed, 0, duration + finishExtraDuration);
         float timeRatio = totalTimeElapsed / duration;
 
         // update particles
         for (int i = 0; i < particleCount; ++i)
         {
-            float indRatio = (i+1f) / particleCount;
+            float indRatio = (i + 1f) / particleCount;
 
             // lerp gradually down
             float lerpFac = Mathf.Pow(Mathf.Clamp01(timeRatio - indRatio), 2) * 1000;
@@ -113,8 +117,14 @@ public class Hourglass : MonoBehaviour
 
         // rotate towards nearest base
         if (Time.time != lastRotTime)
+        {
             transform.localEulerAngles = new(transform.localEulerAngles.x,
                                              transform.localEulerAngles.y,
                                              transform.localEulerAngles.z + Mathf.Lerp(0, deltaAngle, Time.time - lastRotTime));
+            if (TimeExt.Since(lastRotTime) <= maxTimestep && deltaAngle != 0)
+                snapSnd.PlayBiDir();
+        }
+
+        activeSnd.pitch = rotSpeed * 2;
     }
 }

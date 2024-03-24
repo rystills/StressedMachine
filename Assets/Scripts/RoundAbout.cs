@@ -20,7 +20,7 @@ public class RoundAbout : MonoBehaviour
     private void OnMouseDown()
     {
         interacting = Player.InRangeOf(col);
-        enabled |= interacting;
+        if (!enabled && (enabled |= interacting)) rotateSnd.Play();
     }
 
     private void Update()
@@ -40,10 +40,7 @@ public class RoundAbout : MonoBehaviour
 
         // rotation sound
         if (enabled = rotSpeed != 0 || interacting)
-        {
-            rotateSnd.PlayBiDir(rotSpeed < 0);
-            rotateSnd.pitch = rotSpeed * .1f;
-        }
+            rotateSnd.pitch = Mathf.Sqrt(Mathf.Abs(rotSpeed)) * Mathf.Sign(rotSpeed) * .3f;
         else rotateSnd.Stop();
     }
 }
