@@ -9,6 +9,7 @@ public class RoundAbout : MonoBehaviour
     public bool interacting;
     private float rotSpeed;
     [SerializeField] private Hourglass hourglass;
+    [SerializeField] private AudioSource rotateSnd;
 
     private void Awake()
     {
@@ -37,6 +38,12 @@ public class RoundAbout : MonoBehaviour
         // decelerate
         rotSpeed = Mathf.MoveTowards(rotSpeed, 0, rotDecel * Time.deltaTime);
 
-        enabled = rotSpeed != 0 || interacting;
+        // rotation sound
+        if (enabled = rotSpeed != 0 || interacting)
+        {
+            rotateSnd.PlayBiDir(rotSpeed < 0);
+            rotateSnd.pitch = rotSpeed * .1f;
+        }
+        else rotateSnd.Stop();
     }
 }

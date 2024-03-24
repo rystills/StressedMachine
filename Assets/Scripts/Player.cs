@@ -107,7 +107,7 @@ public class Player : FirstPersonCharacter
         base.Simulate(deltaTime);
 
         // handle footstep sound
-        if (IsGrounded() && Mathf.Sqrt(Mathf.Max(characterMovement.speed, 10)) * 50 is float targetStepDist
+        if (IsGrounded() && Mathf.Sqrt(Mathf.Max(characterMovement.speed, IsCrouching() ? 2 : 10)) * 50 is float targetStepDist
                          && (distFromLastStep += characterMovement.speed) >= targetStepDist)
         {
             distFromLastStep -= targetStepDist;
