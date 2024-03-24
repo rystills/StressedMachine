@@ -1,4 +1,8 @@
+using AYellowpaper.SerializedCollections;
 using EasyCharacterMovement;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum DeathBy
@@ -24,6 +28,13 @@ public class Player : FirstPersonCharacter
     // sounds
     [SerializeField] private AudioSource crouchSnd;
     [SerializeField] private AudioSource zoomOutSnd;
+    [SerializeField] private AudioSource jumpSnd;
+    [SerializeField] private AudioSource landSnd;
+    [SerializeField] private AudioSource landBigSnd;
+[SerializedDictionary("Material Name", "Footstep Sound")]
+    [SerializeField] private SerializedDictionary<string, AudioClip> footStepSnds;
+    [SerializeField] private AudioSource footStepSrc;
+    [NonSerialized] private float distFromLastStep;
 
     // zoom
     private const float minFov = 20;
@@ -40,7 +51,7 @@ public class Player : FirstPersonCharacter
     public static bool InRangeOf(Collider oCol) => (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRange;
     public static bool InRangeOf(Vector3 pt) => (transform.position - pt).magnitude <= instance.interactRange;
 
-    protected override void Awake()
+    override protected void Awake()
     {
         base.Awake();
         instance = this;
@@ -48,7 +59,7 @@ public class Player : FirstPersonCharacter
         InputExt.RegisterKey("zoom", KeyCode.Z);
     }
 
-    protected override void Update()
+    override protected void Update()
     {
         // disable movement while holding onto the roundabout
         if (!(handleInput = !roundAbout.interacting))
@@ -60,7 +71,7 @@ public class Player : FirstPersonCharacter
         if (InputExt.keys["zoom"].pressed)
         {
             targetFov = targetFov == maxFov ? minFov : maxFov;
-            SoundExt.PlayBiDir(zoomOutSnd, targetFov == minFov, true);
+            zoomOutSnd.PlayBiDir(targetFov == minFov, true);
         }
         
         // update fov
@@ -79,7 +90,7 @@ public class Player : FirstPersonCharacter
             characterMovement.SetHeight(crouchedHeight);
             _isCrouching = true;
             OnCrouched();
-            SoundExt.PlayBiDir(crouchSnd, false, true);
+            crouchSnd.PlayBiDir(false);
         }
         // uncrouch
         else if (!_crouchButtonPressed && IsCrouching() && CanUnCrouch())
@@ -87,7 +98,29 @@ public class Player : FirstPersonCharacter
             characterMovement.SetHeight(unCrouchedHeight);
             _isCrouching = false;
             OnUnCrouched();
-            SoundExt.PlayBiDir(crouchSnd, true, true);
+            crouchSnd.PlayBiDir(true);
         }
+    }
+
+    override public void Simulate(float deltaTime)
+    {
+        base.Simulate(deltaTime);
+
+        // handle footstep sound
+        if (IsGrounded() && Mathf.Sqrt(Mathf.Max(characterMovement.speed, 10)) * 50 is float targetStepDist
+                         && (distFromLastStep += characterMovement.speed) >= targetStepDist)
+        {
+            distFromLastStep -= targetStepDist;
+            footStepSrc.clip = footStepSnds.GetValueOrDefault(characterMovement.groundCollider.material.name.Replace(" (Instance)", ""), footStepSnds.Values.First());
+            footStepSrc.Play();
+        }
+    }
+
+    override protected void OnJumped() => jumpSnd.Play();
+
+    override protected void OnLanded()
+    {
+        if (characterMovement.landedVelocity.y > -20) landSnd.Play();
+        else                                          landBigSnd.Play();
     }
 }

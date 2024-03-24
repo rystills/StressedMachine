@@ -1,0 +1,1 @@
+-footstep sounds have all had the standard fade out modifier applied in Audacity
