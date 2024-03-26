@@ -121,10 +121,17 @@ public class Hourglass : MonoBehaviour
             transform.localEulerAngles = new(transform.localEulerAngles.x,
                                              transform.localEulerAngles.y,
                                              transform.localEulerAngles.z + Mathf.Lerp(0, deltaAngle, Time.time - lastRotTime));
-            if (TimeExt.Since(lastRotTime) <= maxTimestep && deltaAngle != 0)
-                snapSnd.PlayBiDir();
+            if (!snapSnd.isPlaying && TimeExt.Since(lastRotTime) <= maxTimestep && deltaAngle != 0)
+                snapSnd.Play();
         }
 
-        activeSnd.pitch = rotSpeed * 2;
+        // control active (sand falling) sound
+        if (totalTimeElapsed <= 0 || totalTimeElapsed >= duration + finishExtraDuration)
+            activeSnd.Stop();
+        else
+        {
+            activeSnd.pitch = rotSpeed * 2;
+            if (!activeSnd.isPlaying) activeSnd.Play();
+        }
     }
 }

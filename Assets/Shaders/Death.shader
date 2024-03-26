@@ -46,9 +46,7 @@ Shader "Custom/Death"
                 float timeFrac = (_Time[1] - startTime) / animOutDir;
 
                 // fade to/from white
-                if (timeFrac <= .5f) {
-                    return fixed4(0, 0, 0, timeFrac * 2);
-                }
+                if (timeFrac <= .5f) return fixed4(0, 0, 0, timeFrac * 2);
                 return fixed4(0, 0, 0, 1 - (timeFrac - .5f) * 2);
             }
             ENDCG

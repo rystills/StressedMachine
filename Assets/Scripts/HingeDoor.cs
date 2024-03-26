@@ -7,6 +7,7 @@ public class HingeDoor : MonoBehaviour
     private Vector2 rotSpeed;
     private Collider col;
     private bool interacting;
+    [SerializeField] private AudioSource rotateSnd;
 
     private void Awake()
     {
@@ -17,7 +18,7 @@ public class HingeDoor : MonoBehaviour
     private void OnMouseDown()
     {
         interacting = Player.InRangeOf(col);
-        enabled |= interacting;
+        if (!enabled && (enabled |= interacting)) rotateSnd.Play();
     }
 
     public float openRatio => (360 - transform.localEulerAngles.y) % 360 / 125f;
@@ -47,6 +48,9 @@ public class HingeDoor : MonoBehaviour
             rotSpeed.x = Mathf.MoveTowards(-.2f * rotSpeed.x, 0, 25);
         }
 
-        enabled = rotSpeed.x != 0 || interacting;
+        // rotation sound
+        if (enabled = rotSpeed.x != 0 || interacting)
+            rotateSnd.pitch = Mathf.Sqrt(Mathf.Abs(rotSpeed.x)) * Mathf.Sign(rotSpeed.x) * .3f;
+        else rotateSnd.Stop();
     }
 }
