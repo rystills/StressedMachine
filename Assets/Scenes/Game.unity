@@ -347,6 +347,7 @@ MonoBehaviour:
   doorController: {fileID: 1203129240}
   roundAbout: {fileID: 856496917}
   interactRange: 2.5
+  interactRetainRange: 3
   crouchSnd: {fileID: 9034906}
   zoomOutSnd: {fileID: 9034907}
   jumpSnd: {fileID: 9034908}
@@ -1894,10 +1895,6 @@ MonoBehaviour:
   rotSensitivity: 4
   rotDecel: 100
   rotateSnd: {fileID: 397102831}
-  activeSnd: {fileID: 0}
-  humSnd: {fileID: 0}
-  initialActiveVolume: 0
-  initialHumVolume: 0
 --- !u!4 &397102827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6021313330838547907, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}

@@ -25,7 +25,7 @@ public class RoundAbout : MonoBehaviour
 
     private void Update()
     {
-        if (interacting = interacting && Input.GetMouseButton(0))
+        if (interacting = interacting && Input.GetMouseButton(0) && Player.InRetainRangeOf(col))
             rotSpeed = Mathf.Clamp(rotSpeed + Input.GetAxisRaw("Vertical") * rotSensitivity, -rotMax, rotMax);
 
         // rotate

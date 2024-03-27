@@ -25,7 +25,7 @@ public class Lever : MonoBehaviour
     private void Update()
     {
         float moveChange = Input.GetAxis("Mouse Y") * moveSensitivity;
-        if (interacting = interacting && Input.GetMouseButton(0))
+        if (interacting = interacting && Input.GetMouseButton(0) && Player.InRetainRangeOf(col))
         {
             // move
             transform.localPosition = new(transform.localPosition.x,

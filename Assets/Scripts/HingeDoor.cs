@@ -28,7 +28,7 @@ public class HingeDoor : MonoBehaviour
     private void Update()
     {
         // accelerate
-        if (interacting = interacting && Input.GetMouseButton(0))
+        if (interacting = interacting && Input.GetMouseButton(0) && Player.InRetainRangeOf(col))
             rotSpeed.x += Input.GetAxis("Mouse X") * rotSensitivity;
 
         // rotate

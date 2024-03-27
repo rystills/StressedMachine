@@ -24,6 +24,7 @@ public class Player : FirstPersonCharacter
     
     // interaction
     [SerializeField] private float interactRange;
+    [SerializeField] private float interactRetainRange;
     
     // sounds
     [SerializeField] private AudioSource crouchSnd;
@@ -47,9 +48,10 @@ public class Player : FirstPersonCharacter
 
     public static void Die(DeathBy method) => DeathAnimation.Play();
 
-    // TODO: continuous range check during interaction
     public static bool InRangeOf(Collider oCol) => (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRange;
+    public static bool InRetainRangeOf(Collider oCol) => (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRetainRange;
     public static bool InRangeOf(Vector3 pt) => (transform.position - pt).magnitude <= instance.interactRange;
+    public static bool InRetainRangeOf(Vector3 pt) => (transform.position - pt).magnitude <= instance.interactRetainRange;
 
     override protected void Awake()
     {
