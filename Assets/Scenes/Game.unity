@@ -1894,6 +1894,10 @@ MonoBehaviour:
   rotSensitivity: 4
   rotDecel: 100
   rotateSnd: {fileID: 397102831}
+  activeSnd: {fileID: 0}
+  humSnd: {fileID: 0}
+  initialActiveVolume: 0
+  initialHumVolume: 0
 --- !u!4 &397102827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6021313330838547907, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
@@ -2223,6 +2227,18 @@ PrefabInstance:
       propertyPath: door
       value: 
       objectReference: {fileID: 397102824}
+    - target: {fileID: 7527176120691919254, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
+      propertyPath: door
+      value: 
+      objectReference: {fileID: 397102824}
+    - target: {fileID: 7527176120691919254, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
+      propertyPath: humSnd
+      value: 
+      objectReference: {fileID: 1175141948}
+    - target: {fileID: 7527176120691919254, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
+      propertyPath: activeSnd
+      value: 
+      objectReference: {fileID: 1175141947}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19128,7 +19144,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c79e962663815274b839013ed8e15ce9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.08
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -19224,7 +19240,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: afe4400adac05b84e91174c436ee6b43, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.08
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0

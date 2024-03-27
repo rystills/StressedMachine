@@ -6,6 +6,10 @@ public class MetaballManager : MonoBehaviour
     [SerializeField] private int particleCount;
     [SerializeField] private float accel;
     [SerializeField] private float maxVel;
+    [SerializeField] private HingeDoor door;
+    [SerializeField] private AudioSource activeSnd, humSnd;
+    private float initialActiveVolume, initialHumVolume;
+
     private ParticleSystem mbPs;
     private List<Vector3> targetPositions;
     private List<Vector3> velocities;
@@ -36,6 +40,9 @@ public class MetaballManager : MonoBehaviour
             particles[i].startSize *= .3f;
         }
         particles[0].startSize *= .9f;
+
+        initialActiveVolume = activeSnd.volume;
+        initialHumVolume = humSnd.volume;
     }
 
     private void LateUpdate()
@@ -61,5 +68,8 @@ public class MetaballManager : MonoBehaviour
             particles[i].position = Quaternion.AngleAxis(angle, Vector3.up) * particles[i].position;
         }
         mbPs.SetParticles(particles);
+
+        // tether sounds volume to door open ratio
+        humSnd.volume = activeSnd.volume = .2f + Mathf.Min(door.openRatio, .25f) * 3.2f;
     }
 }
