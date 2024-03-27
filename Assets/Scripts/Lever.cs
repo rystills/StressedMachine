@@ -35,7 +35,6 @@ public class Lever : MonoBehaviour
         
             // update wave
             waveController.SetHeightOffsetRatio((transform.localPosition.y - initialY) / moveRange);
-
         }
 
         // update pitch
