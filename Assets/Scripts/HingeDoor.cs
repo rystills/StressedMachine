@@ -50,7 +50,7 @@ public class HingeDoor : MonoBehaviour
 
         // rotation sound
         if (enabled = rotSpeed.x != 0 || interacting)
-            rotateSnd.pitch = Mathf.Sqrt(Mathf.Abs(rotSpeed.x)) * Mathf.Sign(rotSpeed.x) * .3f;
+            rotateSnd.pitch = Mathf.Sqrt(Mathf.Abs(rotSpeed.x)) * .3f;
         else rotateSnd.Stop();
     }
 }

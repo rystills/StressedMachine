@@ -40,7 +40,7 @@ public class RoundAbout : MonoBehaviour
 
         // rotation sound
         if (enabled = rotSpeed != 0 || interacting)
-            rotateSnd.pitch = Mathf.Sqrt(Mathf.Abs(rotSpeed)) * Mathf.Sign(rotSpeed) * .3f;
+            rotateSnd.pitch = Mathf.Sqrt(Mathf.Abs(rotSpeed)) * .3f;
         else rotateSnd.Stop();
     }
 }
