@@ -22,7 +22,7 @@ public class HingeDoor : MonoBehaviour
     }
 
     public float openRatio => (360 - transform.localEulerAngles.y) % 360 / 125f;
-    public int isOpen => transform.localEulerAngles.y < 355 && transform.localEulerAngles.y != 0 ? 1 : 0;
+    public int isOpen => transform.localEulerAngles.y < 355 && transform.localEulerAngles.y > 0 ? 1 : 0;
     public int isClosed => 1 - isOpen;
 
     private void Update()
