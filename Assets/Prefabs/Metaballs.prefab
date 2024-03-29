@@ -4914,6 +4914,9 @@ MonoBehaviour:
   particleCount: 200
   accel: 2
   maxVel: 8
+  door: {fileID: 0}
+  activeSnd: {fileID: 0}
+  humSnd: {fileID: 0}
 --- !u!114 &7438038149208705584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4929,9 +4932,9 @@ MonoBehaviour:
   radiationMat: {fileID: 2100000, guid: 4fa8327e4ef9b8f4393fd4183d071e6d, type: 2}
   heatMat: {fileID: 2100000, guid: 486c0e1aa2b71e144ae3e630809f08ac, type: 2}
   door: {fileID: 0}
-  radiationIncr: 0.1
+  radiationIncr: 0.25
   radiationDecr: 0.07
-  heatIncr: 0.05
+  heatIncr: 0.01
   heatDecr: 0.5
   metaballLight: {fileID: 628615551232884610}
   coolColor: {r: 0.7833333, g: 0, b: 1, a: 1}

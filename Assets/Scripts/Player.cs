@@ -48,10 +48,10 @@ public class Player : FirstPersonCharacter
 
     public static void Die(DeathBy method) => DeathAnimation.Play();
 
-    public static bool InRangeOf(Collider oCol) => (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRange;
-    public static bool InRetainRangeOf(Collider oCol) => (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRetainRange;
-    public static bool InRangeOf(Vector3 pt) => (transform.position - pt).magnitude <= instance.interactRange;
-    public static bool InRetainRangeOf(Vector3 pt) => (transform.position - pt).magnitude <= instance.interactRetainRange;
+    public static bool InRangeOf(Collider oCol) => inControl && (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRange;
+    public static bool InRetainRangeOf(Collider oCol) => inControl && (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRetainRange;
+    public static bool InRangeOf(Vector3 pt) => inControl && (transform.position - pt).magnitude <= instance.interactRange;
+    public static bool InRetainRangeOf(Vector3 pt) => inControl && (transform.position - pt).magnitude <= instance.interactRetainRange;
 
     override protected void Awake()
     {
@@ -63,11 +63,14 @@ public class Player : FirstPersonCharacter
 
     override protected void Update()
     {
+        base.Update();
+        
+        if (_movementMode == MovementMode.None)
+            return;
+
         // disable movement while holding onto the roundabout
         if (!(handleInput = !roundAbout.interacting))
             SetMovementDirection(Vector3.zero);
-        
-        base.Update();
         
         // toggle zoom
         if (InputExt.keys["zoom"].pressed)
@@ -108,6 +111,9 @@ public class Player : FirstPersonCharacter
     {
         base.Simulate(deltaTime);
 
+        if (_movementMode == MovementMode.None)
+            return;
+
         // handle footstep sound
         if (IsGrounded() && Mathf.Sqrt(Mathf.Max(characterMovement.speed, IsCrouching() ? 2 : 10)) * 50 is float targetStepDist
                          && (distFromLastStep += characterMovement.speed) >= targetStepDist)
@@ -125,4 +131,8 @@ public class Player : FirstPersonCharacter
         if (characterMovement.landedVelocity.y > -20) landSnd.Play();
         else                                          landBigSnd.Play();
     }
+
+    public static bool inControl => instance._movementMode != MovementMode.None;
+    public static void EnableControl() => instance._movementMode = instance.IsGrounded() ? MovementMode.Walking : MovementMode.Falling;
+    public static void DisableControl() => instance._movementMode = MovementMode.None;
 }
