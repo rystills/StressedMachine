@@ -19,7 +19,7 @@ public class RoundAbout : MonoBehaviour
 
     private void OnMouseDown()
     {
-        interacting = Player.InRangeOf(col);
+        if (interacting = Player.InRangeOf(col)) Player.LendControl();
         if (!enabled && (enabled |= interacting)) rotateSnd.Play();
     }
 
@@ -27,6 +27,7 @@ public class RoundAbout : MonoBehaviour
     {
         if (interacting = interacting && Input.GetMouseButton(0) && Player.InRetainRangeOf(col))
             rotSpeed = Mathf.Clamp(rotSpeed + Input.GetAxisRaw("Vertical") * rotSensitivity * Time.deltaTime, -rotMax, rotMax);
+        else Player.ReturnControl();
 
         // rotate
         transform.localEulerAngles = new(transform.localEulerAngles.x,

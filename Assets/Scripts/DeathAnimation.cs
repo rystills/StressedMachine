@@ -4,16 +4,17 @@ using UnityEngine.UI;
 public class DeathAnimation : MonoBehaviour
 {
     public static DeathAnimation instance;
-    [SerializeField] private float animOutDir;
+    [SerializeField] private float animDir;
     private static Material mat;
     private static float deathTime;
     private float prevElapsed;
+    [SerializeField] private AudioSource deathSnd;
 
     private void Awake()
     {
         instance = this;
         mat = GetComponent<Image>().material;
-        mat.SetFloat("animOutDir", animOutDir);
+        mat.SetFloat("animOutDir", animDir);
         gameObject.SetActive(false);
     }
 
@@ -23,14 +24,18 @@ public class DeathAnimation : MonoBehaviour
         mat.SetFloat("startTime", deathTime = Time.timeSinceLevelLoad);
         instance.gameObject.SetActive(true);
         instance.prevElapsed = 0;
+        instance.deathSnd.PlayBiDir(false);
         return true;
     }
 
     private void Update()
     {
-        float elapsedFrac = (Time.timeSinceLevelLoad - deathTime) / animOutDir;
+        float elapsedFrac = (Time.timeSinceLevelLoad - deathTime) / animDir;
         if (elapsedFrac >= .5f && prevElapsed < .5f)
+        {
             GameState.Load();
+            deathSnd.PlayBiDir(true);
+        }
         gameObject.SetActive(elapsedFrac < 1);
         prevElapsed = elapsedFrac;
     }
