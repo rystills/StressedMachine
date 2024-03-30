@@ -31,9 +31,9 @@ public class DialogueController : MonoBehaviour
     public static void Show(List<string> messages)
     {
         // begin message sequence
+        instance.messages = messages;
         instance.overlay.SetActive(true);
         instance.gameObject.SetActive(true);
-        instance.messages = messages;
         instance.text.text = "";
         instance.activeMessage = 0;
         instance.framesElapsed = 0;

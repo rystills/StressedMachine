@@ -30,7 +30,7 @@ public class Player : FirstPersonCharacter
     public static bool InRetainRangeOf(Vector3 pt) => inControl && (transform.position - pt).magnitude <= instance.interactRetainRange;
     
     // control toggles
-    public static bool inControl => instance.handleInput;
+    public static bool inControl => instance.activeCutscene == -1 && instance.handleInput;
     public static void EnableControl() => instance.handleInput = true;
     public static void DisableControl() => instance.handleInput = false;
 
@@ -58,9 +58,25 @@ public class Player : FirstPersonCharacter
     private float targetFov = maxFov;
     private float curFov = maxFov;
 
+    // cutscenes
+    private int activeCutscene = -1;
+    private float cutsceneElapsedTime;
+    [SerializeField] private List<Light> floodlights;
+    [SerializeField] private Material lightMat;
+    [SerializeField] private MachineFaceController machineFaceController;
+    private Vector3 initialCamForward;
+    private float initialFloodlightIntensity;
+    private Color initialLightMatColor;
+
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
     public static void Die(DeathBy method) => DeathAnimation.Play();
+
+    private void PlayCutscene(int ind)
+    {
+        cutsceneElapsedTime = 0;
+        activeCutscene = ind;
+    }
 
     override protected void Awake()
     {
@@ -68,6 +84,10 @@ public class Player : FirstPersonCharacter
         instance = this;
         transform = GetComponent<Transform>();
         InputExt.RegisterKey("zoom", KeyCode.Z);
+        initialCamForward = cameraTransform.forward;
+        initialFloodlightIntensity = floodlights.FirstOrDefault()?.intensity ?? 1.25f;
+        initialLightMatColor = lightMat.GetColor("_EmissionColor");
+        PlayCutscene(0);
     }
 
     override protected void Update()
@@ -82,6 +102,29 @@ public class Player : FirstPersonCharacter
 
         // temporary controls for testing
         if (Input.GetKeyDown(KeyCode.R)) doorController.ToggleLock();
+
+        if (activeCutscene != -1) TickCutscene(Time.deltaTime);
+    }
+
+    private void TickCutscene(float deltaTime)
+    {
+        switch (activeCutscene)
+        {
+            case 0:
+                // slowly enable floodlights
+                cutsceneElapsedTime += deltaTime;
+                foreach (Light light in floodlights) light.intensity = Mathf.Lerp(0, initialFloodlightIntensity, cutsceneElapsedTime / 4);
+                lightMat.SetColor("_EmissionColor", Color.Lerp(Color.clear, initialLightMatColor, cutsceneElapsedTime / 4));
+
+                // look at machine face
+                cameraTransform.forward = Vector3.Lerp(initialCamForward, machineFaceController.transform.position - transform.position, cutsceneElapsedTime - 4);
+                if (cutsceneElapsedTime >= 5)
+                {
+                    activeCutscene = -1;
+                    DialogueController.Show(new() { ". .. ... .... ..... ...... ....... ........ .........", "Error detected during boot sequence. Manual core temperature regulation requested." });
+                }
+                break;
+        }
     }
 
     override protected void HandleInput()

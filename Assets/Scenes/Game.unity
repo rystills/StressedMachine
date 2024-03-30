@@ -269,7 +269,7 @@ Transform:
   m_GameObject: {fileID: 9034898}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.316, y: 0, z: 1.2}
+  m_LocalPosition: {x: 0.316, y: 0, z: 0.413}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -362,6 +362,11 @@ MonoBehaviour:
     - Key: steel
       Value: {fileID: 8300000, guid: 632766639d604464cacbc812175f2b9d, type: 3}
   footStepSrc: {fileID: 9034911}
+  floodlights:
+  - {fileID: 592658724}
+  - {fileID: 808642690}
+  lightMat: {fileID: 2100000, guid: 00763ef0a313cfa4c8a11c593d09ae26, type: 2}
+  machineFaceController: {fileID: 1064632682}
 --- !u!82 &9034906
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7416,6 +7421,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af9c03d5b2d9c65489ea030dc666389e, type: 3}
+--- !u!108 &592658724 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 6850490700056577292, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+  m_PrefabInstance: {fileID: 6115948693827983751}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &596240486
 GameObject:
   m_ObjectHideFlags: 0
@@ -7760,6 +7770,11 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!108 &808642690 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 6850490700056577292, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+  m_PrefabInstance: {fileID: 1051935559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &843101908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7190980828577796177, guid: dee7555802e376d40acb17b1ca9e9cb4, type: 3}
@@ -8108,7 +8123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: d0b0b984077629e40bceba4f717253de, type: 2}
+  m_Material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -8292,6 +8307,10 @@ PrefabInstance:
     - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6850490700056577292, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19783,6 +19802,10 @@ PrefabInstance:
     - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6850490700056577292, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -29,8 +29,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - animOutDir: 1
     - startTime: 0
+    - animOutDir: 1.5
     - strength: 1
     m_Colors: []
   m_BuildTextureStacks: []
