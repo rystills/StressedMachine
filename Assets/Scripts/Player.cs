@@ -64,9 +64,12 @@ public class Player : FirstPersonCharacter
     [SerializeField] private List<Light> floodlights;
     [SerializeField] private Material lightMat;
     [SerializeField] private MachineFaceController machineFaceController;
-    private Vector3 initialCamForward;
     private float initialFloodlightIntensity;
     private Color initialLightMatColor;
+    private Quaternion initialCharacterRot;
+    private Quaternion targetCharacterRot;
+    private Quaternion initialEyeRot;
+    private Quaternion targetEyeRot;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
@@ -84,9 +87,15 @@ public class Player : FirstPersonCharacter
         instance = this;
         transform = GetComponent<Transform>();
         InputExt.RegisterKey("zoom", KeyCode.Z);
-        initialCamForward = cameraTransform.forward;
         initialFloodlightIntensity = floodlights.FirstOrDefault()?.intensity ?? 1.25f;
         initialLightMatColor = lightMat.GetColor("_EmissionColor");
+
+        // cutscenes
+        initialCharacterRot = characterMovement.rotation;
+        targetCharacterRot = Quaternion.Euler(0, 30, 0) * initialCharacterRot;
+        initialEyeRot = eyePivot.localRotation;
+        targetEyeRot = Quaternion.Euler(-75, 0, 0) * initialEyeRot;
+
         PlayCutscene(0);
     }
 
@@ -117,8 +126,9 @@ public class Player : FirstPersonCharacter
                 lightMat.SetColor("_EmissionColor", Color.Lerp(Color.clear, initialLightMatColor, cutsceneElapsedTime / 4));
 
                 // look at machine face
-                cameraTransform.forward = Vector3.Lerp(initialCamForward, machineFaceController.transform.position - transform.position, cutsceneElapsedTime - 4);
-                if (cutsceneElapsedTime >= 5)
+                characterMovement.rotation = Quaternion.Lerp(initialCharacterRot, targetCharacterRot, (cutsceneElapsedTime - 4) * 4);
+                eyePivot.localRotation = Quaternion.Lerp(initialEyeRot, targetEyeRot, (cutsceneElapsedTime - 4) * 4);
+                if (cutsceneElapsedTime >= 4.25f)
                 {
                     activeCutscene = -1;
                     DialogueController.Show(new() { ". .. ... .... ..... ...... ....... ........ .........", "Error detected during boot sequence. Manual core temperature regulation requested." });
