@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class DialogueController : MonoBehaviour
 {
     private List<string> messages;
     [SerializeField] private Text text;
-    [SerializeField] private GameObject overlay;
     [SerializeField] private int blinkRate;
     private int framesElapsed;
     private int activeMessage;
@@ -16,8 +14,7 @@ public class DialogueController : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        overlay.SetActive(false);
-        gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
     private void FixedUpdate()
     {
@@ -32,8 +29,7 @@ public class DialogueController : MonoBehaviour
     {
         // begin message sequence
         instance.messages = messages;
-        instance.overlay.SetActive(true);
-        instance.gameObject.SetActive(true);
+        instance.transform.parent.gameObject.SetActive(true);
         instance.text.text = "";
         instance.activeMessage = 0;
         instance.framesElapsed = 0;
@@ -47,11 +43,10 @@ public class DialogueController : MonoBehaviour
         {
             if (++activeMessage >= messages.Count)
             {
-                overlay.SetActive(false);
-                gameObject.SetActive(false);
+                instance.transform.parent.gameObject.SetActive(false);
                 Player.EnableControl();
             }
-            framesElapsed = 0;
+            else framesElapsed = 0;
         }
     }
 }

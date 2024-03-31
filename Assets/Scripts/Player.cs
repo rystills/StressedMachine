@@ -20,6 +20,7 @@ public class Player : FirstPersonCharacter
     
     // local references
     [SerializeField] private DoorController doorController;
+    [SerializeField] private GameObject crosshair;
     
     // interaction
     [SerializeField] private float interactRange;
@@ -31,8 +32,8 @@ public class Player : FirstPersonCharacter
     
     // control toggles
     public static bool inControl => instance.activeCutscene == -1 && instance.handleInput;
-    public static void EnableControl() => instance.handleInput = true;
-    public static void DisableControl() => instance.handleInput = false;
+    public static void EnableControl() => instance.crosshair.SetActive(instance.handleInput = true);
+    public static void DisableControl() => instance.crosshair.SetActive(instance.handleInput = false);
 
     public static bool lentControl;
     public static void LendControl() => lentControl = true;
@@ -77,6 +78,7 @@ public class Player : FirstPersonCharacter
 
     private void PlayCutscene(int ind)
     {
+        crosshair.SetActive(false);
         cutsceneElapsedTime = 0;
         activeCutscene = ind;
     }
