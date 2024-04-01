@@ -133,7 +133,7 @@ public class Player : FirstPersonCharacter
                 if (cutsceneElapsedTime >= 4.25f)
                 {
                     activeCutscene = -1;
-                    DialogueController.Show(new() { ". .. ... .... ..... ...... ....... ........ .........", "Error detected during boot sequence. Manual core temperature regulation requested." });
+                    DialogueController.Show(new() { ". .. ... .... ..... ...... ....... ........ .........", "Error detected during boot sequence. Authorizing manual core temperature regulation." });
                 }
                 break;
         }
