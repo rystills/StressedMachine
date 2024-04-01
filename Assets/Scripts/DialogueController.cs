@@ -8,8 +8,9 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private Text text;
     [SerializeField] private int blinkRate;
     private float framesElapsed;
-    private int activeMessage;
+    private int messageInd;
     private static DialogueController instance;
+    private string activeMessage => messages[messageInd];
 
     private void Awake()
     {
@@ -19,15 +20,15 @@ public class DialogueController : MonoBehaviour
     private void FixedUpdate()
     {
         // text crawl
-        if (framesElapsed < messages[activeMessage].Length)
+        if (framesElapsed < activeMessage.Length)
         {
-            text.text = messages[activeMessage].Substring(0, (int)framesElapsed) + "<color=#00000000>" + messages[activeMessage].Substring((int)framesElapsed, messages[activeMessage].Length - (int)framesElapsed) + "</color>";
-            framesElapsed += char.IsPunctuation(messages[activeMessage][(int)framesElapsed]) ? .125f : 1;
+            text.text = activeMessage.Substring(0, (int)framesElapsed) + "<color=#00000000>" + activeMessage.Substring((int)framesElapsed, activeMessage.Length - (int)framesElapsed) + "</color>";
+            framesElapsed += char.IsPunctuation(activeMessage[(int)framesElapsed]) ? .125f : 1;
         }
         // cursor blink
         else
         {
-            text.text = messages[activeMessage] + (((int)framesElapsed - messages[activeMessage].Length) % blinkRate < blinkRate / 2 ? " ↪" : "");
+            text.text = activeMessage + (((int)framesElapsed - activeMessage.Length) % blinkRate < blinkRate / 2 ? " ↪" : "");
             ++framesElapsed;
         }
     }
@@ -38,22 +39,24 @@ public class DialogueController : MonoBehaviour
         instance.messages = messages;
         instance.transform.parent.gameObject.SetActive(true);
         instance.text.text = "";
-        instance.activeMessage = 0;
+        instance.messageInd = 0;
         instance.framesElapsed = 0;
         Player.DisableControl();
     }
 
     private void Update()
     {
-        // move on to the next message
-        if (Input.GetMouseButtonDown(0) && framesElapsed >= messages[activeMessage].Length)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (++activeMessage >= messages.Count)
+            // complete the current message
+            framesElapsed = activeMessage.Length * (activeMessage.Length / ((int)framesElapsed + 1));
+
+            // begin the next message
+            if (framesElapsed == 0 && ++messageInd >= messages.Count)
             {
                 instance.transform.parent.gameObject.SetActive(false);
                 Player.EnableControl();
             }
-            else framesElapsed = 0;
         }
     }
 }
