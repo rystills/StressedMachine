@@ -133,7 +133,7 @@ public class Player : FirstPersonCharacter
                 if (cutsceneElapsedTime >= 4.25f)
                 {
                     activeCutscene = -1;
-                    DialogueController.Show(new() { "Initializing . . . . . . .", "Error detected during boot sequence. Authorizing manual core temperature regulation." });
+                    DialogueController.Show(new() { "Initializing . . . . . . .", "Critical error detected during boot sequence. Authorizing manual core temperature regulation . . ." });
                 }
                 break;
         }
