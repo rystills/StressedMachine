@@ -7,7 +7,7 @@ public class DialogueController : MonoBehaviour
     private List<string> messages;
     [SerializeField] private Text text;
     [SerializeField] private int blinkRate;
-    private int framesElapsed;
+    private float framesElapsed;
     private int activeMessage;
     private static DialogueController instance;
 
@@ -19,10 +19,17 @@ public class DialogueController : MonoBehaviour
     private void FixedUpdate()
     {
         // text crawl
-        if (++framesElapsed < messages[activeMessage].Length)
-            text.text = messages[activeMessage].Substring(0, framesElapsed) + "<color=#00000000>" + messages[activeMessage].Substring(framesElapsed, messages[activeMessage].Length - framesElapsed) + "</color>";
+        if (framesElapsed < messages[activeMessage].Length)
+        {
+            text.text = messages[activeMessage].Substring(0, (int)framesElapsed) + "<color=#00000000>" + messages[activeMessage].Substring((int)framesElapsed, messages[activeMessage].Length - (int)framesElapsed) + "</color>";
+            framesElapsed += char.IsPunctuation(messages[activeMessage][(int)framesElapsed]) ? .125f : 1;
+        }
+        // cursor blink
         else
-            text.text = messages[activeMessage] + ((framesElapsed - messages[activeMessage].Length) % blinkRate < blinkRate / 2 ? " ↪" : "");
+        {
+            text.text = messages[activeMessage] + (((int)framesElapsed - messages[activeMessage].Length) % blinkRate < blinkRate / 2 ? " ↪" : "");
+            ++framesElapsed;
+        }
     }
 
     public static void Show(List<string> messages)
