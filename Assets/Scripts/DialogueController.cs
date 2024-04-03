@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class DialogueController : MonoBehaviour
     private int messageInd;
     private static DialogueController instance;
     private string activeMessage => messages[messageInd];
+    private Action callback;
 
     private void Awake()
     {
@@ -33,9 +35,10 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    public static void Show(List<string> messages)
+    public static void Show(List<string> messages, Action callback = null)
     {
         // begin message sequence
+        instance.callback = callback;
         instance.messages = messages;
         instance.transform.parent.gameObject.SetActive(true);
         instance.text.text = "";
@@ -56,6 +59,7 @@ public class DialogueController : MonoBehaviour
             {
                 instance.transform.parent.gameObject.SetActive(false);
                 Player.EnableControl();
+                callback?.Invoke();
             }
         }
     }

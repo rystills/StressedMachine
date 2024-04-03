@@ -62,11 +62,9 @@ public class Player : FirstPersonCharacter
     // cutscenes
     private int activeCutscene = -1;
     private float cutsceneElapsedTime;
-    [SerializeField] private List<Light> floodlights;
-    [SerializeField] private Material lightMat;
+    [SerializeField] private LightController lightControllerMachine;
+    [SerializeField] private LightController lightControllerFurnace;
     [SerializeField] private MachineFaceController machineFaceController;
-    private float initialFloodlightIntensity;
-    private Color initialLightMatColor;
     private Quaternion initialCharacterRot;
     private Quaternion targetCharacterRot;
     private Quaternion initialEyeRot;
@@ -81,6 +79,12 @@ public class Player : FirstPersonCharacter
         crosshair.SetActive(false);
         cutsceneElapsedTime = 0;
         activeCutscene = ind;
+        switch (ind)
+        {
+            case 0:
+                lightControllerMachine.Activate();
+                break;
+        }
     }
 
     override protected void Awake()
@@ -89,8 +93,6 @@ public class Player : FirstPersonCharacter
         instance = this;
         transform = GetComponent<Transform>();
         InputExt.RegisterKey("zoom", KeyCode.Z);
-        initialFloodlightIntensity = floodlights.FirstOrDefault()?.intensity ?? 1.25f;
-        initialLightMatColor = lightMat.GetColor("_EmissionColor");
 
         // cutscenes
         initialCharacterRot = characterMovement.rotation;
@@ -124,16 +126,14 @@ public class Player : FirstPersonCharacter
             case 0:
                 // slowly enable floodlights
                 cutsceneElapsedTime += deltaTime;
-                foreach (Light light in floodlights) light.intensity = Mathf.Lerp(0, initialFloodlightIntensity, cutsceneElapsedTime / 4);
-                lightMat.SetColor("_EmissionColor", Color.Lerp(Color.clear, initialLightMatColor, cutsceneElapsedTime / 4));
 
                 // look at machine face
-                characterMovement.rotation = Quaternion.Lerp(initialCharacterRot, targetCharacterRot, (cutsceneElapsedTime - 4) * 4);
-                eyePivot.localRotation = Quaternion.Lerp(initialEyeRot, targetEyeRot, (cutsceneElapsedTime - 4) * 4);
-                if (cutsceneElapsedTime >= 4.25f)
+                characterMovement.rotation = Quaternion.Lerp(initialCharacterRot, targetCharacterRot, (cutsceneElapsedTime - 2) * 4);
+                eyePivot.localRotation = Quaternion.Lerp(initialEyeRot, targetEyeRot, (cutsceneElapsedTime - 2) * 4);
+                if (cutsceneElapsedTime >= 2.25f)
                 {
                     activeCutscene = -1;
-                    DialogueController.Show(new() { "Initializing . . . . . . .", "Critical error detected during boot sequence. Authorizing manual core temperature regulation . . ." });
+                    DialogueController.Show(new() { "Initializing . . . . . . .", "Critical error detected during boot sequence. Authorizing manual core temperature regulation . . ." }, lightControllerFurnace.Activate);
                 }
                 break;
         }
