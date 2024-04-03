@@ -12,7 +12,7 @@ public class Hourglass : MonoBehaviour
     [SerializeField] private float duration = 25;
     [SerializeField] private float finishExtraDuration;
     [SerializeField] private float spacing = .25f;
-    [SerializeField] private Color32 startColor, endColor;
+    [SerializeField] private Color32 endColor;
     private bool flipped;
     private Vector3 centerPos = new(-.04f, 0, -.04f);
     [SerializeField] private float boundsClampFactor = 0.455f;
@@ -67,6 +67,9 @@ public class Hourglass : MonoBehaviour
             for (int j = 0; j < level * level; ++j)
                 endPositions[i + level * level - j - 1] = new(startPositions[i + j].x, -startPositions[i + j].y, startPositions[i + j].z);
         }
+
+        ps.SetParticles(particles);
+        enabled = false;
     }
 
     public void AddRotation(float amnt)
@@ -111,7 +114,7 @@ public class Hourglass : MonoBehaviour
                                         particles[i].position.y,
                                         Mathf.Clamp(particles[i].position.z, -bounds + centerPos.z, bounds + centerPos.z));
 
-            particles[i].startColor = Color.Lerp(startColor, endColor, lerpFac);
+            particles[i].startColor = Color.Lerp(ps.main.startColor.color, endColor, lerpFac);
         }
         ps.SetParticles(particles);
 

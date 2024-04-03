@@ -12,6 +12,7 @@ public class Lever : MonoBehaviour
     private float activePitch;
     [SerializeField] private float maxPitch;
     [SerializeField] private float pitchDecr;
+    [SerializeField] private bool locked;
 
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class Lever : MonoBehaviour
         initialY = transform.localPosition.y;
     }
 
-    private void OnMouseDown() => enabled |= (interacting = Player.InRangeOf(col));
+    private void OnMouseDown() => enabled |= (!locked && (interacting = Player.InRangeOf(col)));
 
     private void Update()
     {

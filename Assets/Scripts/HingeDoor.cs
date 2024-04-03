@@ -8,6 +8,7 @@ public class HingeDoor : MonoBehaviour
     private Collider col;
     private bool interacting;
     [SerializeField] private AudioSource rotateSnd;
+    [SerializeField] private bool locked;
 
     private void Awake()
     {
@@ -17,8 +18,11 @@ public class HingeDoor : MonoBehaviour
 
     private void OnMouseDown()
     {
-        interacting = Player.InRangeOf(col);
-        if (!enabled && (enabled |= interacting)) rotateSnd.Play();
+        if (!locked)
+        {
+            interacting = Player.InRangeOf(col);
+            if (!enabled && (enabled |= interacting)) rotateSnd.Play();
+        }
     }
 
     public float openRatio => (360 - transform.localEulerAngles.y) % 360 / 125f;

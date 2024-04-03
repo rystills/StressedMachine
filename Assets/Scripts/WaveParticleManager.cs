@@ -46,11 +46,21 @@ public class WaveParticleManager : MonoBehaviour
         outlinePs.GetParticles(outlineParticles);
         for (int i = 0; i < particleCount; ++i)
             waveParticles[i].position = Vector3.forward * (i / (float)particleCount * length - length / 2);
+
+        wavePs.SetParticles(waveParticles);
+        outlinePs.SetParticles(outlineParticles);
+        enabled = false;
     }
 
     public void Randomize()
     {
         do outlineHeightOffsetTarget = Random.Range(-heightRandomMax, heightRandomMax); while (targetHeightsSynced);
+    }
+
+    private void OnEnable()
+    {
+        particleSnd.Play();
+        outlineSnd.Play();
     }
 
     public void AdjustHeightOffset(float amnt) => heightOffset = Mathf.Clamp(heightOffset + amnt, -heightRandomMax, heightRandomMax);

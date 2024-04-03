@@ -8,16 +8,11 @@ public class MetaballManager : MonoBehaviour
     [SerializeField] private float maxVel;
     [SerializeField] private HingeDoor door;
     [SerializeField] private AudioSource activeSnd, humSnd;
-    private float initialActiveVolume, initialHumVolume;
 
     private ParticleSystem mbPs;
     private List<Vector3> targetPositions;
     private List<Vector3> velocities;
     private ParticleSystem.Particle[] particles;
-    private Vector3 RandomVectorInCube(float halfExtents) => new (Random.Range(-halfExtents, halfExtents),
-                                                                  Random.Range(-halfExtents, halfExtents),
-                                                                  Random.Range(-halfExtents, halfExtents));
-    private Vector3 RandomVectorInSphere(float magnitude) => Random.insideUnitSphere * magnitude;
     private Vector3 RandomVectorOnSphere(float magnitude) => Random.insideUnitSphere.normalized * magnitude;
 
     private void Awake()
@@ -40,9 +35,15 @@ public class MetaballManager : MonoBehaviour
             particles[i].startSize *= .3f;
         }
         particles[0].startSize *= .9f;
+        
+        mbPs.SetParticles(particles);
+        enabled = false;
+    }
 
-        initialActiveVolume = activeSnd.volume;
-        initialHumVolume = humSnd.volume;
+    private void OnEnable()
+    {
+        activeSnd.Play();
+        humSnd.Play();
     }
 
     private void LateUpdate()

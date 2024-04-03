@@ -5,11 +5,12 @@ public class RoundAbout : MonoBehaviour
     [SerializeField] private float rotSensitivity = 1;
     [SerializeField] private float rotDecel = 2;
     [SerializeField] private float rotMax = 20;
-    private Collider col;
+    [SerializeField] private Collider col;
     public bool interacting;
-    private float rotSpeed;
+    [SerializeField] private float rotSpeed;
     [SerializeField] private Hourglass hourglass;
     [SerializeField] private AudioSource rotateSnd;
+    [SerializeField] private bool locked;
 
     private void Awake()
     {
@@ -19,8 +20,11 @@ public class RoundAbout : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (interacting = Player.InRangeOf(col)) Player.LendControl();
-        if (!enabled && (enabled |= interacting)) rotateSnd.Play();
+        if (!locked)
+        {
+            if (interacting = Player.InRangeOf(col)) Player.LendControl();
+            if (!enabled && (enabled |= interacting)) rotateSnd.Play();
+        }
     }
 
     private void Update()
