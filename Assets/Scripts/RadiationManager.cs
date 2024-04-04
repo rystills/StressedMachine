@@ -32,11 +32,11 @@ public class RadiationManager : MonoBehaviour
     private void Update()
     {
         // increase radiation while door is open
-        radiationLevel = Mathf.Clamp01(radiationLevel + (door.isOpen * radiationIncr - door.isClosed * radiationDecr) * Time.deltaTime);
+        radiationLevel = Mathf.Clamp01(radiationLevel + (door.isOpen * radiationIncr - door.isClosed * radiationDecr) * Time.deltaTime * GameState.globalFactor);
         if (radiationLevel == 1) Player.Die(DeathBy.Radiation);
 
         // increase heat while door is closed
-        heatLevel = Mathf.Clamp01(heatLevel + (door.isClosed * heatIncr - door.isOpen * heatDecr) * Time.deltaTime);
+        heatLevel = Mathf.Clamp01(heatLevel + (door.isClosed * heatIncr - door.isOpen * heatDecr) * Time.deltaTime * GameState.globalFactor);
         if (heatLevel == 1) Player.Die(DeathBy.RadiationOverheat);
 
         FlushEffects();

@@ -10,7 +10,7 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private int blinkRate;
     private float framesElapsed;
     private int messageInd;
-    private static DialogueController instance;
+    public static DialogueController instance;
     private string activeMessage => messages[messageInd];
     private List<Action> callbacks;
 

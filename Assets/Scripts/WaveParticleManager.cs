@@ -76,7 +76,7 @@ public class WaveParticleManager : MonoBehaviour
         }
 
         // shift outline height offset towards target
-        outlineHeightOffset = Mathf.MoveTowards(outlineHeightOffset, outlineHeightOffsetTarget, outlineHeightOffsetSpeed * Time.deltaTime);
+        outlineHeightOffset = Mathf.MoveTowards(outlineHeightOffset, outlineHeightOffsetTarget, outlineHeightOffsetSpeed * Time.deltaTime * GameState.globalFactor);
 
         // wave particles follow a sin curve
         for (int i = 0; i < particleCount; ++i)
@@ -109,7 +109,7 @@ public class WaveParticleManager : MonoBehaviour
         }
 
         // adjust desync amount (overlay strength)
-        desyncAmount = Mathf.Clamp01(desyncAmount + ( heightsSynced ? -desyncDecr : desyncIncr) * Time.deltaTime);
+        desyncAmount = Mathf.Clamp01(desyncAmount + ( heightsSynced ? -desyncDecr : desyncIncr) * Time.deltaTime * GameState.globalFactor);
         if (desyncAmount == 1) Player.Die(DeathBy.WaveDesync);
 
         waveOverlayMat.SetFloat("strength", desyncAmount);

@@ -5,13 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum DeathBy
-{
-    Radiation,
-    RadiationOverheat,
-    WaveDesync,
-}
-
 public class Player : FirstPersonCharacter
 {
     // static references
@@ -74,7 +67,7 @@ public class Player : FirstPersonCharacter
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
-    public static void Die(DeathBy method) => DeathAnimation.Play();
+    public static void Die(DeathBy method) => DeathAnimation.Play(method);
 
     private void PlayCutscene(int ind)
     {

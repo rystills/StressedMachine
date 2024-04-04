@@ -1,11 +1,21 @@
 ﻿using UnityEngine;
 
+public enum DeathBy
+{
+    Radiation,
+    RadiationOverheat,
+    WaveDesync,
+}
+
 public class GameState : MonoBehaviour
 {
     public static GameState instance;
     [SerializeField] private Transform furnaceDoor;
     public static int state = -1;
     private float stateProgress = 0;
+    public static int[] deathByCounts = { 0, 0, 0, 0, 0, 0 };
+    public static DeathBy lastDeathBy;
+    public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0 : 1;
 
     private void Awake() => instance = this;
 
@@ -21,7 +31,7 @@ public class GameState : MonoBehaviour
         switch(state)
         {
             case 0:
-                DialogueController.Show(new() { "Please ensure stable core temperature." });
+                DialogueController.Show(new() { lastDeathBy == DeathBy.RadiationOverheat ? "Please ensure stable core temperature." : "Please minimize core radiation outflow." });
                 break;
         }
     }

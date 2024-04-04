@@ -87,7 +87,7 @@ public class Hourglass : MonoBehaviour
 
         // scale elapsed time by rotation angle
         float rotSpeed = (flipped ? -1 : 1) * (1 - Mathf.Abs(deltaAngle) / 90);
-        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * rotSpeed, 0, duration + finishExtraDuration);
+        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * GameState.globalFactor * rotSpeed, 0, duration + finishExtraDuration);
         float timeRatio = totalTimeElapsed / duration;
 
         // update particles

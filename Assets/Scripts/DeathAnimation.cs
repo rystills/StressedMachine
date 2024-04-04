@@ -18,8 +18,10 @@ public class DeathAnimation : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public static bool Play()
+    public static bool Play(DeathBy method)
     {
+        GameState.lastDeathBy = method;
+        ++GameState.deathByCounts[(int)method];
         if (instance.gameObject.activeSelf) return false;
         mat.SetFloat("startTime", deathTime = Time.timeSinceLevelLoad);
         instance.gameObject.SetActive(true);
