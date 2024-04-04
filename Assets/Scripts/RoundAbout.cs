@@ -10,7 +10,7 @@ public class RoundAbout : MonoBehaviour
     [SerializeField] private float rotSpeed;
     [SerializeField] private Hourglass hourglass;
     [SerializeField] private AudioSource rotateSnd;
-    [SerializeField] private bool locked;
+    public bool locked;
 
     private void Awake()
     {

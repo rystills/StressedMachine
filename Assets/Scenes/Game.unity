@@ -7877,6 +7877,94 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &771026006
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1585654792267364129, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_Name
+      value: Floodlight_hourglass
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.903
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.375
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.8134155
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5816831
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -288.862
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110692947401747867, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029159234085365550, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0078051593
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029159234085365550, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.01232022
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029159234085365550, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.02339424
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029159234085365550, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 72.157
+      objectReference: {fileID: 0}
+    - target: {fileID: 6029159234085365550, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -20.022
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+--- !u!114 &771026007 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4093000563628296162, guid: d6a9f87e9f4c6e8428e1c16130f5a108, type: 3}
+  m_PrefabInstance: {fileID: 771026006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 692a2fb9bbc318943a221f59513ab5b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &843101908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7190980828577796177, guid: dee7555802e376d40acb17b1ca9e9cb4, type: 3}
@@ -13506,8 +13594,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   furnaceDoor: {fileID: 397102827}
   waveParticleManager: {fileID: 1593917864503878777}
+  hourglass: {fileID: 2025559440}
+  roundabout: {fileID: 856496917}
   lever: {fileID: 1542608822}
   lightControllerWave: {fileID: 206181304}
+  lightControllerHourglass: {fileID: 771026007}
 --- !u!4 &1277165623
 Transform:
   m_ObjectHideFlags: 0
@@ -19717,13 +19808,13 @@ MonoBehaviour:
   spacing: 0.2
   outlineOffset: 0.025
   outlineHeightOffsetSpeed: 1
-  heightSyncDist: 0.03
+  heightSyncDist: 0.025
   heightRandomMax: 0.2
   waveParticleMat: {fileID: 2100000, guid: c51bcc916e0a9b740b6afced401dbe60, type: 2}
   waveOverlayMat: {fileID: 2100000, guid: df8f3e03df2078344a0ad49a6cb7cc4d, type: 2}
-  desyncIncr: 0.06
-  desyncDecr: 0.1
-  syncDuration: 25
+  desyncIncr: 0.12
+  desyncDecr: 0.2
+  syncDuration: 5
   pitchFactor: 10
   pitchSyncRatio: 0.87
   particleSnd: {fileID: 1593917864503878779}
@@ -20123,6 +20214,7 @@ SceneRoots:
   - {fileID: 6115948693827983751}
   - {fileID: 359248656}
   - {fileID: 1807873236}
+  - {fileID: 771026006}
   - {fileID: 1984725835}
   - {fileID: 1277165623}
   - {fileID: 520300221}

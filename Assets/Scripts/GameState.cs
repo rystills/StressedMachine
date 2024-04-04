@@ -17,10 +17,15 @@ public class GameState : MonoBehaviour
     public static DeathBy lastDeathBy;
     private float targetProgress;
     [SerializeField] private WaveParticleManager waveParticleManager;
+    [SerializeField] private Hourglass hourglass;
+    [SerializeField] private RoundAbout roundabout;
     [SerializeField] private Lever lever;
     [SerializeField] private LightController lightControllerWave;
+    [SerializeField] private LightController lightControllerHourglass;
 
     public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0 : 1;
+    public static float furnaceFactor => globalFactor * (state == 0 ? 1 : .4f);
+    public static float waveFactor => globalFactor * (state == 1 ? 1 : .4f);
 
     private void Awake() => instance = this;
 
@@ -39,7 +44,7 @@ public class GameState : MonoBehaviour
         
         // show death message
         string deathMessage = "";
-        switch(lastDeathBy)
+        switch (lastDeathBy)
         {
             case DeathBy.RadiationOverheat:
                 deathMessage = "Please ensure stable core temperature.";
@@ -57,7 +62,8 @@ public class GameState : MonoBehaviour
     private void Update()
     {
         if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress)
-            DialogueController.Show(new() { "Core sequence completed. Initializing particle alignment chamber . . ." },
+            DialogueController.Show(new() { state == 0 ? "Core sequence completed. Initializing particle alignment chamber . . ."
+                                                       : "Particle alignment stabilized. Initializing time compression device . . ." },
                                     new() { IncrementState });
     }
 
@@ -69,13 +75,19 @@ public class GameState : MonoBehaviour
         switch (state = newState)
         {
             case 0:
-                instance.targetProgress = 60;
+                instance.targetProgress = 30;
                 break;
             case 1:
-                instance.targetProgress = 90;
+                instance.targetProgress = 60;
                 instance.waveParticleManager.enabled = true;
                 instance.lever.locked = false;
                 instance.lightControllerWave.Activate();
+                break;
+            case 2:
+                instance.targetProgress = 90;
+                instance.hourglass.enabled = true;
+                instance.roundabout.locked = false;
+                instance.lightControllerHourglass.Activate();
                 break;
         }
     }

@@ -39,7 +39,7 @@ public class RadiationManager : MonoBehaviour
         radiationSnd.volume = Mathf.Pow(radiationLevel, 6);
 
         // increase heat while door is closed
-        heatLevel = Mathf.Clamp01(heatLevel + (door.isClosed * heatIncr - door.isOpen * heatDecr) * Time.deltaTime * GameState.globalFactor);
+        heatLevel = Mathf.Clamp01(heatLevel + (door.isClosed * heatIncr * GameState.furnaceFactor - door.isOpen * heatDecr) * Time.deltaTime);
         if (heatLevel == 1) Player.Die(DeathBy.RadiationOverheat);
         heatSnd.volume = Mathf.Pow(heatLevel, 6);
 

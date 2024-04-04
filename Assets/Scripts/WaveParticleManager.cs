@@ -70,14 +70,14 @@ public class WaveParticleManager : MonoBehaviour
     private void LateUpdate()
     {
         // desync after syncDuration elapses
-        if (syncedAtTime >= 0 && Time.time - syncedAtTime > syncDuration)
+        if (syncedAtTime >= 0 && Time.time - syncedAtTime > syncDuration / GameState.waveFactor)
         {
             Randomize();
             syncedAtTime = -1;
         }
 
         // shift outline height offset towards target
-        outlineHeightOffset = Mathf.MoveTowards(outlineHeightOffset, outlineHeightOffsetTarget, outlineHeightOffsetSpeed * Time.deltaTime * GameState.globalFactor);
+        outlineHeightOffset = Mathf.MoveTowards(outlineHeightOffset, outlineHeightOffsetTarget, outlineHeightOffsetSpeed * Time.deltaTime);
 
         // wave particles follow a sin curve
         for (int i = 0; i < particleCount; ++i)
