@@ -198,6 +198,12 @@ public class Player : FirstPersonCharacter
 
     public static void ResetPosition()
     {
+        // reset inputs
+        instance._crouchButtonPressed = false;
+        instance._sprintButtonPressed = false;
+        instance._jumpButtonPressed = false;
+
+        // reset transform
         instance.characterMovement.SetPosition(instance.startPos);
         instance.characterMovement.rotation = instance.targetCharacterRot;
         instance.eyePivot.localRotation = instance.targetEyeRot;
