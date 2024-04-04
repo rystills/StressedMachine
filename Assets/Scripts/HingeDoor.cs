@@ -9,6 +9,8 @@ public class HingeDoor : MonoBehaviour
     private bool interacting;
     [SerializeField] private AudioSource rotateSnd;
     [SerializeField] private bool locked;
+    [SerializeField] private MetaballManager metaMan;
+    [SerializeField] private RadiationManager radMan;
 
     private void Awake()
     {
@@ -24,6 +26,8 @@ public class HingeDoor : MonoBehaviour
             if (!enabled && (enabled |= interacting)) rotateSnd.Play();
         }
     }
+
+    public void ToggleLock() => metaMan.enabled = radMan.enabled = !(locked = !locked);
 
     public float openRatio => (360 - transform.localEulerAngles.y) % 360 / 125f;
     public int isOpen => transform.localEulerAngles.y < 355 && transform.localEulerAngles.y > 0 ? 1 : 0;

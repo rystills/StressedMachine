@@ -21,7 +21,8 @@ public class Player : FirstPersonCharacter
     // local references
     [SerializeField] private DoorController doorController;
     [SerializeField] private GameObject crosshair;
-    
+    [SerializeField] private HingeDoor hingeDoor;
+
     // interaction
     [SerializeField] private float interactRange;
     [SerializeField] private float interactRetainRange;
@@ -69,6 +70,7 @@ public class Player : FirstPersonCharacter
     private Quaternion targetCharacterRot;
     private Quaternion initialEyeRot;
     private Quaternion targetEyeRot;
+    private Vector3 startPos;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
@@ -91,6 +93,7 @@ public class Player : FirstPersonCharacter
     {
         base.Awake();
         instance = this;
+        startPos = characterMovement.GetPosition();
         transform = GetComponent<Transform>();
         InputExt.RegisterKey("zoom", KeyCode.Z);
 
@@ -133,7 +136,8 @@ public class Player : FirstPersonCharacter
                 if (cutsceneElapsedTime >= 2.25f)
                 {
                     activeCutscene = -1;
-                    DialogueController.Show(new() { "Initializing . . . . . . .", "Critical error detected during boot sequence. Authorizing manual core temperature regulation . . ." }, lightControllerFurnace.Activate);
+                    DialogueController.Show(new() { "Initializing . . . . . . .", "Critical error detected during boot sequence. Authorizing manual core temperature regulation . . ." },
+                                            new() { lightControllerFurnace.Activate, hingeDoor.ToggleLock, GameState.IncrementState } );
                 }
                 break;
         }
@@ -197,5 +201,12 @@ public class Player : FirstPersonCharacter
     {
         if (characterMovement.landedVelocity.y > -20) landSnd.Play();
         else                                          landBigSnd.Play();
+    }
+
+    public static void ResetPosition()
+    {
+        instance.characterMovement.SetPosition(instance.startPos);
+        instance.characterMovement.rotation = instance.targetCharacterRot;
+        instance.eyePivot.localRotation = instance.targetEyeRot;
     }
 }

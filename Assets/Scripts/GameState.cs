@@ -1,42 +1,36 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
     public static GameState instance;
     [SerializeField] private Transform furnaceDoor;
+    public static int state = -1;
+    private float stateProgress = 0;
 
-    // save data
-    private static Vector3 sd_playerPos;
-    private static float sd_radiationLevel;
-    private static float sd_heatLevel;
-    private static float sd_waveDesyncLevel;
-    private static float sd_furnaceDoorEulerY;
+    private void Awake() => instance = this;
 
-    private void Awake()
+    public static void Reset()
     {
-        instance = this;
-        Save();
-    }
-
-    public static void Save()
-    {
-        // TODO: save/load cam orientation as well
-        sd_radiationLevel = RadiationManager.radiationLevel;
-        sd_heatLevel = RadiationManager.heatLevel;
-        sd_waveDesyncLevel = WaveParticleManager.desyncAmount;
-        sd_furnaceDoorEulerY = instance.furnaceDoor.localEulerAngles.y;
-        sd_playerPos = Player.CharacterMovement.GetPosition();
-    }
-
-    public static void Load()
-    {
-        RadiationManager.radiationLevel = sd_radiationLevel;
-        RadiationManager.heatLevel = sd_heatLevel;
+        RadiationManager.radiationLevel = 0;
+        RadiationManager.heatLevel = 0;
         RadiationManager.FlushEffects();
-        WaveParticleManager.desyncAmount = sd_waveDesyncLevel;
-        instance.furnaceDoor.localEulerAngles = new(instance.furnaceDoor.localEulerAngles.x,
-                                                    sd_furnaceDoorEulerY,
-                                                    instance.furnaceDoor.localEulerAngles.z);
-        Player.CharacterMovement.SetPosition(sd_playerPos, true);
+        WaveParticleManager.desyncAmount = 0;
+        instance.furnaceDoor.localEulerAngles = new(instance.furnaceDoor.localEulerAngles.x, 0, instance.furnaceDoor.localEulerAngles.z);
+        Player.ResetPosition();
+
+        switch(state)
+        {
+            case 0:
+                DialogueController.Show(new() { "Please ensure stable core temperature." });
+                break;
+        }
     }
+
+    private void Update()
+    {
+        stateProgress += Time.deltaTime;
+    }
+
+    public static void IncrementState() => ++state;
+    public static void SetState(int newState) => state = newState;
 }

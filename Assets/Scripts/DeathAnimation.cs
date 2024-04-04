@@ -33,7 +33,7 @@ public class DeathAnimation : MonoBehaviour
         float elapsedFrac = (Time.timeSinceLevelLoad - deathTime) / animDir;
         if (elapsedFrac >= .5f && prevElapsed < .5f)
         {
-            GameState.Load();
+            GameState.Reset();
             deathSnd.PlayBiDir(true);
         }
         gameObject.SetActive(elapsedFrac < 1);

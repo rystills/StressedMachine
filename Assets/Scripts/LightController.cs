@@ -38,15 +38,22 @@ public class LightController : MonoBehaviour
         // start deactivated
         lights.ForEach(l => l.intensity = 0);
         glassMat.SetColor("_EmissionColor", Color.clear);
-        enabled = false;
+        enabled = wantsOn;
     }
 
     private void Update()
     {
         // lerp lights
-        if (wantsOn) lights.ForEach(l => l.intensity = Mathf.Lerp(0, targetIntensity, TimeExt.Since(activationTime) * toggleFactor));
-        else         lights.ForEach(l => l.intensity = Mathf.Lerp(targetIntensity, 0, TimeExt.Since(activationTime) * toggleFactor));
-        glassMat.SetColor("_EmissionColor", Color.Lerp(Color.clear, initialGlassMatColor, TimeExt.Since(activationTime) * toggleFactor));
+        if (wantsOn)
+        {
+            lights.ForEach(l => l.intensity = Mathf.Lerp(0, targetIntensity, TimeExt.Since(activationTime) * toggleFactor));
+            glassMat.SetColor("_EmissionColor", Color.Lerp(Color.clear, initialGlassMatColor, TimeExt.Since(activationTime) * toggleFactor));
+        }
+        else
+        {
+            lights.ForEach(l => l.intensity = Mathf.Lerp(targetIntensity, 0, TimeExt.Since(activationTime) * toggleFactor));
+            glassMat.SetColor("_EmissionColor", Color.Lerp(initialGlassMatColor, Color.clear, TimeExt.Since(activationTime) * toggleFactor));
+        }
 
         // toggle off
         enabled = wantsOn || lights.FirstOrDefault()?.intensity != 0;

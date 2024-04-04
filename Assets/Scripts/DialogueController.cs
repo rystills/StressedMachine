@@ -12,7 +12,7 @@ public class DialogueController : MonoBehaviour
     private int messageInd;
     private static DialogueController instance;
     private string activeMessage => messages[messageInd];
-    private Action callback;
+    private List<Action> callbacks;
 
     private void Awake()
     {
@@ -35,10 +35,10 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    public static void Show(List<string> messages, Action callback = null)
+    public static void Show(List<string> messages, List<Action> callbacks = null)
     {
         // begin message sequence
-        instance.callback = callback;
+        instance.callbacks = callbacks;
         instance.messages = messages;
         instance.transform.parent.gameObject.SetActive(true);
         instance.text.text = "";
@@ -59,7 +59,7 @@ public class DialogueController : MonoBehaviour
             {
                 instance.transform.parent.gameObject.SetActive(false);
                 Player.EnableControl();
-                callback?.Invoke();
+                callbacks?.ForEach(cb => cb.Invoke());
             }
         }
     }
