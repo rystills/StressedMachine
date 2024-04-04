@@ -30,6 +30,7 @@ public class WaveParticleManager : MonoBehaviour
     [SerializeField] private float pitchSyncRatio = .87f;
     [SerializeField] private AudioSource particleSnd;
     [SerializeField] private AudioSource outlineSnd;
+    [SerializeField] private AudioSource desyncSnd;
 
     private bool heightsSynced => Mathf.Abs(outlineHeightOffset - heightOffset) <= heightSyncDist;
     private bool targetHeightsSynced => Mathf.Abs(outlineHeightOffsetTarget - heightOffset) <= heightSyncDist;
@@ -117,5 +118,7 @@ public class WaveParticleManager : MonoBehaviour
         // adjust sounds
         outlineSnd.pitch = outlineHeightOffset * pitchFactor;
         particleSnd.pitch = heightOffset * pitchFactor * pitchSyncRatio;
+
+        desyncSnd.volume = Mathf.Pow(desyncAmount, 6);
     }
 }

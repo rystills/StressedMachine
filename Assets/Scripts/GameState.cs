@@ -15,32 +15,68 @@ public class GameState : MonoBehaviour
     private float stateProgress = 0;
     public static int[] deathByCounts = { 0, 0, 0, 0, 0, 0 };
     public static DeathBy lastDeathBy;
+    private float targetProgress;
+    [SerializeField] private WaveParticleManager waveParticleManager;
+    [SerializeField] private Lever lever;
+    [SerializeField] private LightController lightControllerWave;
+
     public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0 : 1;
 
     private void Awake() => instance = this;
 
     public static void Reset()
     {
+        // reset world
         RadiationManager.radiationLevel = 0;
         RadiationManager.heatLevel = 0;
         RadiationManager.FlushEffects();
         WaveParticleManager.desyncAmount = 0;
         instance.furnaceDoor.localEulerAngles = new(instance.furnaceDoor.localEulerAngles.x, 0, instance.furnaceDoor.localEulerAngles.z);
         Player.ResetPosition();
-
-        switch(state)
+        
+        // reset state
+        instance.stateProgress = 0;
+        
+        // show death message
+        string deathMessage = "";
+        switch(lastDeathBy)
         {
-            case 0:
-                DialogueController.Show(new() { lastDeathBy == DeathBy.RadiationOverheat ? "Please ensure stable core temperature." : "Please minimize core radiation outflow." });
+            case DeathBy.RadiationOverheat:
+                deathMessage = "Please ensure stable core temperature.";
+                break;
+            case DeathBy.Radiation:
+                deathMessage = "Please minimize core radiation outflow.";
+                break;
+            case DeathBy.WaveDesync:
+                deathMessage = "Please ensure continuous wave synchronization.";
                 break;
         }
+        if (deathMessage != "") DialogueController.Show(new() { deathMessage });
     }
 
     private void Update()
     {
-        stateProgress += Time.deltaTime;
+        if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress)
+            DialogueController.Show(new() { "Core sequence completed. Initializing particle alignment chamber . . ." },
+                                    new() { IncrementState });
     }
 
-    public static void IncrementState() => ++state;
-    public static void SetState(int newState) => state = newState;
+    public static void IncrementState() => SetState(state + 1);
+    public static void SetState(int newState)
+    {
+        // TODO: clear effects
+        instance.stateProgress = 0;
+        switch (state = newState)
+        {
+            case 0:
+                instance.targetProgress = 60;
+                break;
+            case 1:
+                instance.targetProgress = 90;
+                instance.waveParticleManager.enabled = true;
+                instance.lever.locked = false;
+                instance.lightControllerWave.Activate();
+                break;
+        }
+    }
 }

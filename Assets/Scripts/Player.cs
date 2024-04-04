@@ -129,7 +129,7 @@ public class Player : FirstPersonCharacter
                 if (cutsceneElapsedTime >= 2.25f)
                 {
                     activeCutscene = -1;
-                    DialogueController.Show(new() { "Initializing . . . . . . .", "Critical error detected during boot sequence. Authorizing manual core temperature regulation . . ." },
+                    DialogueController.Show(new() { "Initializing . . . . . . .", "Multiple failures detected during boot sequence. Authorizing manual core temperature regulation . . ." },
                                             new() { lightControllerFurnace.Activate, hingeDoor.ToggleLock, GameState.IncrementState } );
                 }
                 break;
@@ -207,5 +207,8 @@ public class Player : FirstPersonCharacter
         instance.characterMovement.SetPosition(instance.startPos);
         instance.characterMovement.rotation = instance.targetCharacterRot;
         instance.eyePivot.localRotation = instance.targetEyeRot;
+
+        // reset zoom
+        instance.camera.fieldOfView = instance.curFov = instance.targetFov = maxFov;
     }
 }

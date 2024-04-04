@@ -12,7 +12,7 @@ public class Lever : MonoBehaviour
     private float activePitch;
     [SerializeField] private float maxPitch;
     [SerializeField] private float pitchDecr;
-    [SerializeField] private bool locked;
+    public bool locked;
 
     private void Awake()
     {
