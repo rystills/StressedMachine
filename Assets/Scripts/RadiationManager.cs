@@ -16,6 +16,8 @@ public class RadiationManager : MonoBehaviour
     [SerializeField] private Color hotColor;
     [SerializeField] private float coolStrength;
     [SerializeField] private float hotStrength;
+    [SerializeField] private AudioSource radiationSnd;
+    [SerializeField] private AudioSource heatSnd;
     public static float radiationLevel;
     public static float heatLevel;
 
@@ -34,10 +36,12 @@ public class RadiationManager : MonoBehaviour
         // increase radiation while door is open
         radiationLevel = Mathf.Clamp01(radiationLevel + (door.isOpen * radiationIncr - door.isClosed * radiationDecr) * Time.deltaTime * GameState.globalFactor);
         if (radiationLevel == 1) Player.Die(DeathBy.Radiation);
+        radiationSnd.volume = Mathf.Pow(radiationLevel, 6);
 
         // increase heat while door is closed
         heatLevel = Mathf.Clamp01(heatLevel + (door.isClosed * heatIncr - door.isOpen * heatDecr) * Time.deltaTime * GameState.globalFactor);
         if (heatLevel == 1) Player.Die(DeathBy.RadiationOverheat);
+        heatSnd.volume = Mathf.Pow(heatLevel, 6);
 
         FlushEffects();
     }
