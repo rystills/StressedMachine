@@ -62,6 +62,7 @@ public class WaveParticleManager : MonoBehaviour
     {
         particleSnd.Play();
         outlineSnd.Play();
+        syncedAtTime = Time.time;
     }
 
     public void AdjustHeightOffset(float amnt) => heightOffset = Mathf.Clamp(heightOffset + amnt, -heightRandomMax, heightRandomMax);

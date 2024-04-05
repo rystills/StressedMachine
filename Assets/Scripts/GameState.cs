@@ -5,6 +5,7 @@ public enum DeathBy
     Radiation,
     RadiationOverheat,
     WaveDesync,
+    TimeDecompression,
 }
 
 public class GameState : MonoBehaviour
@@ -26,6 +27,7 @@ public class GameState : MonoBehaviour
     public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0 : 1;
     public static float furnaceFactor => globalFactor * (state == 0 ? 1 : .4f);
     public static float waveFactor => globalFactor * (state == 1 ? 1 : .4f);
+    public static float hourglassFactor => globalFactor * (state == 2 ? 1 : .4f);
 
     private void Awake() => instance = this;
 
@@ -50,10 +52,13 @@ public class GameState : MonoBehaviour
                 deathMessage = "Please ensure stable core temperature.";
                 break;
             case DeathBy.Radiation:
-                deathMessage = "Please minimize core radiation outflow.";
+                deathMessage = "Please ensure minimal core radiation outflow.";
                 break;
             case DeathBy.WaveDesync:
                 deathMessage = "Please ensure continuous wave synchronization.";
+                break;
+            case DeathBy.TimeDecompression:
+                deathMessage = "Please ensure continuous time compression.";
                 break;
         }
         if (deathMessage != "") DialogueController.Show(new() { deathMessage });
@@ -62,8 +67,8 @@ public class GameState : MonoBehaviour
     private void Update()
     {
         if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress)
-            DialogueController.Show(new() { state == 0 ? "Core sequence completed. Initializing particle alignment chamber . . ."
-                                                       : "Particle alignment stabilized. Initializing time compression device . . ." },
+            DialogueController.Show(new() { state == 0 ? "Core sequence completed. Initializing wave synchronization channel . . ."
+                                                       : "Particle alignment stabilized. Initializing time compression chamber . . ." },
                                     new() { IncrementState });
     }
 

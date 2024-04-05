@@ -129,7 +129,7 @@ public class Player : FirstPersonCharacter
                 if (cutsceneElapsedTime >= 2.25f)
                 {
                     activeCutscene = -1;
-                    DialogueController.Show(new() { "Initializing . . . . . . .", "Multiple failures detected during boot sequence. Authorizing manual core temperature regulation . . ." },
+                    DialogueController.Show(new() { "Initializing . . . . . . .", "Multiple failures detected during boot sequence. Manual system regulation authorized.", "Initializing core apparatus . . ." },
                                             new() { lightControllerFurnace.Activate, hingeDoor.ToggleLock, GameState.IncrementState } );
                 }
                 break;

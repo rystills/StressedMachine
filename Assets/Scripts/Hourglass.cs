@@ -11,6 +11,7 @@ public class Hourglass : MonoBehaviour
     private float totalTimeElapsed;
     [SerializeField] private float duration = 25;
     [SerializeField] private float finishExtraDuration;
+    private float fullDuration => duration + finishExtraDuration;
     [SerializeField] private float spacing = .25f;
     [SerializeField] private Color32 endColor;
     private bool flipped;
@@ -19,7 +20,10 @@ public class Hourglass : MonoBehaviour
     private float lastRotTime;
     [SerializeField] private AudioSource snapSnd;
     [SerializeField] private AudioSource activeSnd;
+    [SerializeField] private AudioSource overlaySnd;
     private const float maxTimestep = .1f;
+    [SerializeField] private float overlayFadeDuration = 10;
+    [SerializeField] private Material overlayMat;
 
     private void Awake()
     {
@@ -87,7 +91,7 @@ public class Hourglass : MonoBehaviour
 
         // scale elapsed time by rotation angle
         float rotSpeed = (flipped ? -1 : 1) * (1 - Mathf.Abs(deltaAngle) / 90);
-        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * GameState.globalFactor * rotSpeed, 0, duration + finishExtraDuration);
+        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * GameState.hourglassFactor * rotSpeed, 0, duration + finishExtraDuration);
         float timeRatio = totalTimeElapsed / duration;
 
         // update particles
@@ -128,8 +132,15 @@ public class Hourglass : MonoBehaviour
                 snapSnd.Play();
         }
 
+        // calculate overlay strength
+        float overlayStrength = Mathf.Max(Mathf.Clamp01((overlayFadeDuration - (fullDuration - totalTimeElapsed) / GameState.hourglassFactor) / overlayFadeDuration),
+                                          1 - Mathf.Clamp01(totalTimeElapsed / GameState.hourglassFactor / overlayFadeDuration));
+        overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
+        overlayMat.SetFloat("strength", overlayStrength);
+        if (overlayStrength == 1) Player.Die(DeathBy.TimeDecompression);
+
         // control active (sand falling) sound
-        if (totalTimeElapsed <= 0 || totalTimeElapsed >= duration + finishExtraDuration)
+        if (totalTimeElapsed <= 0 || totalTimeElapsed >= fullDuration)
             activeSnd.Stop();
         else
         {

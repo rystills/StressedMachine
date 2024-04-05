@@ -43,7 +43,7 @@ Shader "Custom/Wave"
             {
                 // slowly fade in oscillating gradient
                 float adjY = (1 - abs(.5 - i.uv.y)) * sqrt(strength) + sin(i.uv.x + _Time[3]) * .2f;
-                float3 col = float3(adjY, adjY, .25f + 2*adjY);
+                float3 col = float3(adjY, adjY * 2, .25f + 2*adjY);
                 return fixed4(col.xyz, strength * strength);
             }
             ENDCG
