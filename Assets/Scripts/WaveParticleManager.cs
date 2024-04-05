@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class WaveParticleManager : MonoBehaviour
 {
+    public static WaveParticleManager instance;
+
     [SerializeField] private int particleCount;
     private int outlineParticleCount => particleCount * 4;
     [SerializeField] private float cycleSpeed = 1f;
@@ -37,6 +39,8 @@ public class WaveParticleManager : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+
         wavePs = GetComponent<ParticleSystem>();
         outlinePs = transform.GetChild(0).GetComponent<ParticleSystem>();
         waveParticles = new ParticleSystem.Particle[particleCount];
@@ -67,6 +71,12 @@ public class WaveParticleManager : MonoBehaviour
 
     public void AdjustHeightOffset(float amnt) => heightOffset = Mathf.Clamp(heightOffset + amnt, -heightRandomMax, heightRandomMax);
     public void SetHeightOffsetRatio(float heightRatio) => heightOffset = Mathf.Clamp(heightRandomMax * heightRatio, -1, 1);
+    public static void Reset()
+    {
+        desyncAmount = 0;
+        instance.outlineHeightOffset = instance.outlineHeightOffsetTarget = instance.heightOffset;
+        instance.syncedAtTime = Time.time;
+    }
 
     private void LateUpdate()
     {

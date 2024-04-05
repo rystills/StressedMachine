@@ -3,6 +3,7 @@ Shader "Custom/Sand"
     Properties
     {
         strength("strength",float) = 0
+        isPurple("isPurple",float) = 0
     }
     SubShader
     {
@@ -18,6 +19,7 @@ Shader "Custom/Sand"
             #include "UnityCG.cginc"
 
             float strength;
+            float isPurple;
 
             struct appdata
             {
@@ -40,7 +42,6 @@ Shader "Custom/Sand"
             }
 
             float2 distance(float2 p1, float2 p2) {
-
                 return sqrt(dot(p1 - p2, p1 - p2));
             }
 
@@ -55,11 +56,12 @@ Shader "Custom/Sand"
                 float cellX = cell / doubleNumParts;
                 float cellY = (_Time[3] * (.6 + .0006 * UNITY_PI * (pow(doubleNumParts/2 - cell,2)))) % (1 / aspectRatio);
                 
-                float dist = distance(float2(cellX, cellY), float2(i.uv.x, i.uv.y / aspectRatio));
+                float dist = distance(float2(cellX, (1 / aspectRatio) - cellY), float2(i.uv.x, i.uv.y / aspectRatio));
                 clip(dist > particleRad ? -1 : 1);
                 float distPerc = 1 - (dist/particleRad);
 
-                float3 col = float3(distPerc, distPerc, 0);
+                float3 col = isPurple ? float3(distPerc, 0, distPerc)
+                                      : float3(distPerc, distPerc, 0);
                 return fixed4(col.xyz, strength * strength * distPerc);
             }
             ENDCG

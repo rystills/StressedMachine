@@ -2191,11 +2191,6 @@ MonoBehaviour:
   locked: 1
   metaMan: {fileID: 1175141950}
   radMan: {fileID: 1175141949}
---- !u!4 &397102827 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6021313330838547907, guid: e00a6b1eb3dfc5e4183ab1ce1e11b7b5, type: 3}
-  m_PrefabInstance: {fileID: 397102821}
-  m_PrefabAsset: {fileID: 0}
 --- !u!65 &397102828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13668,7 +13663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3ab8befab4c3f4d9c0eca219b38e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  furnaceDoor: {fileID: 397102827}
+  furnaceDoor: {fileID: 397102824}
   waveParticleManager: {fileID: 1593917864503878777}
   hourglass: {fileID: 2025559440}
   roundabout: {fileID: 856496917}
@@ -14752,7 +14747,7 @@ MonoBehaviour:
   snapSnd: {fileID: 2025559441}
   activeSnd: {fileID: 2025559442}
   overlaySnd: {fileID: 2025559443}
-  overlayFadeDuration: 9
+  overlayFadeDuration: 7
   overlayMat: {fileID: 2100000, guid: 6a9b92e01cb14a045948a2f9493cde47, type: 2}
 --- !u!82 &2025559441
 AudioSource:

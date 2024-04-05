@@ -11,7 +11,7 @@ public enum DeathBy
 public class GameState : MonoBehaviour
 {
     public static GameState instance;
-    [SerializeField] private Transform furnaceDoor;
+    [SerializeField] private HingeDoor furnaceDoor;
     public static int state = -1;
     private float stateProgress = 0;
     public static int[] deathByCounts = { 0, 0, 0, 0, 0, 0 };
@@ -34,11 +34,10 @@ public class GameState : MonoBehaviour
     public static void Reset()
     {
         // reset world
-        RadiationManager.radiationLevel = 0;
-        RadiationManager.heatLevel = 0;
-        RadiationManager.FlushEffects();
-        WaveParticleManager.desyncAmount = 0;
-        instance.furnaceDoor.localEulerAngles = new(instance.furnaceDoor.localEulerAngles.x, 0, instance.furnaceDoor.localEulerAngles.z);
+        RadiationManager.Reset();
+        Hourglass.Reset();
+        WaveParticleManager.Reset();
+        instance.furnaceDoor.Reset();
         Player.ResetPosition();
         
         // reset state

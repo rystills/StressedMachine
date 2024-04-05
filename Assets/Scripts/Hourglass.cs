@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Hourglass : MonoBehaviour
 {
+    public static Hourglass instance;
     private const int numLevels = 13;
     private const int particleCount = numLevels * (numLevels + 1) * (2 * numLevels + 1) / 6;
     private ParticleSystem ps;
@@ -22,11 +23,13 @@ public class Hourglass : MonoBehaviour
     [SerializeField] private AudioSource activeSnd;
     [SerializeField] private AudioSource overlaySnd;
     private const float maxTimestep = .1f;
-    [SerializeField] private float overlayFadeDuration = 10;
+    [SerializeField] private float overlayFadeDuration = 7;
     [SerializeField] private Material overlayMat;
 
     private void Awake()
     {
+        instance = this;
+        
         // setup particle system
         ps = transform.GetChild(0).GetComponent<ParticleSystem>();
         ps.Emit(particleCount);
@@ -73,6 +76,7 @@ public class Hourglass : MonoBehaviour
         }
 
         ps.SetParticles(particles);
+        Reset();
         enabled = false;
     }
 
@@ -84,6 +88,8 @@ public class Hourglass : MonoBehaviour
         lastRotTime = Time.time;
     }
 
+    public static void Reset() => instance.totalTimeElapsed = instance.fullDuration / 2;
+
     private void LateUpdate()
     {
         flipped = transform.localEulerAngles.z > 90 && transform.localEulerAngles.z < 270;
@@ -91,7 +97,7 @@ public class Hourglass : MonoBehaviour
 
         // scale elapsed time by rotation angle
         float rotSpeed = (flipped ? -1 : 1) * (1 - Mathf.Abs(deltaAngle) / 90);
-        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * GameState.hourglassFactor * rotSpeed, 0, duration + finishExtraDuration);
+        totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * GameState.hourglassFactor * rotSpeed, 0, fullDuration);
         float timeRatio = totalTimeElapsed / duration;
 
         // update particles
@@ -137,6 +143,7 @@ public class Hourglass : MonoBehaviour
                                           1 - Mathf.Clamp01(totalTimeElapsed / GameState.hourglassFactor / overlayFadeDuration));
         overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
         overlayMat.SetFloat("strength", overlayStrength);
+        overlayMat.SetFloat("isPurple", totalTimeElapsed <= fullDuration / 2 ? 0 : 1);
         if (overlayStrength == 1) Player.Die(DeathBy.TimeDecompression);
 
         // control active (sand falling) sound

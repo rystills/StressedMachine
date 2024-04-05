@@ -45,4 +45,11 @@ public class RadiationManager : MonoBehaviour
 
         FlushEffects();
     }
+
+    public static void Reset()
+    {
+        radiationLevel = 0;
+        heatLevel = 0;
+        FlushEffects();
+    }
 }
