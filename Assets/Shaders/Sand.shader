@@ -47,22 +47,25 @@ Shader "Custom/Sand"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                // config
                 float aspectRatio = _ScreenParams.x / (float)_ScreenParams.y;
-                #define particleRad .02
-                #define doubleNumParts 50.
-
-                int cell = 1 + int(i.uv.x * doubleNumParts);
-                cell = (cell + (cell % 2 == 0 ? 0 : -1));
-                float cellX = cell / doubleNumParts;
-                float cellY = (_Time[3] * (.6 + .0006 * UNITY_PI * (pow(doubleNumParts/2 - cell,2)))) % (1 / aspectRatio);
+                float2 correctedUv = float2(i.uv.x, 1 - i.uv.y / aspectRatio);
+                #define particleRad .04
+                #define numParts 400
                 
-                float dist = distance(float2(cellX, (1 / aspectRatio) - cellY), float2(i.uv.x, i.uv.y / aspectRatio));
-                clip(dist > particleRad ? -1 : 1);
-                float distPerc = 1 - (dist/particleRad);
-
-                float3 col = isPurple ? float3(distPerc, 0, distPerc)
-                                      : float3(distPerc, distPerc, 0);
-                return fixed4(col.xyz, strength * strength * distPerc);
+                // calculate total overlap percentage
+                float overlapPerc = 0;
+                for (int i = 0; i < numParts && overlapPerc < particleRad; ++i) {
+                    float2 center = float2(i/(float)numParts, (2100 + _Time[0]) * (2 + .0002 * UNITY_PI * (pow(numParts/2 - i, 2))) % (1 + particleRad));
+                    overlapPerc += max(0, particleRad - distance(center, correctedUv));
+                }
+                clip(overlapPerc == 0 ? -1 : 1);
+                overlapPerc *= (1/particleRad);
+                
+                // color
+                float3 col = isPurple ? float3(overlapPerc, 0, overlapPerc)
+                                      : float3(overlapPerc, overlapPerc, 0);
+                return fixed4(col.xyz, strength * strength * overlapPerc);
             }
             ENDCG
         }
