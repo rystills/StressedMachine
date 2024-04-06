@@ -1897,7 +1897,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 295542536}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2528,9 +2528,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1611332644}
     - target: {fileID: 7438038149208705584, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
+      propertyPath: heatOverlay
+      value: 
+      objectReference: {fileID: 295542536}
+    - target: {fileID: 7438038149208705584, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
       propertyPath: radiationSnd
       value: 
       objectReference: {fileID: 1611332643}
+    - target: {fileID: 7438038149208705584, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
+      propertyPath: heatOverlayImg
+      value: 
+      objectReference: {fileID: 295542538}
+    - target: {fileID: 7438038149208705584, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
+      propertyPath: radiationOverlay
+      value: 
+      objectReference: {fileID: 1772489078}
+    - target: {fileID: 7438038149208705584, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
+      propertyPath: radiationOverlayImg
+      value: 
+      objectReference: {fileID: 1772489080}
     - target: {fileID: 7527176120691919254, guid: 79cfada7d2531904fb705493cd37e79f, type: 3}
       propertyPath: door
       value: 
@@ -8502,7 +8518,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036623351}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -14287,7 +14303,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1645534262}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -14362,7 +14378,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772489078}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -14749,6 +14765,7 @@ MonoBehaviour:
   overlaySnd: {fileID: 2025559443}
   overlayFadeDuration: 7
   overlayMat: {fileID: 2100000, guid: 6a9b92e01cb14a045948a2f9493cde47, type: 2}
+  overlayImg: {fileID: 1036623353}
 --- !u!82 &2025559441
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19985,6 +20002,7 @@ MonoBehaviour:
   heightRandomMax: 0.2
   waveParticleMat: {fileID: 2100000, guid: c51bcc916e0a9b740b6afced401dbe60, type: 2}
   waveOverlayMat: {fileID: 2100000, guid: df8f3e03df2078344a0ad49a6cb7cc4d, type: 2}
+  waveOverlayImg: {fileID: 1645534264}
   desyncIncr: 0.1
   desyncDecr: 0.2
   syncDuration: 5

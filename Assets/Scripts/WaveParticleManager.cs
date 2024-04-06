@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveParticleManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class WaveParticleManager : MonoBehaviour
     private bool prevHeightsSync;
     [SerializeField] private Material waveParticleMat;
     [SerializeField] private Material waveOverlayMat;
+    [SerializeField] private Image waveOverlayImg;
     private Color greenCol = new(.751f, 1.147f, .683f, 1);
     private Color redCol   = new(1.147f, .751f, .683f, 1);
     public static float desyncAmount;
@@ -125,6 +127,7 @@ public class WaveParticleManager : MonoBehaviour
         if (desyncAmount == 1) Player.Die(DeathBy.WaveDesync);
 
         waveOverlayMat.SetFloat("strength", desyncAmount);
+        waveOverlayImg.enabled = desyncAmount > 0;
 
         // adjust sounds
         outlineSnd.pitch = outlineHeightOffset * pitchFactor;

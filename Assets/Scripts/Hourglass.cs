@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Hourglass : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class Hourglass : MonoBehaviour
     private const float maxTimestep = .1f;
     [SerializeField] private float overlayFadeDuration = 7;
     [SerializeField] private Material overlayMat;
+    [SerializeField] private Image overlayImg;
 
     private void Awake()
     {
@@ -144,6 +146,7 @@ public class Hourglass : MonoBehaviour
         overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
         overlayMat.SetFloat("strength", overlayStrength);
         overlayMat.SetFloat("isPurple", totalTimeElapsed <= fullDuration / 2 ? 0 : 1);
+        overlayImg.enabled = overlayStrength > 0;
         if (overlayStrength == 1) Player.Die(DeathBy.TimeDecompression);
 
         // control active (sand falling) sound
