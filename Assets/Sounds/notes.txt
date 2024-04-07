@@ -1,1 +1,2 @@
 -footstep sounds have all had the standard fade out modifier applied in Audacity
+-many ambient sounds have had the fade in & fade out modifiers applied

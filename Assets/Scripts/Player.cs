@@ -192,8 +192,11 @@ public class Player : FirstPersonCharacter
 
     override protected void OnLanded()
     {
-        if (characterMovement.landedVelocity.y > -20) landSnd.Play();
-        else                                          landBigSnd.Play();
+        if (Time.timeSinceLevelLoad > 0)
+        {
+            if (characterMovement.landedVelocity.y > -20) landSnd.Play();
+            else                                          landBigSnd.Play();
+        }
     }
 
     public static void ResetPosition()
