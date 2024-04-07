@@ -61,12 +61,14 @@ Shader "Custom/Sand"
                     float2 center = float2(k/numParts, (2100 + _Time[0]) * (2 + .0002 * UNITY_PI * (pow(numParts/2 - k, 2))) % (1 + particleRad));
                     overlapPerc += max(0, particleRad - distance(center, correctedUv));
                 }
-                clip(overlapPerc == 0 ? -1 : 1);
+                clip(overlapPerc - .0000001);
                 overlapPerc *= (1/particleRad);
                 
                 // color
-                float3 col = isPurple ? float3(overlapPerc, (overlapPerc - 1) * .6, overlapPerc)
-                                      : float3(overlapPerc, overlapPerc, (overlapPerc - 1) * .6);
+                #define purple float3(overlapPerc, (overlapPerc - 1) * .6, overlapPerc)
+                #define yellow float3(overlapPerc, overlapPerc, (overlapPerc - 1) * .6)
+                float3 col = isPurple ? lerp(purple, yellow, i.uv.y)
+                                      : lerp(yellow, purple, i.uv.y);
                 return fixed4(col.xyz, strength * strength * overlapPerc);
             }
             ENDCG
