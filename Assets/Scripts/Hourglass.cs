@@ -77,9 +77,11 @@ public class Hourglass : MonoBehaviour
                 endPositions[i + level * level - j - 1] = new(startPositions[i + j].x, -startPositions[i + j].y, startPositions[i + j].z);
         }
 
-        ps.SetParticles(particles);
-        Reset();
         enabled = false;
+
+        // flush the particles
+        Reset();
+        LateUpdate();
     }
 
     public void AddRotation(float amnt)
@@ -155,7 +157,7 @@ public class Hourglass : MonoBehaviour
         else
         {
             activeSnd.pitch = rotSpeed * 2;
-            if (!activeSnd.isPlaying) activeSnd.Play();
+            if (enabled && !activeSnd.isPlaying) activeSnd.Play();
         }
     }
 }

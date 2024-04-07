@@ -37,6 +37,7 @@ public class GameState : MonoBehaviour
         RadiationManager.Reset();
         Hourglass.Reset();
         WaveParticleManager.Reset();
+        instance.roundabout.Reset();
         instance.furnaceDoor.Reset();
         Player.ResetPosition();
         

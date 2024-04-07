@@ -27,6 +27,8 @@ public class RoundAbout : MonoBehaviour
         }
     }
 
+    public void Reset() => rotSpeed = 0;
+
     private void Update()
     {
         if (interacting = interacting && Input.GetMouseButton(0) && Player.InRetainRangeOf(col))
