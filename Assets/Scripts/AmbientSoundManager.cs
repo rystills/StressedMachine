@@ -15,13 +15,13 @@ public class AmbientSoundManager : MonoBehaviour
         for (int i = 0; i < numSources; ++i) sources.Add(Instantiate(ambientSoundPrefab, transform).GetComponent<AudioSource>());
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // check for available sources
         foreach (AudioSource source in sources)
         {
             // attempt to play a random sound
-            if (!source.isPlaying && Random.Range(0f, 1f) * Time.deltaTime <= activationChance)
+            if (!source.isPlaying && Random.Range(0f, 1f) <= activationChance / Time.deltaTime)
             {
                 source.transform.position = new(Random.Range(30f, 60f) * (Random.Range(0, 2) * 2 - 1),
                                                 Random.Range(-10f, 10f),

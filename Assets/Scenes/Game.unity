@@ -13560,9 +13560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7631008991c10438063eb04a4d6063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationChance: 0.00000048
+  activationChance: 0.00005
   ambientSoundPrefab: {fileID: 448314011306163704, guid: 041f0fa9c9b079e4291994fbc6a964ff, type: 3}
-  numSources: 3
+  numSources: 4
   clips:
   - {fileID: 8300000, guid: 9ab408ab092714e4f96eb28b6b8e86bc, type: 3}
   - {fileID: 8300000, guid: 69bdbb2fc9cba6f4e9ed26745aaaac57, type: 3}
@@ -13574,6 +13574,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 450a380c13bab2d4299b0603779f0ac0, type: 3}
   - {fileID: 8300000, guid: aec7e976880cf4b43bfb96a74926bfcb, type: 3}
   - {fileID: 8300000, guid: 02977d5f4cda9004da5513ded3d36487, type: 3}
+  - {fileID: 8300000, guid: e23fcbd7fdb809e45a365fed3196e16a, type: 3}
+  - {fileID: 8300000, guid: 60e2971354ef7e249b728ac2230ecfc0, type: 3}
+  - {fileID: 8300000, guid: 95a9058b820dda8449c70542b3d21ee7, type: 3}
+  - {fileID: 8300000, guid: 64943343d4c2d4f4081c4370014900d3, type: 3}
+  - {fileID: 8300000, guid: 1aba0a4a47a26e547bce66befe510599, type: 3}
+  - {fileID: 8300000, guid: a1e1275a566c8bc4d8c1d0df53658840, type: 3}
 --- !u!4 &1205383346
 Transform:
   m_ObjectHideFlags: 0
