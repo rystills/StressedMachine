@@ -30,6 +30,17 @@ public class MachineFaceController : MonoBehaviour
     [SerializeField] private float faceplateRotAccel;
     [SerializeField] private float faceplateMaxRotSpeed;
     private float fp_initialRot;
+
+    // sounds
+    [SerializeField] private AudioSource eyeLeftSpinSnd;
+    [SerializeField] private AudioSource eyeLeftSnagSnd;
+    [SerializeField] private AudioSource eyeLeftPopSnd;
+    [SerializeField] private AudioSource eyeRightSpinSnd;
+    [SerializeField] private AudioSource eyeRightSnagSnd;
+    [SerializeField] private AudioSource eyeRightPopSnd;
+    [SerializeField] private AudioSource mouthSpinSnd;
+    [SerializeField] private AudioSource mouthPopSnd;
+
     private float GetRandomFacePlateTarget() => fp_initialRot + Random.Range(2, 11);
     private bool fp_isAscending => fp_targetAng != fp_initialRot;
 
@@ -58,10 +69,16 @@ public class MachineFaceController : MonoBehaviour
         // rotate eyes jaggedly
         eyeLeft_rotSpeed = Mathf.MoveTowards(eyeLeft_rotSpeed, eyeMaxSpeed, eyeAccel * Time.deltaTime);
         if (Random.Range(0,100f) <= eyeJitterChance * Time.deltaTime)
+        {
             eyeLeft_rotSpeed *= eyeJitterProportion;
+            eyeLeftSnagSnd.Play();
+        }
         eyeRight_rotSpeed = Mathf.MoveTowards(eyeRight_rotSpeed, eyeMaxSpeed, eyeAccel * Time.deltaTime);
         if (Random.Range(0, 100f) <= eyeJitterChance * Time.deltaTime)
+        {
             eyeRight_rotSpeed *= eyeJitterProportion;
+            eyeRightSnagSnd.Play();
+        }
 
         eyeLeft.Rotate(Vector3.forward, eyeLeft_rotSpeed * Time.deltaTime);
         eyeRight.Rotate(Vector3.forward, -eyeRight_rotSpeed * Time.deltaTime);
@@ -72,17 +89,26 @@ public class MachineFaceController : MonoBehaviour
 
         // pop out eye/mouth stalks
         if ((Time.time - esl_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
+        {
             esl_lastTriggerTime = Time.time;
+            eyeLeftPopSnd.Play();
+        }
         eyeStalkLeft.localPosition  = Vector3.forward *
             (eyeStalkMoveDist * (Time.time - esl_lastTriggerTime < eyeStalkMoveHDur ? Mathf.Lerp(0, 1, (Time.time - esl_lastTriggerTime) / eyeStalkMoveHDur)
                                                                                     : Mathf.Lerp(1, 0, (Time.time - esl_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
         if ((Time.time - esr_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
+        {
             esr_lastTriggerTime = Time.time;
+            eyeRightPopSnd.Play();
+        }
         eyeStalkRight.localPosition = Vector3.forward *
             (eyeStalkMoveDist * (Time.time - esr_lastTriggerTime < eyeStalkMoveHDur ? Mathf.Lerp(0, 1, (Time.time - esr_lastTriggerTime) / eyeStalkMoveHDur)
                                                                                     : Mathf.Lerp(1, 0, (Time.time - esr_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
         if ((Time.time - ms_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
+        {
             ms_lastTriggerTime = Time.time;
+            mouthPopSnd.Play();
+        }
         mouthStalk.localPosition = Vector3.forward *
             (eyeStalkMoveDist * (Time.time - ms_lastTriggerTime < eyeStalkMoveHDur ? Mathf.Lerp(0, 1, (Time.time - ms_lastTriggerTime) / eyeStalkMoveHDur)
                                                                                    : Mathf.Lerp(1, 0, (Time.time - ms_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
@@ -105,5 +131,9 @@ public class MachineFaceController : MonoBehaviour
             fp_targetAng = fp_isAscending ? fp_initialRot : GetRandomFacePlateTarget();
             moveDistRem = Mathf.MoveTowards(moveDistRem, 0, totalDist);
         }
+
+        eyeLeftSpinSnd.pitch = Mathf.Sqrt(Mathf.Abs(eyeLeft_rotSpeed)) * .06f;
+        eyeRightSpinSnd.pitch = Mathf.Sqrt(Mathf.Abs(eyeRight_rotSpeed)) * .06f;
+        mouthSpinSnd.pitch = Mathf.Sqrt(1 - Mathf.Abs(Mathf.Sin(Time.time))) * .45f;
     }
 }
