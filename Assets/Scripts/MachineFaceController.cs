@@ -40,6 +40,7 @@ public class MachineFaceController : MonoBehaviour
     [SerializeField] private AudioSource eyeRightPopSnd;
     [SerializeField] private AudioSource mouthSpinSnd;
     [SerializeField] private AudioSource mouthPopSnd;
+    [SerializeField] private AudioSource headBobSnd;
 
     private float GetRandomFacePlateTarget() => fp_initialRot + Random.Range(2, 11);
     private bool fp_isAscending => fp_targetAng != fp_initialRot;
@@ -132,8 +133,9 @@ public class MachineFaceController : MonoBehaviour
             moveDistRem = Mathf.MoveTowards(moveDistRem, 0, totalDist);
         }
 
-        eyeLeftSpinSnd.pitch = Mathf.Sqrt(Mathf.Abs(eyeLeft_rotSpeed)) * .06f;
-        eyeRightSpinSnd.pitch = Mathf.Sqrt(Mathf.Abs(eyeRight_rotSpeed)) * .06f;
+        eyeLeftSpinSnd.pitch = Mathf.Sqrt(eyeLeft_rotSpeed) * .06f;
+        eyeRightSpinSnd.pitch = Mathf.Sqrt(eyeRight_rotSpeed) * .06f;
         mouthSpinSnd.pitch = Mathf.Sqrt(1 - Mathf.Abs(Mathf.Sin(Time.time))) * .45f;
+        headBobSnd.pitch = Mathf.Pow(Mathf.Abs(fp_rotSpeed), .25f) * 1;
     }
 }
