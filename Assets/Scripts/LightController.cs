@@ -12,11 +12,13 @@ public class LightController : MonoBehaviour
     private Color initialGlassMatColor;
     [SerializeField] private MeshRenderer glassMR;
     private Material glassMat;
+    [SerializeField] private AudioSource toggleSnd;
     // TODO: jitter & sound
 
     public void Activate() => Activate(toggleFactor);
     public void Activate(float newFactor)
     {
+        if (!wantsOn) toggleSnd.Play();
         toggleFactor = newFactor;
         wantsOn = enabled = true;
         activationTime = Time.time;
@@ -25,6 +27,7 @@ public class LightController : MonoBehaviour
     public void Deactivate() => Deactivate(toggleFactor);
     public void Deactivate(float newFactor)
     {
+        if (wantsOn) toggleSnd.PlayBiDir(true);
         toggleFactor = newFactor;
         wantsOn = false;
         activationTime = Time.time;
