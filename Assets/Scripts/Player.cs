@@ -183,8 +183,7 @@ public class Player : FirstPersonCharacter
                          && (distFromLastStep += characterMovement.speed) >= targetStepDist)
         {
             distFromLastStep -= targetStepDist;
-            footStepSrc.clip = footStepSnds.GetValueOrDefault(characterMovement.groundCollider.material.name.Replace(" (Instance)", ""), footStepSnds.Values.First());
-            footStepSrc.Play();
+            footStepSrc.PlayClip(footStepSnds.GetValueOrDefault(characterMovement.groundCollider.material.name.Replace(" (Instance)", ""), footStepSnds.Values.First()));
         }
     }
 

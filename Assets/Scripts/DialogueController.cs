@@ -14,6 +14,11 @@ public class DialogueController : MonoBehaviour
     private string activeMessage => messages[messageInd];
     private List<Action> callbacks;
 
+    [SerializeField] private AudioSource dialogueSnd;
+    private List<char> characterOrder = new() { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                                                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                                                ',', '.', '?', '!', ' ' };
+
     private void Awake()
     {
         instance = this;
@@ -26,6 +31,8 @@ public class DialogueController : MonoBehaviour
         {
             text.text = activeMessage.Substring(0, (int)framesElapsed) + "<color=#00000000>" + activeMessage.Substring((int)framesElapsed, activeMessage.Length - (int)framesElapsed) + "</color>";
             framesElapsed += char.IsPunctuation(activeMessage[(int)framesElapsed]) ? .125f : 1;
+            if (framesElapsed % 1 == 0 && framesElapsed < activeMessage.Length)
+                dialogueSnd.PlayAtPitch((characterOrder.IndexOf(activeMessage[(int)framesElapsed]) + 1f) / characterOrder.Count);
         }
         // cursor blink
         else

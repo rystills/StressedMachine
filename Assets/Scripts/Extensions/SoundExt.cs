@@ -17,4 +17,22 @@ public static class SoundExt
             src.Play();
         }
     }
+
+    public static void PlayClip(this AudioSource src, AudioClip clip)
+    {
+        src.clip = clip;
+        src.Play();
+    }
+
+    public static void PlayAtPitch(this AudioSource src, float newPitch)
+    {
+        src.pitch = newPitch;
+        src.Play();
+    }
+    
+    public static void PlayClipAtPitch(this AudioSource src, AudioClip clip, float newPitch)
+    {
+        src.clip = clip;
+        src.PlayAtPitch(newPitch);
+    }
 }

@@ -7,6 +7,7 @@ public class AmbientSoundManager : MonoBehaviour
     [SerializeField] GameObject ambientSoundPrefab;
     [SerializeField] int numSources;
     [SerializeField] private List<AudioClip> clips;
+    [SerializeField] private float minPitch, maxPitch;
     private List<AudioSource> sources;
 
     private void Awake()
@@ -26,8 +27,7 @@ public class AmbientSoundManager : MonoBehaviour
                 source.transform.position = new(Random.Range(30f, 60f) * (Random.Range(0, 2) * 2 - 1),
                                                 Random.Range(-10f, 10f),
                                                 Random.Range(30f, 60f) * (Random.Range(0, 2) * 2 - 1));
-                source.clip = clips[Random.Range(0, clips.Count)];
-                source.Play();
+                source.PlayClipAtPitch(clips[Random.Range(0, clips.Count)], Random.Range(minPitch, maxPitch));
             }
         }
     }
