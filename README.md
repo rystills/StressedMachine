@@ -9,6 +9,8 @@ Noise shader based off of Dave Hoskins' [Hash without Sine](https://www.shaderto
 
 Textures from [ambientCG](https://ambientcg.com/) and [CC0 Textures](https://cc0-textures.com/).
 
-[Oxanium](https://fonts.google.com/specimen/Oxanium) font by Severin Meyer.
+[Oxanium](https://fonts.google.com/specimen/Oxanium) (dialogue font) by Severin Meyer.
+
+[Black Ops One](https://fonts.google.com/specimen/Black+Ops+One) (title font) by James Grieshaber & Eben Sorkin.
 
 Additional tools used: [3ds Max 2024 Indie](https://www.autodesk.com/campaigns/me-indie/3dsmax-indie), [Audacity 3.4.2](https://www.audacityteam.org/), [GIMP 2.10](https://www.gimp.org/), [Visual Studio 2022 Community](https://visualstudio.microsoft.com/vs/community/)

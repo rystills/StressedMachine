@@ -24,6 +24,7 @@ public class DialogueController : MonoBehaviour
         instance = this;
         transform.parent.gameObject.SetActive(false);
     }
+
     private void FixedUpdate()
     {
         // text crawl
