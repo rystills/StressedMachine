@@ -92,7 +92,22 @@ public class Hourglass : MonoBehaviour
         lastRotTime = Time.time;
     }
 
-    public static void Reset() => instance.totalTimeElapsed = instance.fullDuration / 2;
+    public static void Reset()
+    {
+        instance.totalTimeElapsed = instance.fullDuration / 2;
+        instance.FlushEffects();
+    }
+
+    public void FlushEffects()
+    {
+        float overlayStrength = Mathf.Max(Mathf.Clamp01((overlayFadeDuration - (fullDuration - totalTimeElapsed) / GameState.hourglassFactor) / overlayFadeDuration),
+                                          1 - Mathf.Clamp01(totalTimeElapsed / GameState.hourglassFactor / overlayFadeDuration));
+        overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
+        overlayMat.SetFloat("strength", overlayStrength);
+        overlayMat.SetFloat("isPurple", totalTimeElapsed <= fullDuration / 2 ? 0 : 1);
+        overlayImg.enabled = overlayStrength > 0;
+        if (overlayStrength == 1) Player.Die(DeathBy.TimeDecompression);
+    }
 
     private void LateUpdate()
     {
@@ -142,14 +157,7 @@ public class Hourglass : MonoBehaviour
                 snapSnd.Play();
         }
 
-        // calculate overlay strength
-        float overlayStrength = Mathf.Max(Mathf.Clamp01((overlayFadeDuration - (fullDuration - totalTimeElapsed) / GameState.hourglassFactor) / overlayFadeDuration),
-                                          1 - Mathf.Clamp01(totalTimeElapsed / GameState.hourglassFactor / overlayFadeDuration));
-        overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
-        overlayMat.SetFloat("strength", overlayStrength);
-        overlayMat.SetFloat("isPurple", totalTimeElapsed <= fullDuration / 2 ? 0 : 1);
-        overlayImg.enabled = overlayStrength > 0;
-        if (overlayStrength == 1) Player.Die(DeathBy.TimeDecompression);
+        if (GameState.hourglassFactor != 0) FlushEffects();
 
         // control active (sand falling) sound
         if (totalTimeElapsed <= 0 || totalTimeElapsed >= fullDuration)

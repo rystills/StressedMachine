@@ -78,6 +78,16 @@ public class WaveParticleManager : MonoBehaviour
         desyncAmount = 0;
         instance.outlineHeightOffset = instance.outlineHeightOffsetTarget = instance.heightOffset;
         instance.syncedAtTime = Time.time;
+        instance.FlushEffects();
+    }
+
+    public void FlushEffects()
+    {
+        desyncAmount = Mathf.Clamp01(desyncAmount + (heightsSynced ? -desyncDecr : desyncIncr) * Time.deltaTime * GameState.globalFactor);
+        if (desyncAmount == 1) Player.Die(DeathBy.WaveDesync);
+
+        waveOverlayMat.SetFloat("strength", desyncAmount);
+        waveOverlayImg.enabled = desyncAmount > 0;
     }
 
     private void LateUpdate()
@@ -122,12 +132,7 @@ public class WaveParticleManager : MonoBehaviour
                 syncedAtTime = Time.time;
         }
 
-        // adjust desync amount (overlay strength)
-        desyncAmount = Mathf.Clamp01(desyncAmount + ( heightsSynced ? -desyncDecr : desyncIncr) * Time.deltaTime * GameState.globalFactor);
-        if (desyncAmount == 1) Player.Die(DeathBy.WaveDesync);
-
-        waveOverlayMat.SetFloat("strength", desyncAmount);
-        waveOverlayImg.enabled = desyncAmount > 0;
+        if (GameState.waveFactor != 0) FlushEffects();
 
         // adjust sounds
         outlineSnd.pitch = outlineHeightOffset * pitchFactor;

@@ -48,7 +48,7 @@ public class RadiationManager : MonoBehaviour
         if (heatLevel == 1) Player.Die(DeathBy.RadiationOverheat);
         heatSnd.volume = Mathf.Pow(heatLevel, 6);
 
-        FlushEffects();
+        if (GameState.furnaceFactor != 0) FlushEffects();
     }
 
     public static void Reset()
