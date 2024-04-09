@@ -2073,7 +2073,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9750a2911cecead478cd5a09764efd5f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.08
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -14038,6 +14038,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c67ebb050b9c0c949b0f89af9dd09301, type: 3}
   - {fileID: 8300000, guid: 12161f2db58279f49a4c39480c151f6c, type: 3}
   - {fileID: 8300000, guid: 303d1fa5162b9764c9b692fe68791c69, type: 3}
+  - {fileID: 8300000, guid: dde0097e57b809a47b06e93fd4f47445, type: 3}
+  - {fileID: 8300000, guid: 18e06b2d864461d4b9b6da14832e51cc, type: 3}
 --- !u!4 &1205383346
 Transform:
   m_ObjectHideFlags: 0
@@ -14470,7 +14472,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9750a2911cecead478cd5a09764efd5f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.08
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -26175,7 +26177,7 @@ MonoBehaviour:
   waveParticleMat: {fileID: 2100000, guid: c51bcc916e0a9b740b6afced401dbe60, type: 2}
   waveOverlayMat: {fileID: 2100000, guid: df8f3e03df2078344a0ad49a6cb7cc4d, type: 2}
   waveOverlayImg: {fileID: 1645534264}
-  desyncIncr: 0.1
+  desyncIncr: 0.08
   desyncDecr: 0.2
   syncDuration: 5
   pitchFactor: 10

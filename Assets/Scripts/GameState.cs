@@ -67,8 +67,10 @@ public class GameState : MonoBehaviour
     private void Update()
     {
         if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress)
-            DialogueController.Show(new() { state == 0 ? "Core sequence completed. Initializing wave synchronization channel . . ."
-                                                       : "Particle alignment stabilized. Initializing time compression chamber . . ." },
+            DialogueController.Show(new() { state == 0 ? "Core apparatus engaged. Initializing wave synchronization channel . . ."
+                                          : state == 1 ? "Wave alignment synchronized. Initializing time compression chamber . . ."
+                                          : state == 2 ? "Time compression stabilized. TBD"
+                                                       : "END" },
                                     new() { IncrementState });
     }
 
