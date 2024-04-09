@@ -32,7 +32,7 @@ public class DialogueController : MonoBehaviour
             text.text = activeMessage.Substring(0, (int)framesElapsed) + "<color=#00000000>" + activeMessage.Substring((int)framesElapsed, activeMessage.Length - (int)framesElapsed) + "</color>";
             framesElapsed += char.IsPunctuation(activeMessage[(int)framesElapsed]) ? .125f : 1;
             if (framesElapsed % 1 == 0 && framesElapsed < activeMessage.Length)
-                dialogueSnd.PlayAtPitch((characterOrder.IndexOf(activeMessage[(int)framesElapsed]) + 1f) / characterOrder.Count);
+                dialogueSnd.PlayAtPitch(Mathf.Sqrt((characterOrder.IndexOf(char.ToLower(activeMessage[(int)framesElapsed])) + 1f) / characterOrder.Count));
         }
         // cursor blink
         else

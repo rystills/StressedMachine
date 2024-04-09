@@ -316,7 +316,7 @@ MonoBehaviour:
   - {fileID: 6850490700056577292}
   - {fileID: 4456119804575453204}
   targetIntensity: 1.25
-  toggleFactor: 0.15
+  toggleFactor: 0.25
   glassMR: {fileID: 6353504396440927420}
   toggleSnd: {fileID: 1681962444008667274}
 --- !u!82 &1681962444008667274
