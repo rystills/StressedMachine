@@ -27,6 +27,7 @@ public class Hourglass : MonoBehaviour
     [SerializeField] private float overlayFadeDuration = 7;
     [SerializeField] private Material overlayMat;
     [SerializeField] private Image overlayImg;
+    private Color startColor;
 
     private void Awake()
     {
@@ -82,6 +83,7 @@ public class Hourglass : MonoBehaviour
         // flush the particles
         Reset();
         LateUpdate();
+        startColor = ps.main.startColor.color;
     }
 
     public void AddRotation(float amnt)
@@ -143,7 +145,7 @@ public class Hourglass : MonoBehaviour
                                         particles[i].position.y,
                                         Mathf.Clamp(particles[i].position.z, -bounds + centerPos.z, bounds + centerPos.z));
 
-            particles[i].startColor = Color.Lerp(ps.main.startColor.color, endColor, lerpFac);
+            particles[i].startColor = Color.Lerp(startColor, endColor, lerpFac);
         }
         ps.SetParticles(particles);
 

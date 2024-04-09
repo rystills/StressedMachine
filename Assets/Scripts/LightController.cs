@@ -59,6 +59,7 @@ public class LightController : MonoBehaviour
         }
 
         // toggle off
-        enabled = wantsOn || lights.FirstOrDefault()?.intensity != 0;
+        enabled = ( wantsOn && lights.FirstOrDefault()?.intensity != targetIntensity)
+               || (!wantsOn && lights.FirstOrDefault()?.intensity != 0);
     }
 }
