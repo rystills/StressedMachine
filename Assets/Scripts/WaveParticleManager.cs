@@ -83,8 +83,11 @@ public class WaveParticleManager : MonoBehaviour
 
     public void FlushEffects()
     {
-        desyncAmount = Mathf.Clamp01(desyncAmount + (heightsSynced ? -desyncDecr : desyncIncr) * Time.deltaTime * GameState.globalFactor);
-        if (desyncAmount == 1) Player.Die(DeathBy.WaveDesync);
+        if (GameState.globalFactor != 0)
+        {
+            desyncAmount = Mathf.Clamp01(desyncAmount + (heightsSynced ? -desyncDecr : desyncIncr) * Time.deltaTime * GameState.globalFactor);
+            if (desyncAmount == 1) Player.Die(DeathBy.WaveDesync);
+        }
 
         waveOverlayMat.SetFloat("strength", desyncAmount);
         waveOverlayImg.enabled = desyncAmount > 0;
@@ -92,6 +95,15 @@ public class WaveParticleManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        // rebalance
+        if (GameState.rebalancing)
+        {
+            outlineHeightOffset = outlineHeightOffsetTarget = Mathf.MoveTowards(outlineHeightOffset, heightOffset, 80 * Time.deltaTime);
+            desyncAmount = Mathf.MoveTowards(desyncAmount, 0, 80 * Time.deltaTime);
+            instance.syncedAtTime = Time.time;
+            FlushEffects();
+        }
+
         // desync after syncDuration elapses
         if (syncedAtTime >= 0 && Time.time - syncedAtTime > syncDuration / GameState.waveFactor)
         {

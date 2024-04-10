@@ -31,19 +31,28 @@ public class RoundAbout : MonoBehaviour
 
     private void Update()
     {
-        if (interacting = interacting && Input.GetMouseButton(0) && Player.InRetainRangeOf(col))
-            rotSpeed = Mathf.Clamp(rotSpeed + Input.GetAxisRaw("Vertical") * rotSensitivity * Time.deltaTime, -rotMax, rotMax);
-        else Player.ReturnControl();
+        // rebalance
+        if (GameState.rebalancing)
+        {
+            interacting = false;
+            rotSpeed = Mathf.MoveTowards(rotSpeed, 0, 1000 * Time.deltaTime);
+        }
+        else
+        {
+            if (interacting = interacting && Input.GetMouseButton(0) && Player.InRetainRangeOf(col))
+                rotSpeed = Mathf.Clamp(rotSpeed + Input.GetAxisRaw("Vertical") * rotSensitivity * Time.deltaTime, -rotMax, rotMax);
+            else Player.ReturnControl();
 
-        // rotate
-        transform.localEulerAngles = new(transform.localEulerAngles.x,
-                                         transform.localEulerAngles.y - rotSpeed * Time.deltaTime,
-                                         transform.localEulerAngles.z);
+            // rotate
+            transform.localEulerAngles = new(transform.localEulerAngles.x,
+                                             transform.localEulerAngles.y - rotSpeed * Time.deltaTime,
+                                             transform.localEulerAngles.z);
 
-        hourglass.AddRotation(rotSpeed * Time.deltaTime);
+            hourglass.AddRotation(rotSpeed * Time.deltaTime);
 
-        // decelerate
-        rotSpeed = Mathf.MoveTowards(rotSpeed, 0, rotDecel * Time.deltaTime);
+            // decelerate
+            rotSpeed = Mathf.MoveTowards(rotSpeed, 0, rotDecel * Time.deltaTime);
+        }
 
         // rotation sound
         if (enabled = rotSpeed != 0 || interacting)

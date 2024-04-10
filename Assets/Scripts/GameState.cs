@@ -23,6 +23,7 @@ public class GameState : MonoBehaviour
     [SerializeField] private Lever lever;
     [SerializeField] private LightController lightControllerWave;
     [SerializeField] private LightController lightControllerHourglass;
+    public static bool rebalancing;
 
     public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0 : 1;
     public static float furnaceFactor => globalFactor * (state == 0 ? 1 : .4f);
@@ -66,18 +67,24 @@ public class GameState : MonoBehaviour
 
     private void Update()
     {
-        if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress)
+        if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress && !DeathAnimation.instance.gameObject.activeSelf)
+        {
             DialogueController.Show(new() { state == 0 ? "Core apparatus engaged. Initializing wave synchronization channel . . ."
                                           : state == 1 ? "Wave alignment synchronized. Initializing time compression chamber . . ."
                                           : state == 2 ? "Time compression stabilized. TBD"
                                                        : "END" },
-                                    new() { IncrementState });
+                                    new() { IncrementState, StopRebalancing });
+            rebalancing = true;
+            furnaceDoor.enabled = true;
+            Player.ReturnControl();
+        }
     }
+
+    private void StopRebalancing() => rebalancing = false;
 
     public static void IncrementState() => SetState(state + 1);
     public static void SetState(int newState)
     {
-        // TODO: clear effects
         instance.stateProgress = 0;
         switch (state = newState)
         {

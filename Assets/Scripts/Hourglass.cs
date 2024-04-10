@@ -28,6 +28,7 @@ public class Hourglass : MonoBehaviour
     [SerializeField] private Material overlayMat;
     [SerializeField] private Image overlayImg;
     private Color startColor;
+    private float overlayStrength;
 
     private void Awake()
     {
@@ -98,12 +99,16 @@ public class Hourglass : MonoBehaviour
     {
         instance.totalTimeElapsed = instance.fullDuration / 2;
         instance.FlushEffects();
+        instance.transform.localEulerAngles = new(instance.transform.localEulerAngles.x,
+                                                  instance.transform.localEulerAngles.y,
+                                                  instance.flipped ? 180 : 0);
     }
 
     public void FlushEffects()
     {
-        float overlayStrength = Mathf.Max(Mathf.Clamp01((overlayFadeDuration - (fullDuration - totalTimeElapsed) / GameState.hourglassFactor) / overlayFadeDuration),
-                                          1 - Mathf.Clamp01(totalTimeElapsed / GameState.hourglassFactor / overlayFadeDuration));
+        if (GameState.hourglassFactor != 0)
+            overlayStrength = Mathf.Max(Mathf.Clamp01((overlayFadeDuration - (fullDuration - totalTimeElapsed) / GameState.hourglassFactor) / overlayFadeDuration),
+                                        1 - Mathf.Clamp01(totalTimeElapsed / GameState.hourglassFactor / overlayFadeDuration));
         overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
         overlayMat.SetFloat("strength", overlayStrength);
         overlayMat.SetFloat("isPurple", totalTimeElapsed <= fullDuration / 2 ? 0 : 1);
@@ -121,6 +126,17 @@ public class Hourglass : MonoBehaviour
         totalTimeElapsed = Mathf.Clamp(totalTimeElapsed + Time.deltaTime * GameState.hourglassFactor * rotSpeed, 0, fullDuration);
         float timeRatio = totalTimeElapsed / duration;
 
+        // rebalance
+        if (GameState.rebalancing)
+        {
+            totalTimeElapsed = Mathf.MoveTowards(totalTimeElapsed, instance.fullDuration / 2, 40 * Time.deltaTime);
+            transform.localEulerAngles = new(transform.localEulerAngles.x,
+                                             transform.localEulerAngles.y,
+                                             Mathf.MoveTowards(transform.localEulerAngles.z, flipped ? 180 : 0, 400 * Time.deltaTime));
+            overlayStrength = Mathf.MoveTowards(overlayStrength, 0, 2 * Time.deltaTime);
+            FlushEffects();
+        }
+
         // update particles
         for (int i = 0; i < particleCount; ++i)
         {
@@ -136,8 +152,8 @@ public class Hourglass : MonoBehaviour
 
             // lerp towards center
             particles[i].position = Vector3.Lerp(particles[i].position, centerPos,
-                                                 particles[i].position.y > 0 ? .90f - particles[i].position.y / startPositions[i].y
-                                                                             : .90f - particles[i].position.y / endPositions[particleCount - i - 1].y);
+                                                    particles[i].position.y > 0 ? .90f - particles[i].position.y / startPositions[i].y
+                                                                                : .90f - particles[i].position.y / endPositions[particleCount - i - 1].y);
 
             // clamp to inner glass bounds (roughly)
             float bounds = Mathf.Max(Mathf.Abs(particles[i].position.y) * boundsClampFactor, .03f);
@@ -153,8 +169,8 @@ public class Hourglass : MonoBehaviour
         if (Time.time != lastRotTime)
         {
             transform.localEulerAngles = new(transform.localEulerAngles.x,
-                                             transform.localEulerAngles.y,
-                                             transform.localEulerAngles.z + Mathf.Lerp(0, deltaAngle, Time.time - lastRotTime));
+                                                transform.localEulerAngles.y,
+                                                transform.localEulerAngles.z + Mathf.Lerp(0, deltaAngle, Time.time - lastRotTime));
             if (!snapSnd.isPlaying && TimeExt.Since(lastRotTime) <= maxTimestep && deltaAngle != 0)
                 snapSnd.Play();
         }

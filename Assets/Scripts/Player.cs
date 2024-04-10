@@ -102,17 +102,28 @@ public class Player : FirstPersonCharacter
     override protected void Update()
     {
         base.Update();
-        
+
         if (!inControl || lentControl) SetMovementDirection(Vector3.zero);
         
-        // update fov
-        curFov = Mathf.MoveTowards(curFov, targetFov, zoomSpeed * Time.deltaTime);
-        camera.fieldOfView = curFov;
+        // rebalance
+        if (GameState.rebalancing)
+        {
+            instance.characterMovement.SetPosition(Vector3.MoveTowards(instance.characterMovement.GetPosition(), instance.startPos, 100 * Time.deltaTime));
+            instance.characterMovement.SetRotation(Quaternion.RotateTowards(instance.characterMovement.GetRotation(), instance.targetCharacterRot, 1000 * Time.deltaTime));
+            instance.eyePivot.localRotation = Quaternion.RotateTowards(instance.eyePivot.localRotation, instance.targetEyeRot, 400 * Time.deltaTime);
+            instance.camera.fieldOfView = instance.curFov = instance.targetFov = Mathf.MoveTowards(instance.curFov, maxFov, 400 * Time.deltaTime);
+        }
+        else
+        {
+            // update fov
+            curFov = Mathf.MoveTowards(curFov, targetFov, zoomSpeed * Time.deltaTime);
+            camera.fieldOfView = curFov;
 
-        // temporary controls for testing
-        if (Input.GetKeyDown(KeyCode.R)) doorController.ToggleLock();
+            // temporary controls for testing
+            if (Input.GetKeyDown(KeyCode.R)) doorController.ToggleLock();
 
-        if (activeCutscene != -1) TickCutscene(Time.deltaTime);
+            if (activeCutscene != -1) TickCutscene(Time.deltaTime);
+        }
     }
 
     private void TickCutscene(float deltaTime)

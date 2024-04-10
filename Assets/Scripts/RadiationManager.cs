@@ -34,21 +34,31 @@ public class RadiationManager : MonoBehaviour
         instance.heatOverlayImg.enabled = heatLevel > 0;
         instance.metaballLight.intensity = Mathf.Lerp(instance.coolStrength, instance.hotStrength, heatLevel);
         instance.metaballLight.color = Color.Lerp(instance.coolColor, instance.hotColor, heatLevel);
+        instance.radiationSnd.volume = Mathf.Pow(radiationLevel, 6);
+        instance.heatSnd.volume = Mathf.Pow(heatLevel, 6);
     }
 
     private void Update()
     {
-        // increase radiation while door is open
-        radiationLevel = Mathf.Clamp01(radiationLevel + (door.isOpen * radiationIncr - door.isClosed * radiationDecr) * Time.deltaTime * GameState.globalFactor);
-        if (radiationLevel == 1) Player.Die(DeathBy.Radiation);
-        radiationSnd.volume = Mathf.Pow(radiationLevel, 6);
+        // rebalance
+        if (GameState.rebalancing)
+        {
+            radiationLevel = Mathf.MoveTowards(radiationLevel, 0, 2 * Time.deltaTime);
+            heatLevel = Mathf.MoveTowards(heatLevel, 0, 2 * Time.deltaTime);
+            FlushEffects();
+        }
+        else
+        {
+            // increase radiation while door is open
+            radiationLevel = Mathf.Clamp01(radiationLevel + (door.isOpen * radiationIncr - door.isClosed * radiationDecr) * Time.deltaTime * GameState.globalFactor);
+            if (radiationLevel == 1) Player.Die(DeathBy.Radiation);
 
-        // increase heat while door is closed
-        heatLevel = Mathf.Clamp01(heatLevel + (door.isClosed * heatIncr * GameState.furnaceFactor - door.isOpen * heatDecr) * Time.deltaTime);
-        if (heatLevel == 1) Player.Die(DeathBy.RadiationOverheat);
-        heatSnd.volume = Mathf.Pow(heatLevel, 6);
+            // increase heat while door is closed
+            heatLevel = Mathf.Clamp01(heatLevel + (door.isClosed * heatIncr * GameState.furnaceFactor - door.isOpen * heatDecr) * Time.deltaTime);
+            if (heatLevel == 1) Player.Die(DeathBy.RadiationOverheat);
 
-        if (GameState.furnaceFactor != 0) FlushEffects();
+            if (GameState.furnaceFactor != 0) FlushEffects();
+        }
     }
 
     public static void Reset()
