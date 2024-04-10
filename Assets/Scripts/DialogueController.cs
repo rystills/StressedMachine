@@ -8,6 +8,7 @@ public class DialogueController : MonoBehaviour
     private List<string> messages;
     [SerializeField] private Text text;
     [SerializeField] private int blinkRate;
+    [SerializeField] private float clickGraceFrames = 20;
     private float framesElapsed;
     private int messageInd;
     public static DialogueController instance;
@@ -38,7 +39,7 @@ public class DialogueController : MonoBehaviour
         // cursor blink
         else
         {
-            text.text = activeMessage + (((int)framesElapsed - activeMessage.Length) % blinkRate < blinkRate / 2 ? " ↪" : "");
+            text.text = activeMessage + (messageInd == messages.Count - 1 ? " " : ((int)framesElapsed - activeMessage.Length) % blinkRate < blinkRate / 2 ? " ↪" : "");
             ++framesElapsed;
         }
     }
@@ -57,17 +58,27 @@ public class DialogueController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        // apply a grace period to the first message to guard against accidental clicks
+        if (framesElapsed >= clickGraceFrames || messageInd > 0)
         {
-            // complete the current message
-            framesElapsed = activeMessage.Length * (activeMessage.Length / ((int)framesElapsed + 1));
-
-            // begin the next message
-            if (framesElapsed == 0 && ++messageInd >= messages.Count)
+            if (Input.GetMouseButtonDown(0))
             {
-                instance.transform.parent.gameObject.SetActive(false);
-                Player.EnableControl();
-                callbacks?.ForEach(cb => cb.Invoke());
+                // complete the current message
+                framesElapsed = activeMessage.Length * (activeMessage.Length / ((int)framesElapsed + 1));
+
+                if (framesElapsed == 0 && ++messageInd >= messages.Count)
+                {
+                    // begin the next message
+                    instance.transform.parent.gameObject.SetActive(false);
+                    Player.EnableControl();
+                    callbacks?.ForEach(cb => cb.Invoke());
+                }
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                // return to the previous message
+                framesElapsed = 0;
+                messageInd = Mathf.Max(0, messageInd - 1);
             }
         }
     }
