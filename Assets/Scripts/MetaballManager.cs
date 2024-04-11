@@ -37,7 +37,6 @@ public class MetaballManager : MonoBehaviour
         particles[0].startSize *= .9f;
         
         mbPs.SetParticles(particles);
-        enabled = false;
     }
 
     private void OnEnable()
@@ -52,9 +51,9 @@ public class MetaballManager : MonoBehaviour
         for (int i = 1; i < particleCount; i+= 2)
         {
             velocities[i] = Vector3.ClampMagnitude(velocities[i] + (targetPositions[i] - particles[i].position).normalized 
-                                                                 * (accel * Time.deltaTime
+                                                                 * (accel * Time.deltaTime * GameState.powerDownFactor
                                                                  * (targetPositions[i] - particles[i].position).magnitude * 3f), maxVel);
-            particles[i].position += (velocities[i] + Vector3.Lerp(particles[i].position, Vector3.zero, Mathf.Sqrt(particles[i].position.magnitude * .1f))) * Time.deltaTime;
+            particles[i].position += (velocities[i] + Vector3.Lerp(particles[i].position, Vector3.zero, Mathf.Sqrt(particles[i].position.magnitude * .1f))) * Time.deltaTime * GameState.powerDownFactor;
 
             if ((targetPositions[i] - particles[i].position).magnitude < 20)
             {
@@ -65,12 +64,14 @@ public class MetaballManager : MonoBehaviour
         // evens orbit from a fixed distance
         for (int i = 2; i < particleCount; i += 2)
         {
-            float angle = (1 + targetPositions[i].x) * 100 * Time.deltaTime;
+            float angle = (1 + targetPositions[i].x) * 100 * Time.deltaTime * GameState.powerDownFactor;
             particles[i].position = Quaternion.AngleAxis(angle, Vector3.up) * particles[i].position;
         }
         mbPs.SetParticles(particles);
 
         // tether sounds volume to door open ratio
         humSnd.volume = activeSnd.volume = .2f + Mathf.Min(door.openRatio, .25f) * 3.2f;
+        humSnd.pitch = .02f * GameState.powerDownFactor;
+        activeSnd.pitch = -0.17f * GameState.powerDownFactor;
     }
 }

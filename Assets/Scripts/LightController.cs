@@ -29,6 +29,7 @@ public class LightController : MonoBehaviour
         if (wantsOn) toggleSnd.PlayBiDir(true);
         toggleFactor = newFactor;
         wantsOn = false;
+        enabled = true;
         activationTime = Time.time;
     }
 

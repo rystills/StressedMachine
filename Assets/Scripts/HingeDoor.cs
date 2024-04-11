@@ -32,7 +32,7 @@ public class HingeDoor : MonoBehaviour
         transform.localEulerAngles = new(transform.localEulerAngles.x, 0, transform.localEulerAngles.z);
         rotSpeed = Vector2.zero;
     }
-    public void ToggleLock() => metaMan.enabled = radMan.enabled = !(locked = !locked);
+    public void ToggleLock() => radMan.enabled = !(locked = !locked);
 
     public float openRatio => (360 - transform.localEulerAngles.y) % 360 / 125f;
     public int isOpen => transform.localEulerAngles.y < 355 && transform.localEulerAngles.y > 0 ? 1 : 0;

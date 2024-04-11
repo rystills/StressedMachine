@@ -21,12 +21,23 @@ public class GameState : MonoBehaviour
     [SerializeField] private Hourglass hourglass;
     [SerializeField] private RoundAbout roundabout;
     [SerializeField] private Lever lever;
+    [SerializeField] private LightController lightControllerMachine;
+    [SerializeField] private LightController lightControllerFurnace;
     [SerializeField] private LightController lightControllerWave;
     [SerializeField] private LightController lightControllerHourglass;
     public static bool rebalancing;
     [SerializeField] private DoorController doorController;
+    [SerializeField] private MachineFaceController machineFaceController;
 
-    public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0 : 1;
+    // power down
+    private float powerDownAtTime = -1;
+    [SerializeField] private float powerDownDuration;
+    [SerializeField] private MetaballManager metaballManager;
+
+    public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0
+                                      : instance.powerDownAtTime == -1 ? 1
+                                      : powerDownFactor;
+    public static float powerDownFactor => instance.powerDownAtTime == -1 ? 1 : 1 - TimeExt.Since(instance.powerDownAtTime) / instance.powerDownDuration;
     public static float furnaceFactor => globalFactor * (state == 0 ? 1 : .4f);
     public static float waveFactor => globalFactor * (state == 1 ? 1 : .4f);
     public static float hourglassFactor => globalFactor * (state == 2 ? 1 : .4f);
@@ -68,6 +79,7 @@ public class GameState : MonoBehaviour
 
     private void Update()
     {
+        // update state progress
         if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress && !DeathAnimation.instance.gameObject.activeSelf)
         {
             DialogueController.Show(state == 0 ? new() { "Core apparatus engaged. Initializing wave synchronization channel . . ." }
@@ -80,6 +92,16 @@ public class GameState : MonoBehaviour
             furnaceDoor.enabled = true;
             Player.ReturnControl();
         }
+
+        // power down
+        if (powerDownAtTime != -1 && powerDownFactor <= 0)
+        {
+            enabled = false;
+            machineFaceController.enabled = false;
+            waveParticleManager.enabled = false;
+            hourglass.enabled = false;
+            metaballManager.enabled = false;
+        }
     }
 
     private void StopRebalancing() => rebalancing = false;
@@ -91,29 +113,43 @@ public class GameState : MonoBehaviour
         switch (state = newState)
         {
             case 0:
+                // furnace
                 instance.targetProgress = 30;
                 break;
             case 1:
+                // hourglass
                 instance.targetProgress = 60;
                 instance.waveParticleManager.enabled = true;
                 instance.lever.locked = false;
                 instance.lightControllerWave.Activate();
                 break;
             case 2:
+                // roundabout
                 instance.targetProgress = 90;
                 instance.hourglass.enabled = true;
                 instance.roundabout.locked = false;
                 instance.lightControllerHourglass.Activate();
                 break;
             case 3:
+                // light array
                 instance.targetProgress = 120;
                 break;
             case 4:
+                // ???
                 instance.targetProgress = 150;
                 break;
             case 5:
+                // end door
                 instance.doorController.ToggleLock();
                 instance.targetProgress = -1;
+                instance.lightControllerMachine.Deactivate();
+                instance.lightControllerFurnace.Deactivate();
+                instance.lightControllerWave.Deactivate();
+                instance.lightControllerHourglass.Deactivate();
+                instance.powerDownAtTime = Time.time;
+                instance.furnaceDoor.ToggleLock();
+                instance.lever.locked = true;
+                instance.roundabout.locked = true;
                 break;
         }
     }

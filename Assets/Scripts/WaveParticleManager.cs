@@ -150,8 +150,8 @@ public class WaveParticleManager : MonoBehaviour
         if (GameState.waveFactor != 0) FlushEffects();
 
         // adjust sounds
-        outlineSnd.pitch = outlineHeightOffset * pitchFactor;
-        particleSnd.pitch = heightOffset * pitchFactor * pitchSyncRatio;
+        outlineSnd.pitch = outlineHeightOffset * pitchFactor * GameState.powerDownFactor;
+        particleSnd.pitch = heightOffset * pitchFactor * pitchSyncRatio * GameState.powerDownFactor;
 
         desyncSnd.volume = Mathf.Pow(desyncAmount, 6);
     }

@@ -182,7 +182,7 @@ public class Hourglass : MonoBehaviour
             activeSnd.Stop();
         else
         {
-            activeSnd.pitch = rotSpeed * 2;
+            activeSnd.pitch = rotSpeed * 2 * GameState.powerDownFactor;
             if (enabled && !activeSnd.isPlaying) activeSnd.Play();
         }
     }

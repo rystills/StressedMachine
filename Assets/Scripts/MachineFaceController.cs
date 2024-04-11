@@ -67,29 +67,41 @@ public class MachineFaceController : MonoBehaviour
 
     private void Update()
     {
+        float scaledTime = Time.deltaTime * GameState.powerDownFactor;
+        if (scaledTime <= 0)
+        {
+            // shut down
+            eyeLeftSpinSnd.Stop();
+            eyeRightSpinSnd.Stop();
+            mouthSpinSnd.Stop();
+            headBobSnd.Stop();
+            enabled = false;
+            return;
+        }
+
         // rotate eyes jaggedly
-        eyeLeft_rotSpeed = Mathf.MoveTowards(eyeLeft_rotSpeed, eyeMaxSpeed, eyeAccel * Time.deltaTime);
-        if (Random.Range(0,100f) <= eyeJitterChance * Time.deltaTime)
+        eyeLeft_rotSpeed = Mathf.MoveTowards(eyeLeft_rotSpeed, eyeMaxSpeed, eyeAccel * scaledTime);
+        if (Random.Range(0,100f) <= eyeJitterChance * scaledTime)
         {
             eyeLeft_rotSpeed *= eyeJitterProportion;
             eyeLeftSnagSnd.Play();
         }
-        eyeRight_rotSpeed = Mathf.MoveTowards(eyeRight_rotSpeed, eyeMaxSpeed, eyeAccel * Time.deltaTime);
-        if (Random.Range(0, 100f) <= eyeJitterChance * Time.deltaTime)
+        eyeRight_rotSpeed = Mathf.MoveTowards(eyeRight_rotSpeed, eyeMaxSpeed, eyeAccel * scaledTime);
+        if (Random.Range(0, 100f) <= eyeJitterChance * scaledTime)
         {
             eyeRight_rotSpeed *= eyeJitterProportion;
             eyeRightSnagSnd.Play();
         }
 
-        eyeLeft.Rotate(Vector3.forward, eyeLeft_rotSpeed * Time.deltaTime);
-        eyeRight.Rotate(Vector3.forward, -eyeRight_rotSpeed * Time.deltaTime);
+        eyeLeft.Rotate(Vector3.forward, eyeLeft_rotSpeed * scaledTime);
+        eyeRight.Rotate(Vector3.forward, -eyeRight_rotSpeed * scaledTime);
 
         // tilt eye sockets towards player
         eyeSocketLeft.forward  = Vector3.Lerp(eyeSocketLeft_initialForward,  (Player.transform.position - eyeSocketLeft.position).normalized,  .15f);
         eyeSocketRight.forward = Vector3.Lerp(eyeSocketRight_initialForward, (Player.transform.position - eyeSocketRight.position).normalized, .15f);
 
         // pop out eye/mouth stalks
-        if ((Time.time - esl_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
+        if ((Time.time - esl_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < scaledTime * eyeStalkMoveOdds)
         {
             esl_lastTriggerTime = Time.time;
             eyeLeftPopSnd.Play();
@@ -97,7 +109,7 @@ public class MachineFaceController : MonoBehaviour
         eyeStalkLeft.localPosition  = Vector3.forward *
             (eyeStalkMoveDist * (Time.time - esl_lastTriggerTime < eyeStalkMoveHDur ? Mathf.Lerp(0, 1, (Time.time - esl_lastTriggerTime) / eyeStalkMoveHDur)
                                                                                     : Mathf.Lerp(1, 0, (Time.time - esl_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
-        if ((Time.time - esr_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
+        if ((Time.time - esr_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < scaledTime * eyeStalkMoveOdds)
         {
             esr_lastTriggerTime = Time.time;
             eyeRightPopSnd.Play();
@@ -105,7 +117,7 @@ public class MachineFaceController : MonoBehaviour
         eyeStalkRight.localPosition = Vector3.forward *
             (eyeStalkMoveDist * (Time.time - esr_lastTriggerTime < eyeStalkMoveHDur ? Mathf.Lerp(0, 1, (Time.time - esr_lastTriggerTime) / eyeStalkMoveHDur)
                                                                                     : Mathf.Lerp(1, 0, (Time.time - esr_lastTriggerTime - eyeStalkMoveHDur) / eyeStalkMoveHDur)));
-        if ((Time.time - ms_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < Time.deltaTime * eyeStalkMoveOdds)
+        if ((Time.time - ms_lastTriggerTime > 2 * eyeStalkMoveHDur) && Random.Range(0f, 100f) < scaledTime * eyeStalkMoveOdds)
         {
             ms_lastTriggerTime = Time.time;
             mouthPopSnd.Play();
@@ -119,8 +131,8 @@ public class MachineFaceController : MonoBehaviour
 
         // rotate face plate up/down
         fp_rotSpeed = Mathf.MoveTowards(fp_rotSpeed, faceplateMaxRotSpeed * (fp_isAscending ? 1 : -1),
-            (faceplateRotAccel + Mathf.Abs(fp_targetAng - faceplate.localEulerAngles.x)) * Time.deltaTime);
-        for (float moveDistRem = fp_rotSpeed * Time.deltaTime;;)
+            (faceplateRotAccel + Mathf.Abs(fp_targetAng - faceplate.localEulerAngles.x)) * scaledTime);
+        for (float moveDistRem = fp_rotSpeed * scaledTime; ;)
         {
             float totalDist = Mathf.Abs(fp_targetAng - faceplate.localEulerAngles.x);
             if (totalDist > Mathf.Abs(moveDistRem))

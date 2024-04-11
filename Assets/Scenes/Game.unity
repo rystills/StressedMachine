@@ -14094,7 +14094,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611332638}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58ba4fef281e6044389d8673f8214be4, type: 3}
   m_Name: 
@@ -14342,9 +14342,14 @@ MonoBehaviour:
   hourglass: {fileID: 2025559440}
   roundabout: {fileID: 856496917}
   lever: {fileID: 1542608822}
+  lightControllerMachine: {fileID: 894404710}
+  lightControllerFurnace: {fileID: 1206271506}
   lightControllerWave: {fileID: 206181304}
   lightControllerHourglass: {fileID: 771026007}
   doorController: {fileID: 1203129240}
+  machineFaceController: {fileID: 1064632682}
+  powerDownDuration: 5
+  metaballManager: {fileID: 1175141950}
 --- !u!4 &1277165623
 Transform:
   m_ObjectHideFlags: 0
