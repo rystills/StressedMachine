@@ -24,6 +24,7 @@ public class GameState : MonoBehaviour
     [SerializeField] private LightController lightControllerWave;
     [SerializeField] private LightController lightControllerHourglass;
     public static bool rebalancing;
+    [SerializeField] private DoorController doorController;
 
     public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0 : 1;
     public static float furnaceFactor => globalFactor * (state == 0 ? 1 : .4f);
@@ -69,10 +70,11 @@ public class GameState : MonoBehaviour
     {
         if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress && !DeathAnimation.instance.gameObject.activeSelf)
         {
-            DialogueController.Show(new() { state == 0 ? "Core apparatus engaged. Initializing wave synchronization channel . . ."
-                                          : state == 1 ? "Wave alignment synchronized. Initializing time compression chamber . . ."
-                                          : state == 2 ? "Time compression stabilized. TBD"
-                                                       : "END" },
+            DialogueController.Show(state == 0 ? new() { "Core apparatus engaged. Initializing wave synchronization channel . . ." }
+                                  : state == 1 ? new() { "Wave alignment synchronized. Initializing time compression chamber . . ." }
+                                  : state == 2 ? new() { "Time compression stabilized. Initializing signal encoding mechanism . . ." }
+                                  : state == 3 ? new() { "TBD" }
+                                  : new() { "Boot sequence complete! Unlocking exit door . . .", "I will see you again up ahead ☀" },
                                     new() { IncrementState, StopRebalancing });
             rebalancing = true;
             furnaceDoor.enabled = true;
@@ -102,6 +104,16 @@ public class GameState : MonoBehaviour
                 instance.hourglass.enabled = true;
                 instance.roundabout.locked = false;
                 instance.lightControllerHourglass.Activate();
+                break;
+            case 3:
+                instance.targetProgress = 120;
+                break;
+            case 4:
+                instance.targetProgress = 150;
+                break;
+            case 5:
+                instance.doorController.ToggleLock();
+                instance.targetProgress = -1;
                 break;
         }
     }

@@ -12,7 +12,6 @@ public class Player : FirstPersonCharacter
     public static Player instance;
     
     // local references
-    [SerializeField] private DoorController doorController;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private HingeDoor hingeDoor;
 
@@ -118,9 +117,6 @@ public class Player : FirstPersonCharacter
             // update fov
             curFov = Mathf.MoveTowards(curFov, targetFov, zoomSpeed * Time.deltaTime);
             camera.fieldOfView = curFov;
-
-            // temporary controls for testing
-            if (Input.GetKeyDown(KeyCode.R)) doorController.ToggleLock();
 
             if (activeCutscene != -1) TickCutscene(Time.deltaTime);
         }

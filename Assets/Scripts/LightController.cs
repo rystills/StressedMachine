@@ -13,7 +13,6 @@ public class LightController : MonoBehaviour
     [SerializeField] private MeshRenderer glassMR;
     private Material glassMat;
     [SerializeField] private AudioSource toggleSnd;
-    // TODO: jitter & sound
 
     public void Activate() => Activate(toggleFactor);
     public void Activate(float newFactor)

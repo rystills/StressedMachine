@@ -35,6 +35,7 @@ public class WaveParticleManager : MonoBehaviour
     [SerializeField] private AudioSource particleSnd;
     [SerializeField] private AudioSource outlineSnd;
     [SerializeField] private AudioSource desyncSnd;
+    [SerializeField] private AudioSource justDesyncedSnd;
 
     private bool heightsSynced => Mathf.Abs(outlineHeightOffset - heightOffset) <= heightSyncDist;
     private bool targetHeightsSynced => Mathf.Abs(outlineHeightOffsetTarget - heightOffset) <= heightSyncDist;
@@ -142,6 +143,8 @@ public class WaveParticleManager : MonoBehaviour
             // begin sync timer
             if (syncedAtTime == -1 && heightsSynced)
                 syncedAtTime = Time.time;
+            if (!heightsSynced) justDesyncedSnd.PlayBiDir();
+            else                justDesyncedSnd.PlayBiDir(true);
         }
 
         if (GameState.waveFactor != 0) FlushEffects();
