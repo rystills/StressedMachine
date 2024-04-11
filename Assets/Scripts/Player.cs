@@ -63,6 +63,9 @@ public class Player : FirstPersonCharacter
     private Quaternion initialEyeRot;
     private Quaternion targetEyeRot;
     private Vector3 startPos;
+    [SerializeField] private GameObject endBackground;
+    [SerializeField] private GameObject endTitle;
+    [SerializeField] private GameObject endSignature;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
@@ -119,6 +122,20 @@ public class Player : FirstPersonCharacter
             camera.fieldOfView = curFov;
 
             if (activeCutscene != -1) TickCutscene(Time.deltaTime);
+        }
+
+        // end cutscene
+        if (transform.position.y < -120) endSignature.SetActive(true);
+        else if (transform.position.y < -50) endTitle.SetActive(true);
+        else if (transform.position.y < -10)
+        {
+            if (inControl)
+            {
+                crosshair.SetActive(false);
+                endBackground.SetActive(true);
+                DisableControl();
+            }
+            eyePivot.localRotation = Quaternion.RotateTowards(eyePivot.localRotation, initialEyeRot, 100 * Time.deltaTime);
         }
     }
 
