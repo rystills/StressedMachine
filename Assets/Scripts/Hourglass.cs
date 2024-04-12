@@ -144,16 +144,16 @@ public class Hourglass : MonoBehaviour
 
             // lerp gradually down
             float lerpFac = Mathf.Pow(Mathf.Clamp01(timeRatio - indRatio), 2) * 1000;
-            lerpFac = Mathf.Lerp(lerpFac, (lerpFac == 0 ? (1 - (indRatio - timeRatio) / indRatio) * .35f
-                                                        : lerpFac * .65f + .35f), Mathf.Sqrt(timeRatio));
+            lerpFac = Mathf.Lerp(lerpFac, lerpFac == 0 ? (1 - (indRatio - timeRatio) / indRatio) * .35f
+                                                       : lerpFac * .65f + .35f, Mathf.Sqrt(timeRatio));
 
             // lerp towards end position
             particles[i].position = Vector3.Lerp(startPositions[i], endPositions[particleCount - i - 1], lerpFac);
 
             // lerp towards center
             particles[i].position = Vector3.Lerp(particles[i].position, centerPos,
-                                                    particles[i].position.y > 0 ? .90f - particles[i].position.y / startPositions[i].y
-                                                                                : .90f - particles[i].position.y / endPositions[particleCount - i - 1].y);
+                                                 particles[i].position.y > 0 ? .90f - particles[i].position.y / startPositions[i].y
+                                                                             : .90f - particles[i].position.y / endPositions[particleCount - i - 1].y);
 
             // clamp to inner glass bounds (roughly)
             float bounds = Mathf.Max(Mathf.Abs(particles[i].position.y) * boundsClampFactor, .03f);
@@ -169,8 +169,8 @@ public class Hourglass : MonoBehaviour
         if (Time.time != lastRotTime)
         {
             transform.localEulerAngles = new(transform.localEulerAngles.x,
-                                                transform.localEulerAngles.y,
-                                                transform.localEulerAngles.z + Mathf.Lerp(0, deltaAngle, Time.time - lastRotTime));
+                                             transform.localEulerAngles.y,
+                                             transform.localEulerAngles.z + Mathf.Lerp(0, deltaAngle, Time.time - lastRotTime));
             if (!snapSnd.isPlaying && TimeExt.Since(lastRotTime) <= maxTimestep && deltaAngle != 0)
                 snapSnd.Play();
         }

@@ -8,7 +8,7 @@ public class DoorController : MonoBehaviour
     private bool wantsActive;
     private Vector3 leftDoorInitialPos, rightDoorInitialPos, leftDoorTargetPos, rightDoorTargetPos;
     [SerializeField] private Material lightMat;
-    [SerializeField] private Light light;
+    [SerializeField] private new Light light;
     private Collider triggerCol;
 
     private void Awake()

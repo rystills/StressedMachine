@@ -21,10 +21,12 @@ public class GameState : MonoBehaviour
     [SerializeField] private Hourglass hourglass;
     [SerializeField] private RoundAbout roundabout;
     [SerializeField] private Lever lever;
+    [SerializeField] private LEDMachine ledMachine;
     [SerializeField] private LightController lightControllerMachine;
     [SerializeField] private LightController lightControllerFurnace;
     [SerializeField] private LightController lightControllerWave;
     [SerializeField] private LightController lightControllerHourglass;
+    [SerializeField] private LightController lightControllerLED;
     public static bool rebalancing;
     [SerializeField] private DoorController doorController;
     [SerializeField] private MachineFaceController machineFaceController;
@@ -133,6 +135,8 @@ public class GameState : MonoBehaviour
             case 3:
                 // light array
                 instance.targetProgress = 120;
+                instance.ledMachine.enabled = true;
+                instance.lightControllerLED.Activate();
                 break;
             case 4:
                 // ???
