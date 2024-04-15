@@ -18,10 +18,10 @@ public class Player : FirstPersonCharacter
     // interaction
     [SerializeField] private float interactRange;
     [SerializeField] private float interactRetainRange;
-    public static bool InRangeOf(Collider oCol) => (inControl && !lentControl) && (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRange;
-    public static bool InRangeOf(Vector3 pt) => (inControl && !lentControl) && (transform.position - pt).magnitude <= instance.interactRange;
-    public static bool InRetainRangeOf(Collider oCol) => inControl && (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRetainRange;
-    public static bool InRetainRangeOf(Vector3 pt) => inControl && (transform.position - pt).magnitude <= instance.interactRetainRange;
+    public static bool InRangeOf(Collider oCol, float buffer = 0) => (inControl && !lentControl) && (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRange + buffer;
+    public static bool InRangeOf(Vector3 pt, float buffer = 0) => (inControl && !lentControl) && (transform.position - pt).magnitude <= instance.interactRange + buffer;
+    public static bool InRetainRangeOf(Collider oCol, float buffer = 0) => inControl && (transform.position - oCol.ClosestPoint(transform.position)).magnitude <= instance.interactRetainRange + buffer;
+    public static bool InRetainRangeOf(Vector3 pt, float buffer = 0) => inControl && (transform.position - pt).magnitude <= instance.interactRetainRange + buffer;
     
     // control toggles
     public static bool inControl => instance.activeCutscene == -1 && instance.handleInput;

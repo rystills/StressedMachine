@@ -28,5 +28,8 @@ public class LEDLight : MonoBehaviour, IPointerDownHandler
     }
 
     public void OnPointerDown(PointerEventData eventData)
-        => SetColInd((colInd + (eventData.button == PointerEventData.InputButton.Left ? 1 : lightColors.Length - 1)) % lightColors.Length);
+    {
+        if (Player.InRangeOf(transform.position, 1.1f))
+            SetColInd((colInd + (eventData.button == PointerEventData.InputButton.Left ? 1 : lightColors.Length - 1)) % lightColors.Length);
+    }
 }
