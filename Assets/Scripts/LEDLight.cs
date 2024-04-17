@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,19 +13,23 @@ public class LEDLight : MonoBehaviour, IPointerDownHandler
     private Color[] lightMatEmissionColors = { new(2f, 0f, 0f, 4f),
                                                new(0f, 2f, 0f, 4f),
                                                new(0f, 0f, 2f, 4f) };
-    public int colInd;
+    [NonSerialized] public int colInd = 2;
+    [SerializeField] private AudioSource clickSnd;
 
     private void Awake()
     {
         lightMat = lightMR.material;
         lightMat.EnableKeyword("_EMISSION");
-        lightMat.SetColor("_EmissionColor", lightColors[0]);
+        lightMat.SetColor("_EmissionColor", lightColors[2]);
     }
 
-    public void SetColInd(int newInd)
+    public void SetColInd(int newInd, bool playSound = true)
     {
-        light.color = lightColors[colInd = newInd];
+        if (playSound) clickSnd.PlayBiDir(newInd == LEDMachine.rgbMax, false);
+        colInd = newInd;
+        light.color = lightColors[colInd];
         lightMat.SetColor("_EmissionColor", lightMatEmissionColors[colInd]);
+        LEDMachine.SendColorsToShader();
     }
 
     public void OnPointerDown(PointerEventData eventData)

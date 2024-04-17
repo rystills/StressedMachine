@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sand
-  m_Shader: {fileID: 4800000, guid: a2291a95fecfc6842a23e6286d1784f4, type: 3}
+  m_Name: LED
+  m_Shader: {fileID: 4800000, guid: eb85728531b519448a8db5cd8e3c69bf, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -29,7 +29,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - isPurple: 0
     - strength: 0
     m_Colors: []
   m_BuildTextureStacks: []

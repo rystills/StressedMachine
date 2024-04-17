@@ -1,9 +1,8 @@
-Shader "Custom/Sand"
+Shader "Custom/LED"
 {
     Properties
     {
         strength("strength",float) = 0
-        isPurple("isPurple",float) = 0
     }
     SubShader
     {
@@ -19,7 +18,6 @@ Shader "Custom/Sand"
             #include "UnityCG.cginc"
 
             float strength;
-            float isPurple;
 
             struct appdata
             {
@@ -45,31 +43,37 @@ Shader "Custom/Sand"
                 return sqrt(dot(p1 - p2, p1 - p2));
             }
 
+            // defines
+            #define particleRad .3
+            #define numParts 18
+            uniform float _PartColInds[numParts];
+
             fixed4 frag (v2f i) : SV_Target
             {
                 // config
                 float aspectRatio = _ScreenParams.x / (float)_ScreenParams.y;
                 float2 correctedUv = float2(i.uv.x, 1 - i.uv.y / aspectRatio);
-                #define particleRad .04
-                #define numParts 400.
-                
-                // calculate total overlap percentage
-                float overlapPerc = 0;
-                int start = max(0, correctedUv.x - particleRad) * numParts;
-                int end = min(numParts, start + 2 * particleRad * numParts);
-                for (int k = start; k < end; ++k) {
-                    float2 center = float2(k/numParts, (2100 + _Time[0]) * (2 + .0002 * UNITY_PI * (pow(numParts/2 - k, 2))) % (1 + particleRad));
-                    overlapPerc += max(0, particleRad - distance(center, correctedUv));
+                float3 colors[3] = { float3(1,0,0), float3(0,1,0), float3(0,0,1) };
+                #define orbitRadius .2
+
+                // calculate total overlap color
+                float3 overlapPerc = float3(0,0,0);
+                for (int i = 0; i < numParts; ++i) {
+                    // evenly spaced x, 'random' y
+                    float2 basePos = float2((i + .5f) / numParts,
+                                            ((i + .5f) / numParts * 12) % (1 + particleRad));
+
+                    // 'random' orbit around base position
+                    float rotSpeed = (i+1) * 6.37 % 10;
+                    float theta = rotSpeed * _Time[1];
+                    float2 center = float2(basePos.x + orbitRadius * cos(theta), basePos.y + orbitRadius * sin(theta));
+                    
+                    overlapPerc += max(0, particleRad - distance(center, correctedUv)) * colors[(int)_PartColInds[i]];
                 }
-                clip(overlapPerc - .0000001);
+                clip(length(overlapPerc) - .0000001);
                 overlapPerc *= (1/particleRad);
-                
-                // color
-                #define purple float3(overlapPerc, (overlapPerc - 1) * .6, overlapPerc)
-                #define yellow float3(overlapPerc, overlapPerc, (overlapPerc - 1) * .6)
-                float3 col = isPurple ? lerp(purple, yellow, i.uv.y)
-                                      : lerp(yellow, purple, i.uv.y);
-                return fixed4(col, strength * strength * overlapPerc);
+
+                return fixed4(overlapPerc, strength * strength * pow(length(overlapPerc), 2));
             }
             ENDCG
         }

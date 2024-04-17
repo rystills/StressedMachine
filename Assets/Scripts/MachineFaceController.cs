@@ -16,10 +16,10 @@ public class MachineFaceController : MonoBehaviour
     private Vector3 eyeSocketLeft_initialForward;
     private Vector3 eyeSocketRight_initialForward;
 
-    // eye stalk data
-    private float esl_lastTriggerTime = -999;
-    private float esr_lastTriggerTime = -999;
-    private float ms_lastTriggerTime = -999;
+    // eye stalk data (trigger times start at 3 to prevent stalk pops at the start of the opening)
+    private float esl_lastTriggerTime = 3;
+    private float esr_lastTriggerTime = 3;
+    private float ms_lastTriggerTime = 3;
     [SerializeField] private float eyeStalkMoveHDur;
     [SerializeField] private float eyeStalkMoveDist;
     [SerializeField] private float eyeStalkMoveOdds;

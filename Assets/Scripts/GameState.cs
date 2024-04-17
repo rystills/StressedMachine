@@ -6,6 +6,7 @@ public enum DeathBy
     RadiationOverheat,
     WaveDesync,
     TimeDecompression,
+    SignalEncodingFailure,
 }
 
 public class GameState : MonoBehaviour
@@ -78,6 +79,9 @@ public class GameState : MonoBehaviour
                 break;
             case DeathBy.TimeDecompression:
                 deathMessage = "Please ensure continuous time compression.";
+                break;
+            case DeathBy.SignalEncodingFailure:
+                deathMessage = "Please ensure uninterrupted signal encoding.";
                 break;
         }
         if (deathMessage != "") DialogueController.Show(new() { deathMessage }, new() { instance.ResetWorld });

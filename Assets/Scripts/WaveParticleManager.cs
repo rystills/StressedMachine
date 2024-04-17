@@ -78,7 +78,9 @@ public class WaveParticleManager : MonoBehaviour
     {
         desyncAmount = 0;
         instance.outlineHeightOffset = instance.outlineHeightOffsetTarget = instance.heightOffset;
+        instance.prevHeightsSync = true;
         instance.syncedAtTime = Time.time;
+        instance.waveParticleMat.SetColor("_EmissionColor", instance.heightsSynced ? instance.greenCol : instance.redCol);
         instance.FlushEffects();
     }
 

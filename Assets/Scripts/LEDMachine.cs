@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class LEDMachine : MonoBehaviour
 {
@@ -7,26 +9,46 @@ public class LEDMachine : MonoBehaviour
 
     [SerializeField] private List<LEDLight> lights;
     private float syncedAtTime;
-    public static float desyncAmount;
     [SerializeField] private float syncDuration;
+    private float overlayStrength;
     private int[] rgbNum = new int[3];
-    private int rgbMax;
+    public static int rgbMax = -1;
+    [SerializeField] private float desyncIncr;
+    [SerializeField] private float desyncDecr;
+    [SerializeField] private Material overlayMat;
+    [SerializeField] private Image overlayImg;
+    [SerializeField] private AudioSource overlaySnd;
+    [SerializeField] private AudioSource activeSnd;
+    private float[] partColInds;
 
     private void Awake()
     {
         instance = this;
+        partColInds = new float[lights.Count];
     }
 
     private void OnEnable()
     {
         syncedAtTime = Time.time;
         lights.ForEach(l => l.gameObject.SetActive(true));
+        activeSnd.Play();
     }
 
     public static void Reset()
     {
-        desyncAmount = 0;
-        instance.syncedAtTime = Time.time;
+        if (rgbMax != -1)
+        {
+            // reset all LEDs to the most common color
+            foreach (LEDLight l in instance.lights) if (l.colInd != rgbMax) l.SetColInd(rgbMax, false);
+            instance.syncedAtTime = Time.time;
+            instance.overlayStrength = 0;
+        }
+    }
+
+    public static void SendColorsToShader()
+    {
+        for (int i = 0; i < instance.lights.Count; ++i) instance.partColInds[i] = instance.lights[i].colInd;
+        instance.overlayMat.SetFloatArray("_PartColInds", instance.partColInds);
     }
 
     private void LateUpdate()
@@ -51,6 +73,18 @@ public class LEDMachine : MonoBehaviour
         }
 
         // rotate over time
-        transform.Rotate(Time.deltaTime * 120, Time.deltaTime * 80, 0);
+        transform.Rotate(Time.deltaTime * 120 * GameState.powerDownFactor, Time.deltaTime * 80 * GameState.powerDownFactor, 0);
+
+        // update overlay
+        overlayStrength = Mathf.Clamp01(overlayStrength + (desyncIncr * (lights.Count - rgbNum[rgbMax]) - desyncDecr) * Time.deltaTime * GameState.globalFactor);
+        overlayMat.SetFloat("strength", overlayStrength);
+        overlayImg.enabled = overlayStrength > 0;
+        
+        // adjust sounds
+        overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
+        activeSnd.pitch = GameState.powerDownFactor * -.25f;
+        
+        if (overlayStrength == 1) Player.Die(DeathBy.SignalEncodingFailure);
+        
     }
 }
