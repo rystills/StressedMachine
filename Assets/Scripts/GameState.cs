@@ -40,24 +40,28 @@ public class GameState : MonoBehaviour
                                       : instance.powerDownAtTime == -1 ? 1
                                       : powerDownFactor;
     public static float powerDownFactor => instance.powerDownAtTime == -1 ? 1 : 1 - TimeExt.Since(instance.powerDownAtTime) / instance.powerDownDuration;
-    public static float furnaceFactor => globalFactor * (state == 0 ? 1 : .4f);
-    public static float waveFactor => globalFactor * (state == 1 ? 1 : .4f);
-    public static float hourglassFactor => globalFactor * (state == 2 ? 1 : .4f);
+    public static float furnaceFactor => globalFactor * (state == 0 ? 1.1f : .4f);
+    public static float waveFactor => globalFactor * (state == 1 ? 1.3f : .32f);
+    public static float hourglassFactor => globalFactor * (state == 2 ? 1.1f : .4f);
+    public static float ledFactor => globalFactor * (state == 3 ? 1f : .4f);
 
     private void Awake() => instance = this;
 
-    public static void Reset()
+    private void ResetWorld()
     {
-        // reset world
         RadiationManager.Reset();
         Hourglass.Reset();
         WaveParticleManager.Reset();
-        instance.roundabout.Reset();
-        instance.furnaceDoor.Reset();
+        roundabout.Reset();
+        furnaceDoor.Reset();
         Player.ResetPosition();
-        
-        // reset state
-        instance.stateProgress = 0;
+        LEDMachine.Reset();
+        stateProgress = 0;
+    }
+
+    public static void Reset()
+    {
+        instance.ResetWorld();
         
         // show death message
         string deathMessage = "";
@@ -76,20 +80,20 @@ public class GameState : MonoBehaviour
                 deathMessage = "Please ensure continuous time compression.";
                 break;
         }
-        if (deathMessage != "") DialogueController.Show(new() { deathMessage });
+        if (deathMessage != "") DialogueController.Show(new() { deathMessage }, new() { instance.ResetWorld });
     }
 
     private void Update()
     {
         // update state progress
-        if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime) >= targetProgress && !DeathAnimation.instance.gameObject.activeSelf)
+        if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime * globalFactor) >= targetProgress && !DeathAnimation.instance.gameObject.activeSelf)
         {
             DialogueController.Show(state == 0 ? new() { "Core apparatus engaged. Initializing wave synchronization channel . . ." }
                                   : state == 1 ? new() { "Wave alignment synchronized. Initializing time compression chamber . . ." }
                                   : state == 2 ? new() { "Time compression stabilized. Initializing signal encoding mechanism . . ." }
                                   : state == 3 ? new() { "TBD" }
                                   : new() { "Boot sequence complete! Unlocking exit door . . .", "I will see you again up ahead ☀" },
-                                    new() { IncrementState, StopRebalancing });
+                                    new() { IncrementState, StopRebalancing, ResetWorld });
             rebalancing = true;
             furnaceDoor.enabled = true;
             Player.ReturnControl();
@@ -150,6 +154,7 @@ public class GameState : MonoBehaviour
                 instance.lightControllerFurnace.Deactivate();
                 instance.lightControllerWave.Deactivate();
                 instance.lightControllerHourglass.Deactivate();
+                instance.lightControllerLED.Deactivate();
                 instance.powerDownAtTime = Time.time;
                 instance.furnaceDoor.ToggleLock();
                 instance.lever.locked = true;
