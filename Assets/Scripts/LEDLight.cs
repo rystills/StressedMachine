@@ -15,6 +15,7 @@ public class LEDLight : MonoBehaviour, IPointerDownHandler
                                                new(0f, 0f, 2f, 4f) };
     [NonSerialized] public int colInd = 2;
     [SerializeField] private AudioSource clickSnd;
+    [NonSerialized] public bool locked;
 
     private void Awake()
     {
@@ -34,7 +35,7 @@ public class LEDLight : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (Player.InRangeOf(transform.position, 1.1f))
+        if (!locked && Player.InRangeOf(transform.position, 1.1f))
             SetColInd((colInd + (eventData.button == PointerEventData.InputButton.Left ? 1 : lightColors.Length - 1)) % lightColors.Length);
     }
 }

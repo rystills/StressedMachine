@@ -111,6 +111,7 @@ public class GameState : MonoBehaviour
             waveParticleManager.enabled = false;
             hourglass.enabled = false;
             metaballManager.enabled = false;
+            instance.ledMachine.enabled = false;
         }
     }
 
@@ -159,6 +160,7 @@ public class GameState : MonoBehaviour
                 instance.lightControllerWave.Deactivate();
                 instance.lightControllerHourglass.Deactivate();
                 instance.lightControllerLED.Deactivate();
+                instance.ledMachine.LockLEDs();
                 instance.powerDownAtTime = Time.time;
                 instance.furnaceDoor.ToggleLock();
                 instance.lever.locked = true;

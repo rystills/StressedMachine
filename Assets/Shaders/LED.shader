@@ -73,7 +73,7 @@ Shader "Custom/LED"
                 clip(length(overlapPerc) - .0000001);
                 overlapPerc *= (1/particleRad);
 
-                return fixed4(overlapPerc, strength * strength * pow(length(overlapPerc), 2));
+                return fixed4(overlapPerc, pow(strength, 3) * pow(length(overlapPerc), 2));
             }
             ENDCG
         }

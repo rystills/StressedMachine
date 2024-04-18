@@ -44,6 +44,8 @@ public class LEDMachine : MonoBehaviour
             instance.overlayStrength = 0;
         }
     }
+    
+    public void LockLEDs() => lights.ForEach(l => l.locked = true);
 
     public static void SendColorsToShader()
     {
