@@ -28,9 +28,11 @@ public class GameState : MonoBehaviour
     [SerializeField] private LightController lightControllerWave;
     [SerializeField] private LightController lightControllerHourglass;
     [SerializeField] private LightController lightControllerLED;
+    [SerializeField] private LightController lightControllerPillar;
     public static bool rebalancing;
     [SerializeField] private DoorController doorController;
     [SerializeField] private MachineFaceController machineFaceController;
+    [SerializeField] private PillarMachine pillarMachine;
 
     // power down
     private float powerDownAtTime = -1;
@@ -142,14 +144,16 @@ public class GameState : MonoBehaviour
                 instance.lightControllerHourglass.Activate();
                 break;
             case 3:
-                // light array
                 instance.targetProgress = 120;
+                // led machine
                 instance.ledMachine.enabled = true;
                 instance.lightControllerLED.Activate();
                 break;
             case 4:
-                // ???
+                // pillar machine
                 instance.targetProgress = 150;
+                instance.pillarMachine.enabled = true;
+                instance.lightControllerPillar.Activate();
                 break;
             case 5:
                 // end door
@@ -160,8 +164,8 @@ public class GameState : MonoBehaviour
                 instance.lightControllerWave.Deactivate();
                 instance.lightControllerHourglass.Deactivate();
                 instance.lightControllerLED.Deactivate();
-                instance.ledMachine.LockLEDs();
                 instance.powerDownAtTime = Time.time;
+                instance.ledMachine.LockLEDs();
                 instance.furnaceDoor.ToggleLock();
                 instance.lever.locked = true;
                 instance.roundabout.locked = true;

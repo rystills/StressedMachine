@@ -8,24 +8,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GlassInner
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: -6465566751694194690, guid: b18d6c23125d0024784e0226764d715e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
-  - _GLOSSYREFLECTIONS_OFF
-  - _METALLICGLOSSMAP
-  - _NORMALMAP
-  m_InvalidKeywords:
-  - _METALLICSPECGLOSSMAP
-  - _OCCLUSIONMAP
-  - _SPECGLOSSMAP
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2999
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -127,7 +119,7 @@ Material:
     - Vector1_5e70d7392fec4c74b3ddbe7aa949ee15: 1
     - Vector1_9da454db71294ad5b2157c85dfd105fa: 3
     - _AlphaClip: 0
-    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueControl: 1
     - _BUILTIN_QueueOffset: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -160,6 +152,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 0.7294118}
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.86495686, g: 1.091611, b: 0.7364878, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
