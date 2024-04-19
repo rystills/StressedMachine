@@ -164,6 +164,7 @@ public class GameState : MonoBehaviour
                 instance.lightControllerWave.Deactivate();
                 instance.lightControllerHourglass.Deactivate();
                 instance.lightControllerLED.Deactivate();
+                instance.lightControllerPillar.Deactivate();
                 instance.powerDownAtTime = Time.time;
                 instance.ledMachine.LockLEDs();
                 instance.furnaceDoor.ToggleLock();
