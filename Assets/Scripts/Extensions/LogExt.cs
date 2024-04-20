@@ -61,6 +61,9 @@ public class LogExt : MonoBehaviour
         visibleLines = new(string, float)[numVisibleLines];
 
         DontDestroyOnLoad(gameObject);
+
+        // disable logging outside of PIE
+        enabled = Application.isEditor;
     }
     
     [RuntimeInitializeOnLoadMethod]
