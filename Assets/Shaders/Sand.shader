@@ -48,7 +48,7 @@ Shader "Custom/Sand"
             fixed4 frag (v2f i) : SV_Target
             {
                 // config
-                float aspectRatio = _ScreenParams.x / (float)_ScreenParams.y;
+                float aspectRatio = _ScreenParams.x / _ScreenParams.y;
                 float2 correctedUv = float2(i.uv.x, 1 - i.uv.y / aspectRatio);
                 #define particleRad .04
                 #define numParts 400.

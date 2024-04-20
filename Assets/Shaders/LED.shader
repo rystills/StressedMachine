@@ -51,7 +51,7 @@ Shader "Custom/LED"
             fixed4 frag (v2f i) : SV_Target
             {
                 // config
-                float aspectRatio = _ScreenParams.x / (float)_ScreenParams.y;
+                float aspectRatio = _ScreenParams.x / _ScreenParams.y;
                 float2 correctedUv = float2(i.uv.x, 1 - i.uv.y / aspectRatio);
                 float3 colors[3] = { float3(1,0,0), float3(0,1,0), float3(0,0,1) };
                 #define orbitRadius .2

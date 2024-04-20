@@ -39,6 +39,8 @@ public class GameState : MonoBehaviour
     [SerializeField] private float powerDownDuration;
     [SerializeField] private MetaballManager metaballManager;
 
+    public static float stateCompletion => instance.targetProgress == 0 || globalFactor == 0 || instance.powerDownAtTime != -1 ? 1 : instance.stateProgress / instance.targetProgress;
+
     public static float globalFactor => DialogueController.instance.gameObject.activeInHierarchy ? 0
                                       : instance.powerDownAtTime == -1 ? 1
                                       : powerDownFactor;
