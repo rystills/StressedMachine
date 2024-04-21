@@ -34,14 +34,14 @@ public class LEDMachine : MonoBehaviour
         activeSnd.Play();
     }
 
-    public static void Reset()
+    public void Reset()
     {
         if (rgbMax != -1)
         {
             // reset all LEDs to the most common color
-            foreach (LEDLight l in instance.lights) if (l.colInd != rgbMax) l.SetColInd(rgbMax, false);
-            instance.syncedAtTime = Time.time;
-            instance.overlayStrength = 0;
+            foreach (LEDLight l in lights) if (l.colInd != rgbMax) l.SetColInd(rgbMax, false);
+            syncedAtTime = Time.time;
+            overlayStrength = 0;
         }
     }
     

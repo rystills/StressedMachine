@@ -58,17 +58,17 @@ Shader "Custom/LED"
 
                 // calculate total overlap color
                 float3 overlapPerc = float3(0,0,0);
-                for (int i = 0; i < numParts; ++i) {
+                for (int k = 0; k < numParts; ++k) {
                     // evenly spaced x, 'random' y
-                    float2 basePos = float2((i + .5f) / numParts,
-                                            ((i + .5f) / numParts * 12) % (1 + particleRad));
+                    float2 basePos = float2((k + .5) / numParts,
+                                            ((k + .5) / numParts * 12) % (1 + particleRad));
 
                     // 'random' orbit around base position
-                    float rotSpeed = (i+1) * 6.37 % 10;
+                    float rotSpeed = (k+1) * 6.37 % 10;
                     float theta = rotSpeed * _Time[1];
                     float2 center = float2(basePos.x + orbitRadius * cos(theta), basePos.y + orbitRadius * sin(theta));
                     
-                    overlapPerc += max(0, particleRad - distance(center, correctedUv)) * colors[(int)_PartColInds[i]];
+                    overlapPerc += max(0, particleRad - distance(center, correctedUv)) * colors[(int)_PartColInds[k]];
                 }
                 clip(length(overlapPerc) - .0000001);
                 overlapPerc *= (1/particleRad);

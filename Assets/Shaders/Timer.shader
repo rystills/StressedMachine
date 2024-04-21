@@ -44,12 +44,15 @@ Shader "Custom/Timer"
                 // config
                 float aspectRatio = _ScreenParams.x / (float)_ScreenParams.y;
 
+                // clip bounds
                 if ((i.uv.x > .01 && i.uv.x < .99 && i.uv.y > .01 * aspectRatio && i.uv.y < 1 - (.01 * aspectRatio))
                  || (i.uv.x < stateCompletion * 4               && i.uv.y >= 1 - (.01 * aspectRatio) && i.uv.x > .01 && i.uv.x < .99)
                  || (i.uv.y > 1 - ((stateCompletion - .25) * 4) && i.uv.x >= .99                     && i.uv.y > .01 * aspectRatio)
                  || (i.uv.x > 1 - ((stateCompletion - .5) * 4)  && i.uv.y <= .01 * aspectRatio       && i.uv.x > .01)
                  || (i.uv.y < (stateCompletion - .75) * 4       && i.uv.x <= .01))
                     clip(-1);
+
+                // edge distance to alpha
                 return fixed4(1, 1, 0, .2 - 20 * min(min(min(i.uv.x, i.uv.y / aspectRatio), 1 - i.uv.x), (1 - i.uv.y) / aspectRatio));
             }
             ENDCG

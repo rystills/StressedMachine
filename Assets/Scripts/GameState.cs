@@ -7,6 +7,7 @@ public enum DeathBy
     WaveDesync,
     TimeDecompression,
     SignalEncodingFailure,
+    PillarRise,
 }
 
 public class GameState : MonoBehaviour
@@ -49,6 +50,7 @@ public class GameState : MonoBehaviour
     public static float waveFactor => globalFactor * (state == 1 ? 1.3f : .32f);
     public static float hourglassFactor => globalFactor * (state == 2 ? 1.1f : .4f);
     public static float ledFactor => globalFactor * (state == 3 ? 1f : .4f);
+    public static float pillarFactor => globalFactor * (state == 4 ? 1f : .4f);
 
     private void Awake() => instance = this;
 
@@ -60,7 +62,8 @@ public class GameState : MonoBehaviour
         roundabout.Reset();
         furnaceDoor.Reset();
         Player.ResetPosition();
-        LEDMachine.Reset();
+        ledMachine.Reset();
+        pillarMachine.Reset();
         stateProgress = 0;
     }
 
@@ -169,6 +172,7 @@ public class GameState : MonoBehaviour
                 instance.lightControllerPillar.Deactivate();
                 instance.powerDownAtTime = Time.time;
                 instance.ledMachine.LockLEDs();
+                instance.pillarMachine.LockPillars();
                 instance.furnaceDoor.ToggleLock();
                 instance.lever.locked = true;
                 instance.roundabout.locked = true;

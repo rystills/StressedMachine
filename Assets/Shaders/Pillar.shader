@@ -1,9 +1,8 @@
-Shader "Custom/Sand"
+Shader "Custom/Pillar"
 {
     Properties
     {
         strength("strength",float) = 0
-        isPurple("isPurple",float) = 0
     }
     SubShader
     {
@@ -19,7 +18,6 @@ Shader "Custom/Sand"
             #include "UnityCG.cginc"
 
             float strength;
-            float isPurple;
 
             struct appdata
             {
@@ -41,8 +39,15 @@ Shader "Custom/Sand"
                 return o;
             }
 
-            float distance(float2 p1, float2 p2) {
-                return sqrt(dot(p1 - p2, p1 - p2));
+
+            // defines
+            #define numPillars 9
+            #define particleRad .6
+            uniform float _PillarHeights[numPillars];
+            static const float PI = 3.14159265f;
+
+            float distance(float2 p1, float2 p2, int k) {
+                return sqrt(dot((p1 - p2) * 10, (p1 - p2)));
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -50,26 +55,24 @@ Shader "Custom/Sand"
                 // config
                 float aspectRatio = _ScreenParams.x / _ScreenParams.y;
                 float2 correctedUv = float2(i.uv.x, 1 - i.uv.y / aspectRatio);
-                #define particleRad .04
-                #define numParts 400.
-                
+
                 // calculate total overlap percentage
                 float overlapPerc = 0;
-                int start = max(0, correctedUv.x - particleRad) * numParts;
-                int end = min(numParts, start + 2 * particleRad * numParts);
-                for (int k = start; k < end; ++k) {
-                    float2 center = float2((k + .5) / numParts, (2100 + _Time[0]) * (2 + .0002 * UNITY_PI * (pow(numParts/2 - k, 2))) % (1 + particleRad));
-                    overlapPerc += max(0, particleRad - distance(center, correctedUv));
+                for (int k = 0; k < numPillars; ++k) {
+                    float ctime = cos(_PillarHeights[k] + _Time[3]);
+                    if (ctime < PI / 2) ctime = pow(ctime, 4);
+                    else ctime = pow(ctime, .25);
+                    float2 center = float2((k + 0.5) / numPillars, ctime * 0.25f + 0.75f);
+                    overlapPerc += max(0, particleRad - distance(center, correctedUv, k)) * _PillarHeights[k];
                 }
                 clip(overlapPerc - .0000001);
                 overlapPerc *= (1/particleRad);
-                
+
                 // color
-                #define purple float3(overlapPerc, (overlapPerc - 1) * .6, overlapPerc)
-                #define yellow float3(overlapPerc, overlapPerc, (overlapPerc - 1) * .6)
-                float3 col = isPurple ? lerp(purple, yellow, i.uv.y)
-                                      : lerp(yellow, purple, i.uv.y);
-                return fixed4(col, strength * strength * overlapPerc);
+                #define green float3((overlapPerc - 1) * .7, overlapPerc, (overlapPerc - 1) * .5)
+                #define tan float3(overlapPerc, (overlapPerc - 1) * .3, (overlapPerc - 1) * .1)
+                float3 col = lerp(green, tan, i.uv.y);
+                return fixed4(col, pow(max(0, (strength - .5) * 2), 4) * overlapPerc);
             }
             ENDCG
         }
