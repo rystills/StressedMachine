@@ -10,6 +10,8 @@ public class DoorController : MonoBehaviour
     [SerializeField] private Material lightMat;
     [SerializeField] private new Light light;
     private Collider triggerCol;
+    [SerializeField] private AudioSource unlockSnd;
+    [SerializeField] private AudioSource slideSnd;
 
     private void Awake()
     {
@@ -50,6 +52,7 @@ public class DoorController : MonoBehaviour
             lightMat.color = new(.5f, 1, .5f);
             lightMat.SetColor("_EmissionColor", new Color(0, .5f, 0) * 4);
             light.color = Color.green;
+            unlockSnd.Play();
         }
         // toggle off
         else
@@ -81,5 +84,9 @@ public class DoorController : MonoBehaviour
             rightDoor.localPosition = Vector3.MoveTowards(rightDoor.localPosition, rightDoorInitialPos, openSpeed * Time.deltaTime);
             enabled = leftDoor.localPosition != leftDoorInitialPos;
         }
+
+        // sounds
+        if (enabled) slideSnd.PlayBiDir(!wantsActive);
+        else         slideSnd.Stop();
     }
 }
