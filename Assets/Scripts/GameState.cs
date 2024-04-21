@@ -90,6 +90,9 @@ public class GameState : MonoBehaviour
             case DeathBy.SignalEncodingFailure:
                 deathMessage = "Please ensure uninterrupted signal encoding.";
                 break;
+            case DeathBy.PillarRise:
+                deathMessage = "TBD";
+                break;
         }
         if (deathMessage != "") DialogueController.Show(new() { deathMessage }, new() { instance.ResetWorld });
     }
@@ -119,6 +122,7 @@ public class GameState : MonoBehaviour
             hourglass.enabled = false;
             metaballManager.enabled = false;
             instance.ledMachine.enabled = false;
+            instance.pillarMachine.enabled = false;
         }
     }
 

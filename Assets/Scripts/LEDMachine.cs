@@ -42,7 +42,18 @@ public class LEDMachine : MonoBehaviour
             foreach (LEDLight l in lights) if (l.colInd != rgbMax) l.SetColInd(rgbMax, false);
             syncedAtTime = Time.time;
             overlayStrength = 0;
+            FlushEffects();
         }
+    }
+
+    private void FlushEffects()
+    {
+        overlayMat.SetFloat("strength", overlayStrength);
+        overlayImg.enabled = overlayStrength > 0;
+
+        // adjust sounds
+        overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
+        activeSnd.pitch = GameState.powerDownFactor * -.25f;
     }
     
     public void LockLEDs() => lights.ForEach(l => l.locked = true);
@@ -55,6 +66,13 @@ public class LEDMachine : MonoBehaviour
 
     private void LateUpdate()
     {
+        // rebalance
+        if (GameState.rebalancing)
+        {
+            overlayStrength = Mathf.MoveTowards(overlayStrength, 0, 2 * Time.deltaTime);
+            FlushEffects();
+        }
+
         // determine the most common color
         rgbNum[0] = rgbNum[1] = rgbNum[2] = 0;
         for (int i = 0; i < lights.Count; ++i) ++rgbNum[lights[i].colInd];
@@ -79,14 +97,9 @@ public class LEDMachine : MonoBehaviour
 
         // update overlay
         overlayStrength = Mathf.Clamp01(overlayStrength + (desyncIncr * (lights.Count - rgbNum[rgbMax]) - desyncDecr) * Time.deltaTime * GameState.globalFactor);
-        overlayMat.SetFloat("strength", overlayStrength);
-        overlayImg.enabled = overlayStrength > 0;
-        
-        // adjust sounds
-        overlaySnd.volume = Mathf.Pow(overlayStrength, 6);
-        activeSnd.pitch = GameState.powerDownFactor * -.25f;
+
+        if (GameState.ledFactor != 0) FlushEffects();
         
         if (overlayStrength == 1) Player.Die(DeathBy.SignalEncodingFailure);
-        
     }
 }
