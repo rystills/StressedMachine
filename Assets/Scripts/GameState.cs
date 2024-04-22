@@ -46,11 +46,21 @@ public class GameState : MonoBehaviour
                                       : instance.powerDownAtTime == -1 ? 1
                                       : powerDownFactor;
     public static float powerDownFactor => instance.powerDownAtTime == -1 ? 1 : 1 - TimeExt.Since(instance.powerDownAtTime) / instance.powerDownDuration;
-    public static float furnaceFactor => globalFactor * (state == 0 ? 1.1f : .4f);
-    public static float waveFactor => globalFactor * (state == 1 ? 1.3f : .32f);
-    public static float hourglassFactor => globalFactor * (state == 2 ? 1.1f : .4f);
-    public static float ledFactor => globalFactor * (state == 3 ? 1f : .4f);
-    public static float pillarFactor => globalFactor * (state == 4 ? 1f : .4f);
+    public static float furnaceFactor =>   globalFactor * (state == 0 ? 1.5f
+                                                         : state == 1 ? .7f
+                                                         : state == 2 ? .6f
+                                                         : state == 3 ? .6f
+                                                                      : .5f);
+    public static float waveFactor =>      globalFactor * (state == 1 ? 1.3f
+                                                         : state == 2 ? .7f
+                                                         : state == 3 ? .46f
+                                                                      : .32f);
+    public static float hourglassFactor => globalFactor * (state == 2 ? 1.3f
+                                                         : state == 3 ? .6f
+                                                                      : .45f);
+    public static float ledFactor =>       globalFactor * (state == 3 ? 1.7f
+                                                                      : 1.2f);
+    public static float pillarFactor =>    globalFactor * .6f;
 
     private void Awake() => instance = this;
 
@@ -140,21 +150,21 @@ public class GameState : MonoBehaviour
                 break;
             case 1:
                 // hourglass
-                instance.targetProgress = 60;
+                instance.targetProgress = 42;
                 instance.waveParticleManager.enabled = true;
                 instance.lever.locked = false;
                 instance.lightControllerWave.Activate();
                 break;
             case 2:
                 // roundabout
-                instance.targetProgress = 90;
+                instance.targetProgress = 60;
                 instance.hourglass.enabled = true;
                 instance.roundabout.locked = false;
                 instance.lightControllerHourglass.Activate();
                 break;
             case 3:
-                instance.targetProgress = 120;
                 // led machine
+                instance.targetProgress = 100;
                 instance.ledMachine.enabled = true;
                 instance.lightControllerLED.Activate();
                 break;

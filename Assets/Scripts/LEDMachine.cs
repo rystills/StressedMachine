@@ -82,7 +82,7 @@ public class LEDMachine : MonoBehaviour
         // desync after syncDuration elapses
         if (syncedAtTime >= 0 && TimeExt.Since(syncedAtTime) > syncDuration / GameState.ledFactor)
         {
-            syncedAtTime += syncDuration;
+            syncedAtTime += syncDuration / GameState.ledFactor;
 
             // select a random light of the most common color
             int swapInd;
