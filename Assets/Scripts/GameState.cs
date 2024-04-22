@@ -112,11 +112,17 @@ public class GameState : MonoBehaviour
         // update state progress
         if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime * globalFactor) >= targetProgress && !DeathAnimation.instance.gameObject.activeSelf)
         {
-            DialogueController.Show(state == 0 ? new() { "The core has been recalibrated successfully!", "Next, the wave synchronization channel will activate. Please use the alignment knob to achieve continuous wave synchronization . . ." }
-                                  : state == 1 ? new() { "The wave channel has been recalibrated successfully!", "Next, the time compression chamber will activate. Please use the orientation wheel to achieve continuous time compression . . ." }
-                                  : state == 2 ? new() { "The time compression chamber has been recalibrated successfully!", "Next, the signal encoding mechanism will activate. Please cycle the light beacons to achieve homogeneous encoding . . ." }
-                                  : state == 3 ? new() { "The signal encoding mechanism has been recalibrated successfully!", "Finally, the data transfer bus will activate. Please use kinetic force to prevent bus misalignment . . ." }
-                                               : new() { "The data transfer bus has been recalibrated successfully!", "Congratulations on completing system recalibration! The door will unlock momentarily . . .", "I will see you again up ahead ☀" },
+            DialogueController.Show(state == 0 ? new() { "The core has been recalibrated successfully!",
+                                                         "Next, the wave synchronization channel will activate. Please use the alignment knob to achieve continuous wave synchronization . . ." }
+                                  : state == 1 ? new() { "The wave channel has been recalibrated successfully!",
+                                                         "Next, the time compression chamber will activate. Please use the orientation wheel to achieve continuous time compression . . ." }
+                                  : state == 2 ? new() { "The time compression chamber has been recalibrated successfully!",
+                                                         "Next, the signal encoding mechanism will activate. Please cycle the light beacons to achieve homogeneous encoding . . ." }
+                                  : state == 3 ? new() { "The signal encoding mechanism has been recalibrated successfully!",
+                                                         "Finally, the data transfer bus will activate. Please use kinetic force to prevent bus misalignment . . ." }
+                                               : new() { "The data transfer bus has been recalibrated successfully!",
+                                                         "Congratulations on completing system recalibration! The door will unlock momentarily . . .",
+                                                         "I will see you again up ahead ☀" },
                                     new() { IncrementState, StopRebalancing, ResetWorld });
             rebalancing = true;
             furnaceDoor.enabled = true;

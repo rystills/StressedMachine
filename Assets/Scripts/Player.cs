@@ -29,7 +29,7 @@ public class Player : FirstPersonCharacter
     {
         instance.handleInput = true;
         instance.crosshair.SetActive(true);
-        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))) instance.Sprint();
+        if (Input.GetKey(KeyCode.LeftShift)) instance.Sprint();
     }
     public static void DisableControl() => instance.crosshair.SetActive(instance.handleInput = false);
 

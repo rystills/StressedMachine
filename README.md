@@ -1,6 +1,17 @@
 # Stressed Machine
-A quick game where you micromanage the components of a strange machine.
+## _A quick game where you micromanage the components of a strange machine._
 
+## Controls
+|Command | Action|
+|------ | ------|
+|Left Click | Advance Dialogue, Interact, Cycle Light Forwards|
+|Right Click | Rewind Dialogue, Cycle Light Backwards|
+|WASD / Arrow Keys | Move|
+|Left Shift | Sprint|
+|Space | Jump, Advance Dialogue|
+|Backspace | Rewind Dialogue|
+
+## Credits
 Inspired by Mike Klubnika's [System Upkeep](https://mikeklubnika.itch.io/system-upkeep).
 
 Built with [Unity 2022](https://unity.com/) (Built-in Render Pipeline), with the help of Oscar Gracián's [Easy Character Movement 2](https://assetstore.unity.com/packages/tools/physics/easy-character-movement-2-193614) and Lucas Wilke's [Serialized Dictionary](https://github.com/ayellowpaper/SerializedDictionary).

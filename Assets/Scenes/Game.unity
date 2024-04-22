@@ -441,8 +441,8 @@ MonoBehaviour:
   _strafeSpeedMultiplier: 1
   crosshair: {fileID: 964573833}
   hingeDoor: {fileID: 397102824}
-  interactRange: 2.75
-  interactRetainRange: 3
+  interactRange: 2.8
+  interactRetainRange: 3.4
   crouchSnd: {fileID: 9034906}
   zoomOutSnd: {fileID: 9034907}
   jumpSnd: {fileID: 9034908}
