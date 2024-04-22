@@ -153,7 +153,7 @@ public class Player : FirstPersonCharacter
                 if (cutsceneElapsedTime >= 2.25f)
                 {
                     activeCutscene = -1;
-                    DialogueController.Show(new() { "Initializing . . . . . . .", "Multiple failures detected during boot sequence. Manual system regulation authorized.", "Initializing core apparatus . . ." },
+                    DialogueController.Show(new() { "Welcome to the system! The diagnostics module will now execute . . . . . . .", "Multiple anomalies were detected during the diagnostic sweep! A complete system recalibration is required prior to further use.", "The core chamber will activate momentarily. Please use the hardware shield to regulate the core temperature . . ." },
                                             new() { lightControllerFurnace.Activate, hingeDoor.ToggleLock, GameState.IncrementState } );
                 }
                 break;

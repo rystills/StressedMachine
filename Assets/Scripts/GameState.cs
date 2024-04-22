@@ -46,21 +46,21 @@ public class GameState : MonoBehaviour
                                       : instance.powerDownAtTime == -1 ? 1
                                       : powerDownFactor;
     public static float powerDownFactor => instance.powerDownAtTime == -1 ? 1 : 1 - TimeExt.Since(instance.powerDownAtTime) / instance.powerDownDuration;
-    public static float furnaceFactor =>   globalFactor * (state == 0 ? 1.5f
+    public static float furnaceFactor   => globalFactor * (state == 0 ? 1.5f
                                                          : state == 1 ? .7f
                                                          : state == 2 ? .6f
                                                          : state == 3 ? .6f
                                                                       : .5f);
-    public static float waveFactor =>      globalFactor * (state == 1 ? 1.3f
+    public static float waveFactor      => globalFactor * (state == 1 ? 1.3f
                                                          : state == 2 ? .7f
                                                          : state == 3 ? .46f
                                                                       : .32f);
     public static float hourglassFactor => globalFactor * (state == 2 ? 1.3f
                                                          : state == 3 ? .6f
                                                                       : .45f);
-    public static float ledFactor =>       globalFactor * (state == 3 ? 1.7f
+    public static float ledFactor       => globalFactor * (state == 3 ? 1.7f
                                                                       : 1.2f);
-    public static float pillarFactor =>    globalFactor * .6f;
+    public static float pillarFactor    => globalFactor * .6f;
 
     private void Awake() => instance = this;
 
@@ -86,22 +86,22 @@ public class GameState : MonoBehaviour
         switch (lastDeathBy)
         {
             case DeathBy.RadiationOverheat:
-                deathMessage = "Please ensure stable core temperature.";
+                deathMessage = "Please ensure that excess core heat is periodically flushed via the hardware shield.";
                 break;
             case DeathBy.Radiation:
-                deathMessage = "Please ensure minimal core radiation outflow.";
+                deathMessage = "Please ensure that excess core radiation is filtered via the hardware shield.";
                 break;
             case DeathBy.WaveDesync:
-                deathMessage = "Please ensure continuous wave synchronization.";
+                deathMessage = "Please ensure that continuous wave synchronization is maintained via the alignment knob.";
                 break;
             case DeathBy.TimeDecompression:
-                deathMessage = "Please ensure continuous time compression.";
+                deathMessage = "Please ensure that continuous time compression is maintained via the orientation wheel.";
                 break;
             case DeathBy.SignalEncodingFailure:
-                deathMessage = "Please ensure uninterrupted signal encoding.";
+                deathMessage = "Please ensure that homogeneous encoding is maintained via the light beacons.";
                 break;
             case DeathBy.PillarRise:
-                deathMessage = "TBD";
+                deathMessage = "Please ensure that bus alignment is maintained via kinetic force.";
                 break;
         }
         if (deathMessage != "") DialogueController.Show(new() { deathMessage }, new() { instance.ResetWorld });
@@ -112,11 +112,11 @@ public class GameState : MonoBehaviour
         // update state progress
         if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime * globalFactor) >= targetProgress && !DeathAnimation.instance.gameObject.activeSelf)
         {
-            DialogueController.Show(state == 0 ? new() { "Core apparatus engaged. Initializing wave synchronization channel . . ." }
-                                  : state == 1 ? new() { "Wave alignment synchronized. Initializing time compression chamber . . ." }
-                                  : state == 2 ? new() { "Time compression stabilized. Initializing signal encoding mechanism . . ." }
-                                  : state == 3 ? new() { "TBD" }
-                                  : new() { "Boot sequence complete! Unlocking exit door . . .", "I will see you again up ahead ☀" },
+            DialogueController.Show(state == 0 ? new() { "The core has been recalibrated successfully!", "Next, the wave synchronization channel will activate. Please use the alignment knob to achieve continuous wave synchronization . . ." }
+                                  : state == 1 ? new() { "The wave channel has been recalibrated successfully!", "Next, the time compression chamber will activate. Please use the orientation wheel to achieve continuous time compression . . ." }
+                                  : state == 2 ? new() { "The time compression chamber has been recalibrated successfully!", "Next, the signal encoding mechanism will activate. Please cycle the light beacons to achieve homogeneous encoding . . ." }
+                                  : state == 3 ? new() { "The signal encoding mechanism has been recalibrated successfully!", "Finally, the data transfer bus will activate. Please use kinetic force to prevent bus misalignment . . ." }
+                                               : new() { "The data transfer bus has been recalibrated successfully!", "Congratulations on completing system recalibration! The door will unlock momentarily . . .", "I will see you again up ahead ☀" },
                                     new() { IncrementState, StopRebalancing, ResetWorld });
             rebalancing = true;
             furnaceDoor.enabled = true;
