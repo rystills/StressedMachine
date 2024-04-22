@@ -34,7 +34,8 @@ public class GameState : MonoBehaviour
     [SerializeField] private DoorController doorController;
     [SerializeField] private MachineFaceController machineFaceController;
     [SerializeField] private PillarMachine pillarMachine;
-
+    [SerializeField] private AudioSource clearWaveSnd;
+    
     // power down
     private float powerDownAtTime = -1;
     [SerializeField] private float powerDownDuration;
@@ -112,6 +113,7 @@ public class GameState : MonoBehaviour
         // update state progress
         if (state > -1 && stateProgress < targetProgress && (stateProgress += Time.deltaTime * globalFactor) >= targetProgress && !DeathAnimation.instance.gameObject.activeSelf)
         {
+            clearWaveSnd.Play();
             DialogueController.Show(state == 0 ? new() { "The core has been recalibrated successfully!",
                                                          "Next, the wave synchronization channel will activate. Please use the alignment knob to achieve continuous wave synchronization . . ." }
                                   : state == 1 ? new() { "The wave channel has been recalibrated successfully!",
