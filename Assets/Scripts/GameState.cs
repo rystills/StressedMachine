@@ -49,17 +49,17 @@ public class GameState : MonoBehaviour
     public static float furnaceFactor   => globalFactor * (state == 0 ? 1.5f
                                                          : state == 1 ? .7f
                                                          : state == 2 ? .6f
-                                                         : state == 3 ? .6f
-                                                                      : .5f);
+                                                         : state == 3 ? .55f
+                                                                      : .45f);
     public static float waveFactor      => globalFactor * (state == 1 ? 1.3f
                                                          : state == 2 ? .7f
                                                          : state == 3 ? .46f
-                                                                      : .32f);
+                                                                      : .3f);
     public static float hourglassFactor => globalFactor * (state == 2 ? 1.3f
                                                          : state == 3 ? .6f
-                                                                      : .45f);
-    public static float ledFactor       => globalFactor * (state == 3 ? 1.7f
-                                                                      : 1.2f);
+                                                                      : .4f);
+    public static float ledFactor       => globalFactor * (state == 3 ? 1.2f
+                                                                      : .9f);
     public static float pillarFactor    => globalFactor * .6f;
 
     private void Awake() => instance = this;
