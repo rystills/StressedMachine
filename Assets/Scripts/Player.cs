@@ -25,7 +25,12 @@ public class Player : FirstPersonCharacter
     
     // control toggles
     public static bool inControl => instance.activeCutscene == -1 && instance.handleInput;
-    public static void EnableControl() => instance.crosshair.SetActive(instance.handleInput = true);
+    public static void EnableControl()
+    {
+        instance.handleInput = true;
+        instance.crosshair.SetActive(true);
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))) instance.Sprint();
+    }
     public static void DisableControl() => instance.crosshair.SetActive(instance.handleInput = false);
 
     public static bool lentControl;

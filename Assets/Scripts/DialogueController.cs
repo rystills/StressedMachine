@@ -68,10 +68,9 @@ public class DialogueController : MonoBehaviour
 
                 if (framesElapsed == 0 && ++messageInd >= messages.Count)
                 {
-                    // begin the next message
                     instance.transform.parent.gameObject.SetActive(false);
-                    Player.EnableControl();
                     callbacks?.ForEach(cb => cb.Invoke());
+                    Player.EnableControl();
                 }
             }
             if (Input.GetMouseButtonDown(1))

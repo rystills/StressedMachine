@@ -15,7 +15,7 @@ public class Pillar : MonoBehaviour
     {
         float tickFac = fac * Time.deltaTime * GameState.pillarFactor;
         
-        transform.RotateAroundLocal(Vector3.up, tickFac);
+        transform.Rotate(Vector3.up, tickFac * Mathf.Rad2Deg, Space.World);
 
         rotateSnd.pitch = GameState.powerDownFactor * fac * .2f;
         
