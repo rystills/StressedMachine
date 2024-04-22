@@ -61,7 +61,7 @@ public class DialogueController : MonoBehaviour
         // apply a grace period to the first message to guard against accidental clicks
         if (framesElapsed >= clickGraceFrames || messageInd > 0)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
             {
                 // complete the current message
                 framesElapsed = activeMessage.Length * (activeMessage.Length / ((int)framesElapsed + 1));
@@ -73,7 +73,7 @@ public class DialogueController : MonoBehaviour
                     Player.EnableControl();
                 }
             }
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Backspace))
             {
                 // return to the previous message
                 framesElapsed = 0;
