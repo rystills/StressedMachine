@@ -87,22 +87,22 @@ public class GameState : MonoBehaviour
         switch (lastDeathBy)
         {
             case DeathBy.RadiationOverheat:
-                deathMessage = "Please ensure that excess core heat is periodically flushed via the hardware shield.";
+                deathMessage = "Please ensure that excess core heat is periodically flushed via the hardware shield (left click + horizontal drag to rotate the furnace door).";
                 break;
             case DeathBy.Radiation:
-                deathMessage = "Please ensure that excess core radiation is filtered via the hardware shield.";
+                deathMessage = "Please ensure that excess core radiation is filtered via the hardware shield (left click + horizontal drag to rotate the furnace door).";
                 break;
             case DeathBy.WaveDesync:
-                deathMessage = "Please ensure that continuous wave synchronization is maintained via the alignment knob.";
+                deathMessage = "Please ensure that continuous wave synchronization is maintained via the alignment knob (left click + vertical drag to shift the knob).";
                 break;
             case DeathBy.TimeDecompression:
-                deathMessage = "Please ensure that continuous time compression is maintained via the orientation wheel.";
+                deathMessage = "Please ensure that continuous time compression is maintained via the orientation wheel (left click + W / S to rotate the roundabout clockwise / counterclockwise).";
                 break;
             case DeathBy.SignalEncodingFailure:
-                deathMessage = "Please ensure that homogeneous encoding is maintained via the light beacons.";
+                deathMessage = "Please ensure that homogeneous encoding is maintained via the light beacons (left click / right click to cycle the light colors forwards / backwards).";
                 break;
             case DeathBy.PillarRise:
-                deathMessage = "Please ensure that bus alignment is maintained via kinetic force.";
+                deathMessage = "Please ensure that bus alignment is maintained via kinetic force (jump on the pillars to lower them down).";
                 break;
         }
         if (deathMessage != "") DialogueController.Show(new() { deathMessage }, new() { instance.ResetWorld });
