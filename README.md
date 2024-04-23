@@ -10,6 +10,7 @@
 |Left Shift | Sprint|
 |Space | Jump, Advance Dialogue|
 |Backspace | Rewind Dialogue|
+|Left Control | Crouch|
 
 ## Credits
 Inspired by Mike Klubnika's [System Upkeep](https://mikeklubnika.itch.io/system-upkeep).
