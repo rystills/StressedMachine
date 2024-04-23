@@ -55,14 +55,15 @@ Shader "Custom/Sand"
                 
                 // calculate total overlap percentage
                 float overlapPerc = 0;
-                int start = max(0, correctedUv.x - particleRad * strength) * numParts;
-                int end = min(numParts, start + 2 * particleRad * strength * numParts);
+                float radStr = particleRad * strength;
+                int start = max(0, correctedUv.x - radStr) * numParts;
+                int end = min(numParts, start + 2 * radStr * numParts);
                 for (int k = start; k < end; ++k) {
                     float2 center = float2((k + .5) / numParts, (2100 + _Time[0]) * (2 + .0002 * UNITY_PI * (pow(numParts/2 - k, 2))) % (1 + particleRad));
-                    overlapPerc += max(0, particleRad * strength - distance(center, correctedUv));
+                    overlapPerc += max(0, radStr - distance(center, correctedUv));
                 }
                 clip(overlapPerc - .0000001);
-                overlapPerc *= (1 / particleRad * strength);
+                overlapPerc *= (1 / radStr);
                 
                 // color
                 #define purple float3(overlapPerc, (overlapPerc - 1) * .6, overlapPerc)
