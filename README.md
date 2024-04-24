@@ -11,6 +11,7 @@
 |Space | Jump, Advance Dialogue|
 |Backspace | Rewind Dialogue|
 |Left Control | Crouch|
+|Z | Toggle Zoom|
 
 ## Credits
 Inspired by Mike Klubnika's [System Upkeep](https://mikeklubnika.itch.io/system-upkeep).
