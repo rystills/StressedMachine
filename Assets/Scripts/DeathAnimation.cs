@@ -20,9 +20,9 @@ public class DeathAnimation : MonoBehaviour
 
     public static bool Play(DeathBy method)
     {
+        if (instance.gameObject.activeSelf) return false;
         GameState.lastDeathBy = method;
         ++GameState.deathByCounts[(int)method];
-        if (instance.gameObject.activeSelf) return false;
         mat.SetFloat("startTime", deathTime = Time.timeSinceLevelLoad);
         instance.gameObject.SetActive(true);
         instance.prevElapsed = 0;
