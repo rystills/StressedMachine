@@ -71,6 +71,7 @@ public class Player : FirstPersonCharacter
     [SerializeField] private GameObject endBackground;
     [SerializeField] private GameObject endTitle;
     [SerializeField] private GameObject endSignature;
+    [SerializeField] private GameObject endExitText;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
@@ -130,7 +131,9 @@ public class Player : FirstPersonCharacter
         }
 
         // end cutscene
-        if (transform.position.y < -120) endSignature.SetActive(true);
+        if (transform.position.y < -400) endExitText.SetActive(true);
+        else if (transform.position.y < -200) StatsController.FlushStats();
+        else if (transform.position.y < -120) endSignature.SetActive(true);
         else if (transform.position.y < -50) endTitle.SetActive(true);
         else if (transform.position.y < -10)
         {
