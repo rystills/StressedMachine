@@ -47,16 +47,16 @@ public class GameState : MonoBehaviour
                                       : instance.powerDownAtTime == -1 ? 1
                                       : powerDownFactor;
     public static float powerDownFactor => instance.powerDownAtTime == -1 ? 1 : 1 - TimeExt.Since(instance.powerDownAtTime) / instance.powerDownDuration;
-    public static float furnaceFactor   => globalFactor * (state == 0 ? 1.5f
+    public static float furnaceFactor   => globalFactor * (state == 0 ? 1.4f
                                                          : state == 1 ? .62f
-                                                         : state == 2 ? .58f
-                                                         : state == 3 ? .52f
+                                                         : state == 2 ? .55f
+                                                         : state == 3 ? .51f
                                                                       : .46f);
     public static float waveFactor      => globalFactor * (state == 1 ? 1.15f
                                                          : state == 2 ? .7f
-                                                         : state == 3 ? .46f
+                                                         : state == 3 ? .44f
                                                                       : .3f);
-    public static float hourglassFactor => globalFactor * (state == 2 ? 1.2f
+    public static float hourglassFactor => globalFactor * (state == 2 ? 1.16f
                                                          : state == 3 ? .6f
                                                                       : .4f);
     public static float ledFactor       => globalFactor * (state == 3 ? 1.2f
