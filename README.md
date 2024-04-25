@@ -20,6 +20,8 @@ Built with [Unity 2022](https://unity.com/) (Built-in Render Pipeline), with the
 
 Sfx created in Tom Vian's [ChipTone](https://sfbgames.itch.io/chiptone).
 
+Models created in [3ds Max 2024 Indie](https://www.autodesk.com/campaigns/me-indie/3dsmax-indie).
+
 Noise shader based off of Dave Hoskins' [Hash without Sine](https://www.shadertoy.com/view/4djSRW).
 
 Textures from [ambientCG](https://ambientcg.com/) and [CC0 Textures](https://cc0-textures.com/).
@@ -28,4 +30,4 @@ Textures from [ambientCG](https://ambientcg.com/) and [CC0 Textures](https://cc0
 
 [Black Ops One](https://fonts.google.com/specimen/Black+Ops+One) (title font) by James Grieshaber & Eben Sorkin.
 
-Additional tools used: [3ds Max 2024 Indie](https://www.autodesk.com/campaigns/me-indie/3dsmax-indie), [Audacity 3.4.2](https://www.audacityteam.org/), [GIMP 2.10](https://www.gimp.org/), [Visual Studio 2022 Community](https://visualstudio.microsoft.com/vs/community/)
+Additional tools used: [Audacity 3.4.2](https://www.audacityteam.org/), [GIMP 2.10](https://www.gimp.org/), [Visual Studio 2022 Community](https://visualstudio.microsoft.com/vs/community/)
