@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum DeathBy
 {
@@ -15,7 +16,7 @@ public class GameState : MonoBehaviour
     public static GameState instance;
     [SerializeField] private HingeDoor furnaceDoor;
     public static int state = -1;
-    private float stateProgress = 0;
+    [NonSerialized] public float stateProgress = 0;
     public static int[] deathByCounts = { 0, 0, 0, 0, 0, 0 };
     public static DeathBy lastDeathBy;
     private float targetProgress;
@@ -125,7 +126,7 @@ public class GameState : MonoBehaviour
                                                : new() { "The data transfer bus has been recalibrated successfully!",
                                                          "Congratulations on completing system recalibration! The door will unlock momentarily . . .",
                                                          "I will see you again up ahead ☀" },
-                                    new() { IncrementState, StopRebalancing, ResetWorld });
+                                    new() { IncrementState, StopRebalancing, ResetWorld, Player.ObserveNewAttraction });
             rebalancing = true;
             furnaceDoor.enabled = true;
             Player.ReturnControl();

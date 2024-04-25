@@ -72,6 +72,8 @@ public class Player : FirstPersonCharacter
     [SerializeField] private GameObject endTitle;
     [SerializeField] private GameObject endSignature;
     [SerializeField] private GameObject endExitText;
+    public static float[] attractionLookAngles = { 85, -85, 5, 155, -150 };
+    private bool observingAttraction;
 
     public static CharacterMovement CharacterMovement => instance.characterMovement;
 
@@ -121,9 +123,17 @@ public class Player : FirstPersonCharacter
             instance.eyePivot.localRotation = Quaternion.RotateTowards(instance.eyePivot.localRotation, instance.targetEyeRot, 400 * Time.deltaTime);
             instance.camera.fieldOfView = instance.curFov = instance.targetFov = Mathf.MoveTowards(instance.curFov, maxFov, 400 * Time.deltaTime);
         }
+        // observe new attraction
+        else if (observingAttraction)
+        {
+            instance.characterMovement.SetRotation(Quaternion.RotateTowards(instance.characterMovement.GetRotation(), Quaternion.Euler(0, attractionLookAngles[GameState.state], 0), 1000 * Time.deltaTime));
+            instance.eyePivot.localRotation = Quaternion.RotateTowards(instance.eyePivot.localRotation, instance.initialEyeRot, 400 * Time.deltaTime);
+            if (!(observingAttraction = GameState.instance.stateProgress < .3f))
+                EnableControl();
+        }
+        // update fov
         else
         {
-            // update fov
             curFov = Mathf.MoveTowards(curFov, targetFov, zoomSpeed * Time.deltaTime);
             camera.fieldOfView = curFov;
 
@@ -162,7 +172,7 @@ public class Player : FirstPersonCharacter
                 {
                     activeCutscene = -1;
                     DialogueController.Show(new() { "Welcome to the system! The diagnostics module will now execute . . . . . . .", "Multiple anomalies were detected during the diagnostic sweep! A complete system recalibration is required prior to further use.", "The core chamber will activate momentarily. Please use the hardware shield to regulate the core temperature . . ." },
-                                            new() { lightControllerFurnace.Activate, hingeDoor.ToggleLock, GameState.IncrementState } );
+                                            new() { lightControllerFurnace.Activate, hingeDoor.ToggleLock, GameState.IncrementState, ObserveNewAttraction } );
                 }
                 break;
         }
@@ -227,6 +237,15 @@ public class Player : FirstPersonCharacter
         {
             if (characterMovement.landedVelocity.y > -20) landSnd.Play();
             else                                          landBigSnd.Play();
+        }
+    }
+
+    public static void ObserveNewAttraction()
+    {
+        if (GameState.state < 5)
+        {
+            DisableControl();
+            instance.observingAttraction = true;
         }
     }
 

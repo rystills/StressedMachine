@@ -69,8 +69,8 @@ public class DialogueController : MonoBehaviour
                 if (framesElapsed == 0 && ++messageInd >= messages.Count)
                 {
                     instance.transform.parent.gameObject.SetActive(false);
-                    callbacks?.ForEach(cb => cb.Invoke());
                     Player.EnableControl();
+                    callbacks?.ForEach(cb => cb.Invoke());
                 }
             }
             if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Backspace))
