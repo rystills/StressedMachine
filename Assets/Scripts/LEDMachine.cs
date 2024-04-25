@@ -37,7 +37,7 @@ public class LEDMachine : MonoBehaviour
     public void Reset()
     {
         // immediately desync an LED on wave start
-        syncedAtTime = Time.time - syncDuration / GameState.ledFactor;
+        syncedAtTime = Time.time - (GameState.state < 5 ? syncDuration / GameState.ledFactor : 0);
         if (rgbMax != -1)
         {
             // reset all LEDs to the most common color
