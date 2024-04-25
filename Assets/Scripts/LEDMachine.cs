@@ -36,11 +36,12 @@ public class LEDMachine : MonoBehaviour
 
     public void Reset()
     {
+        // immediately desync an LED on wave start
+        syncedAtTime = Time.time - syncDuration / GameState.ledFactor;
         if (rgbMax != -1)
         {
             // reset all LEDs to the most common color
             foreach (LEDLight l in lights) if (l.colInd != rgbMax) l.SetColInd(rgbMax, false);
-            syncedAtTime = Time.time;
             overlayStrength = 0;
             FlushEffects();
         }

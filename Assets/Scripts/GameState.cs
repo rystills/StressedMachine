@@ -61,7 +61,7 @@ public class GameState : MonoBehaviour
                                                                       : .4f);
     public static float ledFactor       => globalFactor * (state == 3 ? 1.2f
                                                                       : .9f);
-    public static float pillarFactor    => globalFactor * .6f;
+    public static float pillarFactor    => globalFactor * .62f;
 
     private void Awake() => instance = this;
 
