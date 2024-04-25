@@ -35,6 +35,8 @@ Additional tools used: [Audacity 3.4.2](https://www.audacityteam.org/), [GIMP 2.
 ## Screenshots
 ![Screenshot 1](/Screenshots/screenshot1.png "Screenshot 1")
 
+![Screenshot 9](/Screenshots/screenshot9.png "Screenshot 9")
+
 ![Screenshot 2](/Screenshots/screenshot2.png "Screenshot 2")
 
 ![Screenshot 3](/Screenshots/screenshot3.png "Screenshot 3")
