@@ -31,10 +31,18 @@ public class Player : FirstPersonCharacter
         instance.crosshair.SetActive(true);
         if (Input.GetKey(KeyCode.LeftShift)) instance.Sprint();
     }
-    public static void DisableControl() => instance.crosshair.SetActive(instance.handleInput = false);
+    public static void DisableControl()
+    {
+        instance.crosshair.SetActive(instance.handleInput = false);
+        instance.StopJumping();
+    }
 
     public static bool lentControl;
-    public static void LendControl() => lentControl = true;
+    public static void LendControl()
+    {
+        lentControl = true;
+        instance.StopJumping();
+    }
     public static void ReturnControl() => lentControl = false;
     
     // sounds
