@@ -8,6 +8,7 @@ public class HingeDoor : MonoBehaviour
     private Collider col;
     private bool interacting;
     [SerializeField] private AudioSource rotateSnd;
+    [SerializeField] private AudioSource bounceSnd;
     [SerializeField] private bool locked;
     [SerializeField] private MetaballManager metaMan;
     [SerializeField] private RadiationManager radMan;
@@ -72,6 +73,9 @@ public class HingeDoor : MonoBehaviour
                                                  transform.localEulerAngles.y > 112.5f ? 235: 0,
                                                  transform.localEulerAngles.z);
                 rotSpeed.x = Mathf.MoveTowards(-.2f * rotSpeed.x, 0, 25);
+
+                // play bounce sound
+                if (Mathf.Abs(rotSpeed.x) > 20) bounceSnd.Play();
             }
         }
 
