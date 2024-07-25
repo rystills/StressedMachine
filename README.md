@@ -1,5 +1,5 @@
 # Stressed Machine
-## _A quick game where you micromanage the components of a strange machine._
+## _Micromanage the unreliable components of a strange machine._
 
 ## Controls
 |Command | Action|
@@ -16,7 +16,7 @@
 ## Credits
 Inspired by Mike Klubnika's [System Upkeep](https://mikeklubnika.itch.io/system-upkeep).
 
-Built with [Unity 2022](https://unity.com/) (Built-in Render Pipeline), with the help of Oscar Gracián's [Easy Character Movement 2](https://assetstore.unity.com/packages/tools/physics/easy-character-movement-2-193614) and Lucas Wilke's [Serialized Dictionary](https://github.com/ayellowpaper/SerializedDictionary).
+Built with [Unity 2022](https://unity.com/) (Built-in Render Pipeline), with the help of Oscar Gracián's [Easy Character Movement 2](https://assetstore.unity.com/packages/tools/physics/easy-character-movement-2-193614) and Lucas Wilke's [Serialized Dictionary](https://github.com/ayellowpaper/SerializedDictionary) (these packages must be imported to build from source).
 
 Sfx created in Tom Vian's [ChipTone](https://sfbgames.itch.io/chiptone).
 
